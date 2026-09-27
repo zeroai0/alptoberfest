@@ -3,25 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎃 ALPTOBERFEST 2026</title>
+  <title>🏆 ALPTOBERFEST 2026 — Beat Your Best</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --orange:   #FF6B00;
-      --orange2:  #FF8C38;
+      --navy:     #003087;
+      --navy2:    #004BB5;
+      --red:      #CC0000;
+      --red2:     #E53935;
       --gold:     #FFD700;
-      --blood:    #8B0000;
-      --dark:     #0A0A0A;
-      --card:     #141414;
-      --card2:    #1C1C1C;
-      --border:   #2A2A2A;
-      --text:     #F0EAD6;
-      --muted:    #777;
-      --green:    #1B6B35;
-      --purple:   #6B21A8;
+      --gold2:    #FFC200;
+      --orange:   #FF6B00;
+      --dark:     #060A14;
+      --card:     #0C1220;
+      --card2:    #111827;
+      --border:   #1E2D4A;
+      --text:     #F0F4FF;
+      --muted:    #6B7FA3;
+      --green:    #16A34A;
     }
 
     body {
@@ -30,6 +32,7 @@
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23003087' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
     /* ── HERO ──────────────────────────────────────── */
@@ -45,16 +48,24 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse at 50% -10%, rgba(255,107,0,0.25) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(107,33,168,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(139,0,0,0.15) 0%, transparent 50%);
+        radial-gradient(ellipse at 50% -10%, rgba(0,48,135,0.5) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(204,0,0,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,215,0,0.06) 0%, transparent 50%);
       pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--navy), var(--gold), var(--red), var(--gold), var(--navy));
     }
 
     .hero-badge {
       display: inline-block;
-      background: linear-gradient(135deg, var(--blood), #CC0000);
-      border: 1px solid rgba(255,100,0,0.3);
+      background: linear-gradient(135deg, var(--navy), var(--navy2));
+      border: 1px solid rgba(255,215,0,0.4);
       color: var(--gold);
       font-size: 11px;
       font-weight: 800;
@@ -70,7 +81,7 @@
       font-weight: 700;
       letter-spacing: 4px;
       text-transform: uppercase;
-      color: var(--orange2);
+      color: var(--gold);
       margin-bottom: 12px;
     }
 
@@ -79,7 +90,7 @@
       font-size: clamp(60px, 16vw, 140px);
       line-height: 0.9;
       letter-spacing: 2px;
-      background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 40%, #FF2D00 80%);
+      background: linear-gradient(135deg, var(--gold) 0%, #FFF5B0 40%, var(--gold2) 70%, var(--gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -88,32 +99,75 @@
       position: relative;
     }
 
+    .hero-beat {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(18px, 4vw, 32px);
+      letter-spacing: 8px;
+      color: var(--text);
+      opacity: 0.9;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
     .hero-subtitle {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(22px, 5vw, 42px);
-      letter-spacing: 6px;
-      color: var(--text);
-      opacity: 0.7;
-      margin-bottom: 24px;
+      font-size: clamp(14px, 3vw, 22px);
+      letter-spacing: 4px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      text-transform: uppercase;
     }
 
     .hero-emojis {
-      font-size: 36px;
+      font-size: 32px;
       margin-bottom: 20px;
       display: block;
     }
+
+    .globe-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .globe-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .globe-stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+      color: var(--gold);
+    }
+
+    .globe-stat-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .globe-sep { color: var(--border); font-size: 20px; }
 
     .hero-dates {
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      background: rgba(255,107,0,0.1);
-      border: 1px solid rgba(255,107,0,0.25);
+      background: rgba(0,48,135,0.3);
+      border: 1px solid rgba(255,215,0,0.25);
       border-radius: 12px;
       padding: 12px 28px;
       font-weight: 700;
       font-size: 15px;
-      color: var(--orange2);
+      color: var(--gold);
       margin-bottom: 32px;
     }
 
@@ -142,12 +196,13 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      background: linear-gradient(135deg, var(--red), #AA0000);
       color: white;
-      box-shadow: 0 4px 24px rgba(255,107,0,0.35);
+      box-shadow: 0 4px 24px rgba(204,0,0,0.4);
+      border: 1px solid rgba(255,215,0,0.2);
     }
 
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,107,0,0.5); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(204,0,0,0.6); }
 
     .btn-ghost {
       background: transparent;
@@ -175,7 +230,7 @@
       font-weight: 800;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--orange);
+      color: var(--gold);
       margin-bottom: 8px;
     }
 
@@ -202,7 +257,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--orange), var(--gold), var(--orange));
+      background: linear-gradient(90deg, var(--navy), var(--gold), var(--red), var(--gold), var(--navy));
     }
 
     .formula-title {
@@ -284,7 +339,7 @@
     }
 
     .formula-pill.gold { border-color: rgba(255,215,0,0.3); color: var(--gold); }
-    .formula-pill.orange { border-color: rgba(255,107,0,0.4); color: var(--orange2); }
+    .formula-pill.orange { border-color: rgba(204,0,0,0.4); color: var(--red2); }
 
     .formula-example {
       background: rgba(255,215,0,0.06);
@@ -376,14 +431,15 @@
       width: 28px;
       height: 28px;
       min-width: 28px;
-      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      background: linear-gradient(135deg, var(--navy), var(--navy2));
+      border: 1px solid rgba(255,215,0,0.3);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
       font-size: 12px;
-      color: white;
+      color: var(--gold);
       margin-top: 1px;
     }
 
@@ -422,7 +478,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--orange));
+      background: linear-gradient(90deg, var(--navy), var(--gold), var(--red));
     }
 
     .grand-prize-icon { font-size: 48px; display: block; margin-bottom: 12px; }
@@ -543,7 +599,7 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 22px;
       letter-spacing: 1px;
-      color: var(--orange2);
+      color: var(--gold);
       margin-bottom: 8px;
     }
 
@@ -581,9 +637,10 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10,10,10,0.92);
+      background: rgba(6,10,20,0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+      border-bottom-color: rgba(255,215,0,0.1);
       padding: 0 20px;
     }
 
@@ -601,7 +658,7 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 22px;
       letter-spacing: 2px;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
+      background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold2));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -624,7 +681,7 @@
       transition: all 0.2s;
     }
 
-    .nav-link:hover, .nav-link.active { color: var(--text); background: var(--card2); }
+    .nav-link:hover, .nav-link.active { color: var(--gold); background: rgba(0,48,135,0.3); }
 
     /* ── DIVIDER ───────────────────────────────────── */
     .divider {
@@ -660,21 +717,31 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-badge">🏆 Waisman Organization · WO + WP</div>
-  <div class="hero-eyebrow">Sept 28 → Oct 30, 2026</div>
+  <div class="hero-badge">🏆 Globe Life · Waisman Organization · WO + WP</div>
+  <div class="hero-eyebrow">Beat Your Best Month Ever</div>
   <h1 class="hero-title">ALPTOBERFEST</h1>
-  <div class="hero-subtitle">🎃 The October ALP Battle 🍺</div>
-  <span class="hero-emojis">🔥 💀 🏆 🎃 🍺</span>
+  <div class="hero-beat">October Championship 🎃</div>
+  <div class="hero-subtitle">Sept 28 → Oct 30, 2026 · WO + WP</div>
+
+  <div class="globe-strip">
+    <div class="globe-stat"><div class="globe-stat-val">1 ALP</div><div class="globe-stat-label">= 1 Ticket</div></div>
+    <div class="globe-sep">|</div>
+    <div class="globe-stat"><div class="globe-stat-val">+500</div><div class="globe-stat-label">Per PR Hire</div></div>
+    <div class="globe-sep">|</div>
+    <div class="globe-stat"><div class="globe-stat-val">+250</div><div class="globe-stat-label">Per Ref Sale</div></div>
+    <div class="globe-sep">|</div>
+    <div class="globe-stat"><div class="globe-stat-val">$1,500</div><div class="globe-stat-label">Grand Prize</div></div>
+  </div>
+
   <div class="hero-dates">
     <strong>September 28</strong>
     <span>→</span>
     <strong>October 30</strong>
-    <span>·</span>
-    <strong>WO + WP Agents</strong>
   </div>
   <div class="hero-cta-row">
-    <a href="leaderboard.html" class="btn btn-primary">📊 View Leaderboard</a>
-    <a href="wheel.html" class="btn btn-ghost">🎡 Spin the Wheel</a>
+    <a href="leaderboard.html" class="btn btn-primary">📊 Leaderboard</a>
+    <a href="form.html" class="btn btn-ghost">✍️ Register Now</a>
+    <a href="wheel.html" class="btn btn-ghost">🎡 Prize Wheel</a>
   </div>
 </section>
 

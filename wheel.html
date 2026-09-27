@@ -9,9 +9,9 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --orange:  #FF6B00; --orange2: #FF8C38; --gold:  #FFD700;
-      --blood:   #8B0000; --dark:    #0A0A0A; --card:  #141414;
-      --card2:   #1C1C1C; --border:  #2A2A2A; --text:  #F0EAD6;
+      --navy:     #003087; --navy2:    #004BB5; --red:      #CC0000; --red2:     #E53935; --gold2:    #FFC200; --orange:  #FF6B00; --orange2: #FF8C38; --gold:  #FFD700;
+      --blood:   #8B0000; --dark:    #060A14; --card:  #141414;
+      --card2:   #111827; --border:  #1E2D4A; --text:  #F0EAD6;
       --muted:   #666;    --purple:  #7C3AED; --green: #22C55E;
     }
 
@@ -28,14 +28,14 @@
       border-bottom: 1px solid var(--border); padding: 0 20px;
     }
     .nav-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
     .nav-links { display: flex; gap: 4px; }
     .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; transition: all 0.2s; }
-    .nav-link:hover, .nav-link.active { color: var(--text); background: var(--card2); }
+    .nav-link:hover, .nav-link.active { color: var(--gold); background: rgba(0,48,135,0.3); }
 
     .page-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
 
-    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 80px); letter-spacing: 2px; text-align: center; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
+    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 80px); letter-spacing: 2px; text-align: center; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
     .page-sub { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 40px; }
     .qualifier { display: inline-block; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 100px; padding: 6px 20px; font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 40px; }
 
@@ -85,14 +85,14 @@
 
     /* Spin button */
     .spin-btn {
-      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      background: linear-gradient(135deg, var(--red), #AA0000);
       color: white; border: none; border-radius: 16px;
       padding: 18px 60px; font-family: 'Bebas Neue', sans-serif;
       font-size: 28px; letter-spacing: 3px;
       cursor: pointer; transition: all 0.2s;
-      box-shadow: 0 4px 32px rgba(255,107,0,0.4);
+      box-shadow: 0 4px 32px rgba(204,0,0,0.4);
     }
-    .spin-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(255,107,0,0.6); }
+    .spin-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(204,0,0,0.6); }
     .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     /* winner banner */
@@ -117,7 +117,7 @@
     .winner-name { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 2px; color: var(--text); line-height: 1; margin-bottom: 8px; }
     .winner-prize { font-size: 18px; color: var(--orange2); font-weight: 700; margin-bottom: 24px; }
     .winner-close { background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .winner-close:hover { background: var(--orange); border-color: var(--orange); }
+    .winner-close:hover { background: var(--orange); border- }
 
     /* names panel */
     .names-panel { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; }
@@ -142,13 +142,13 @@
       font-size: 14px; font-family: 'Inter', sans-serif;
       outline: none; transition: border-color 0.2s;
     }
-    .name-input:focus { border-color: var(--orange); }
+    .name-input:focus { border- }
     .add-btn {
-      background: var(--orange); color: white; border: none;
+      background: var(--red); color: white; border: none;
       border-radius: 10px; padding: 10px 20px; font-weight: 800;
       font-size: 14px; cursor: pointer; transition: all 0.2s;
     }
-    .add-btn:hover { background: var(--orange2); }
+    .add-btn:hover { background: var(--red2); }
 
     .reset-btn {
       background: transparent; color: var(--muted); border: 1px solid var(--border);
@@ -232,7 +232,7 @@
   const MAX_SPINS = 2;
 
   // Wheel colors — Halloween/Oktoberfest palette
-  const COLORS = [
+  const COLORS = ['#003087','#CC0000','#001F5C','#8B0000',
     '#FF6B00','#8B0000','#7C3AED','#1B4332',
     '#CC8800','#6B21A8','#FF2D00','#1A5276',
     '#B7410E','#4A235A','#1B6B35','#922B21',

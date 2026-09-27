@@ -10,16 +10,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --orange:  #FF6B00;
+      --navy:     #003087; --navy2:    #004BB5; --red:      #CC0000; --red2:     #E53935; --gold2:    #FFC200; --orange:  #FF6B00;
       --orange2: #FF8C38;
       --gold:    #FFD700;
       --blood:   #8B0000;
-      --dark:    #0A0A0A;
-      --card:    #141414;
-      --card2:   #1C1C1C;
-      --border:  #2A2A2A;
-      --text:    #F0EAD6;
-      --muted:   #777;
+      --dark:    #060A14;
+      --card:    #0C1220;
+      --card2:   #111827;
+      --border:  #1E2D4A;
+      --text:    #F0F4FF;
+      --muted:   #6B7FA3;
       --green:   #22C55E;
       --red:     #EF4444;
     }
@@ -28,21 +28,21 @@
 
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+      background: rgba(6,10,20,0.95); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border); padding: 0 20px;
     }
     .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; }
-    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
     .nav-links { display: flex; gap: 4px; align-items: center; }
     .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; transition: all 0.2s; }
-    .nav-link:hover, .nav-link.active { color: var(--text); background: var(--card2); }
+    .nav-link:hover, .nav-link.active { color: var(--gold); background: rgba(0,48,135,0.3); }
 
     .page-header {
       text-align: center; padding: 48px 20px 32px;
-      background: radial-gradient(ellipse at 50% 0%, rgba(255,107,0,0.12) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,48,135,0.3) 0%, transparent 60%);
     }
-    .page-header-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
-    .page-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 72px); letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+    .page-header-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;  margin-bottom: 8px; }
+    .page-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 72px); letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
     .update-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--card2); border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--muted); }
     .update-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
@@ -52,8 +52,8 @@
     /* tabs */
     .tabs { display: flex; gap: 8px; margin: 32px 0 24px; flex-wrap: wrap; }
     .tab { padding: 8px 20px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-    .tab.active { background: linear-gradient(135deg, var(--orange), #FF2D00); border-color: transparent; color: white; }
-    .tab:hover:not(.active) { border-color: var(--orange); color: var(--orange2); }
+    .tab.active { background: linear-gradient(135deg, var(--red), #AA0000); border-color: transparent; color: white; }
+    .tab:hover:not(.active) { border- color: var(--gold); }
 
     /* leaderboard table */
     .lb-table { width: 100%; border-collapse: collapse; }
@@ -115,7 +115,7 @@
     .matchup-section { margin-top: 48px; }
     .matchup-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
     .matchup-header-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--text); }
-    .week-badge { background: rgba(255,107,0,0.1); border: 1px solid rgba(255,107,0,0.3); border-radius: 100px; padding: 6px 16px; font-size: 12px; font-weight: 700; color: var(--orange2); }
+    .week-badge { background: rgba(0,48,135,0.2); border: 1px solid rgba(255,215,0,0.2); border-radius: 100px; padding: 6px 16px; font-size: 12px; font-weight: 700; color: var(--gold); }
 
     .matchups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
 
@@ -138,7 +138,7 @@
     }
     .spread-winner { font-size: 12px; font-weight: 700; }
     .spread-winner span { color: var(--green); }
-    .spread-margin { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; color: var(--orange2); }
+    .spread-margin { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; color: var(--gold); }
 
     /* card wrapper with top border */
     .lb-card {
