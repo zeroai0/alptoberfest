@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎃 ALPTOBERFEST — Agent Sign-Up</title>
+  <title>ALPTOBERFEST 2026 — Agent Sign-Up</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
@@ -177,20 +177,20 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">🎃 ALPTOBERFEST</a>
+    <a href="index.html" class="nav-logo">ALPTOBERFEST 2026</a>
     <a href="leaderboard.html" class="nav-link">📊 Leaderboard</a>
   </div>
 </nav>
 
 <div class="page-header">
   <div class="page-label">Agent Registration</div>
-  <div class="page-title">🍺 Sign Me Up</div>
-  <div class="page-sub">Fill this out before Sept 28. Office visitors without info on file will be turned away at the front desk.</div>
+  <div class="page-title">Agent Sign-Up</div>
+  <div class="page-sub">Fill this out before Monday Sept 28. Office visitors without info on file will be turned away at the front desk.</div>
 </div>
 
 <div class="office-notice">
   <div class="notice-card">
-    <div class="notice-icon">🚨</div>
+    <div class="notice-icon">⚠️</div>
     <div class="notice-text">
       <strong>Office Policy — Effective Sept 28:</strong> Anyone visiting the office must have their name, phone, and email on file. No exceptions. Front desk will not allow entry without it. Fill this out now.
     </div>
@@ -269,55 +269,12 @@
 
     <!-- SECTION 3: PRIZE WISHLIST -->
     <div class="form-section section-prizes">
-      <div class="section-title">🎟️ Prize Wishlist</div>
-      <div class="section-sub">Pick your top prizes — this helps us shape the auction lineup. Select as many as you want.</div>
-
-      <div class="prize-grid" style="margin-bottom:16px">
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="lead_bump" />
-          <span class="prize-check-label">📈 Lead Category Bump</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="zoom_biz" />
-          <span class="prize-check-label">💻 1 Year Zoom Business</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="call_phill" />
-          <span class="prize-check-label">📞 60-Min Call with Phill</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="call_sga" />
-          <span class="prize-check-label">🎙️ 30-Min Call with an SGA</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="amazon_500" />
-          <span class="prize-check-label">💳 $500 Amazon Gift Card</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="visa_250" />
-          <span class="prize-check-label">💳 $250 Visa Gift Card</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="restaurant_150" />
-          <span class="prize-check-label">🍽️ $150 Restaurant Card</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="gas_100" />
-          <span class="prize-check-label">⛽ $100 Gas Card</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="training" />
-          <span class="prize-check-label">🎓 Premium Training (1yr)</span>
-        </label>
-        <label class="prize-check">
-          <input type="checkbox" name="prize_picks" value="grand_prize" />
-          <span class="prize-check-label">🏆 Grand Prize Wheel (~$1,500)</span>
-        </label>
-      </div>
+      <div class="section-title">🏆 Prize Ideas</div>
+      <div class="section-sub">List any prizes you'd want to bid on at the auction — anything from free to $1,000. The more ideas the better. Think gift cards, experiences, gear, career tools, whatever you'd actually want to win.</div>
 
       <div class="field">
-        <label>Got a Better Prize Idea? Drop It Here</label>
-        <input type="text" name="prize_idea" placeholder="Something we haven't thought of..." />
+        <label>Your Prize Ideas</label>
+        <textarea name="prize_idea" placeholder="Example: $200 Amazon gift card, dinner for two, lead category bump, Nike shoes, hotel stay, cash, a day off, golf round..." style="min-height:120px"></textarea>
       </div>
     </div>
 
@@ -368,7 +325,7 @@
 
     <!-- SUBMIT -->
     <div class="submit-section">
-      <button type="submit" class="submit-btn" id="submit-btn">🎃 I'M IN — LET'S GO</button>
+      <button type="submit" class="submit-btn" id="submit-btn">I'M IN — LET'S GO 🔥</button>
       <div class="submit-note">Your info is stored securely and only used for competition and office access purposes.</div>
     </div>
 
@@ -391,10 +348,6 @@ async function submitForm(e) {
   const form = e.target;
   const data = new FormData(form);
 
-  // Collect checkboxes
-  const prizePicks = [];
-  form.querySelectorAll('input[name="prize_picks"]:checked').forEach(cb => prizePicks.push(cb.value));
-
   const payload = {
     full_name:   data.get('full_name'),
     phone:       data.get('phone'),
@@ -403,7 +356,7 @@ async function submitForm(e) {
     manager:     data.get('manager') || null,
     alp_goal:    data.get('alp_goal') ? parseFloat(data.get('alp_goal')) : null,
     goal_why:    data.get('goal_why') || null,
-    prize_picks: prizePicks,
+    prize_picks: [],
     prize_idea:  data.get('prize_idea') || null,
     tips_read:   !!form.querySelector('input[name="tips_read"]')?.checked,
   };
@@ -431,7 +384,7 @@ async function submitForm(e) {
     errorEl.textContent = '❌ ' + (err.message || 'Something went wrong. Try again.');
     errorEl.classList.add('show');
     btn.disabled = false;
-    btn.textContent = '🎃 I\'M IN — LET\'S GO';
+    btn.textContent = 'I\'M IN — LET\'S GO 🔥';
   }
 }
 </script>

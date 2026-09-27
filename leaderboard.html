@@ -182,13 +182,12 @@
 <div class="container">
 
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('agents')">🏆 Agents</div>
-    <div class="tab" onclick="switchTab('managers')">🧑‍💼 Managers</div>
+    <div class="tab active" onclick="switchTab('main')">🏆 Leaderboard</div>
     <div class="tab" onclick="switchTab('mga')">⚔️ MGA Battle</div>
   </div>
 
-  <!-- AGENTS LEADERBOARD -->
-  <div id="tab-agents">
+  <!-- MAIN LEADERBOARD (Agents + Managers combined) -->
+  <div id="tab-main">
     <div class="lb-card">
       <div class="lb-card-top"></div>
       <div style="overflow-x:auto">
@@ -196,36 +195,13 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Agent</th>
+              <th>Agent / Manager</th>
               <th>MTD Net ALP</th>
               <th>Bonuses</th>
               <th style="text-align:right">Total Tickets</th>
             </tr>
           </thead>
           <tbody id="agent-tbody">
-            <tr><td colspan="5"><div class="empty-state"><span class="icon">⏳</span><p>Competition starts Monday Sept 28.<br>Leaderboard updates every Monday after ALP upload.</p></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- MANAGERS LEADERBOARD -->
-  <div id="tab-managers" style="display:none">
-    <div class="lb-card">
-      <div class="lb-card-top"></div>
-      <div style="overflow-x:auto">
-        <table class="lb-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Manager</th>
-              <th>MTD Net ALP</th>
-              <th>Bonuses</th>
-              <th style="text-align:right">Total Tickets</th>
-            </tr>
-          </thead>
-          <tbody id="mgr-tbody">
             <tr><td colspan="5"><div class="empty-state"><span class="icon">⏳</span><p>Competition starts Monday Sept 28.<br>Leaderboard updates every Monday after ALP upload.</p></div></td></tr>
           </tbody>
         </table>
@@ -382,11 +358,11 @@
 
   // ── TABS ──────────────────────────────────────────────────────────
   function switchTab(tab) {
-    ['agents','managers','mga'].forEach(t => {
+    ['main','mga'].forEach(t => {
       document.getElementById(`tab-${t}`).style.display = t === tab ? '' : 'none';
     });
     document.querySelectorAll('.tab').forEach((el, i) => {
-      el.classList.toggle('active', ['agents','managers','mga'][i] === tab);
+      el.classList.toggle('active', ['main','mga'][i] === tab);
     });
   }
 
