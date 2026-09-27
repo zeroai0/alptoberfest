@@ -1,8 +1,13 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "/form.html", "permanent": false },
+    { "source": "/leaderboard", "destination": "/form.html", "permanent": false },
+    { "source": "/leaderboard.html", "destination": "/form.html", "permanent": false },
+    { "source": "/wheel", "destination": "/form.html", "permanent": false },
+    { "source": "/wheel.html", "destination": "/form.html", "permanent": false },
+    { "source": "/index.html", "destination": "/form.html", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/leaderboard", "destination": "/leaderboard.html" },
-    { "source": "/wheel", "destination": "/wheel.html" },
     { "source": "/form", "destination": "/form.html" },
     { "source": "/admin", "destination": "/admin.html" }
   ],
