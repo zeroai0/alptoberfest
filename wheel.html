@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎡 Grand Prize Wheel — ALPTOBERFEST 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange:  #FF6B00; --orange2: #FF8C38; --gold:  #FFD700;
+      --blood:   #8B0000; --dark:    #0A0A0A; --card:  #141414;
+      --card2:   #1C1C1C; --border:  #2A2A2A; --text:  #F0EAD6;
+      --muted:   #666;    --purple:  #7C3AED; --green: #22C55E;
+    }
+
+    body {
+      background: var(--dark); color: var(--text);
+      font-family: 'Inter', sans-serif; min-height: 100vh;
+      overflow-x: hidden;
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(255,107,0,0.08) 0%, transparent 60%);
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 20px;
+    }
+    .nav-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; transition: all 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--text); background: var(--card2); }
+
+    .page-wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 10vw, 80px); letter-spacing: 2px; text-align: center; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
+    .page-sub { text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 40px; }
+    .qualifier { display: inline-block; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 100px; padding: 6px 20px; font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 40px; }
+
+    /* ── WHEEL AREA ──────────────────────────────────── */
+    .wheel-area { display: flex; flex-direction: column; align-items: center; gap: 32px; margin-bottom: 48px; }
+
+    .wheel-container { position: relative; width: 380px; height: 380px; max-width: 90vw; }
+
+    /* Pointer / arrow */
+    .wheel-pointer {
+      position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 36px solid var(--gold);
+      z-index: 20;
+      filter: drop-shadow(0 4px 12px rgba(255,215,0,0.6));
+    }
+
+    /* Outer glow ring */
+    .wheel-ring {
+      position: absolute; inset: -10px;
+      border-radius: 50%;
+      background: conic-gradient(var(--orange), var(--gold), var(--blood), var(--purple), var(--orange), var(--gold), var(--blood), var(--purple), var(--orange));
+      animation: ring-spin 8s linear infinite;
+      opacity: 0.25;
+      z-index: 0;
+    }
+    @keyframes ring-spin { to { transform: rotate(360deg); } }
+
+    canvas#wheel {
+      position: relative; z-index: 10;
+      border-radius: 50%;
+      box-shadow: 0 0 60px rgba(255,107,0,0.25), 0 0 120px rgba(255,107,0,0.1);
+    }
+
+    /* Center hub */
+    .wheel-hub {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      background: radial-gradient(circle, #1a1a1a, #0a0a0a);
+      border: 4px solid var(--gold);
+      z-index: 30;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+
+    /* Spin button */
+    .spin-btn {
+      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      color: white; border: none; border-radius: 16px;
+      padding: 18px 60px; font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 3px;
+      cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 4px 32px rgba(255,107,0,0.4);
+    }
+    .spin-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(255,107,0,0.6); }
+    .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* winner banner */
+    .winner-banner {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    .winner-banner.show { display: flex; }
+
+    .winner-box {
+      background: var(--card); border: 2px solid var(--gold);
+      border-radius: 28px; padding: 48px 60px; text-align: center;
+      max-width: 480px; width: 90%;
+      animation: pop-in 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes pop-in { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .winner-trophy { font-size: 72px; display: block; margin-bottom: 12px; }
+    .winner-label { font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .winner-name { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 2px; color: var(--text); line-height: 1; margin-bottom: 8px; }
+    .winner-prize { font-size: 18px; color: var(--orange2); font-weight: 700; margin-bottom: 24px; }
+    .winner-close { background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .winner-close:hover { background: var(--orange); border-color: var(--orange); }
+
+    /* names panel */
+    .names-panel { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; }
+    .names-panel-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--text); margin-bottom: 4px; }
+    .names-panel-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+
+    .names-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .name-chip {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: 13px; font-weight: 600; color: var(--text);
+      display: flex; align-items: center; gap: 8px; cursor: default;
+    }
+    .name-chip.winner-chip { border-color: rgba(255,215,0,0.4); background: rgba(255,215,0,0.06); color: var(--gold); }
+    .name-chip .remove { cursor: pointer; color: var(--muted); font-size: 16px; line-height: 1; margin-left: 2px; }
+    .name-chip .remove:hover { color: var(--red, #ef4444); }
+
+    .add-name-row { display: flex; gap: 8px; }
+    .name-input {
+      flex: 1; background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 16px; color: var(--text);
+      font-size: 14px; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s;
+    }
+    .name-input:focus { border-color: var(--orange); }
+    .add-btn {
+      background: var(--orange); color: white; border: none;
+      border-radius: 10px; padding: 10px 20px; font-weight: 800;
+      font-size: 14px; cursor: pointer; transition: all 0.2s;
+    }
+    .add-btn:hover { background: var(--orange2); }
+
+    .reset-btn {
+      background: transparent; color: var(--muted); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 16px; font-size: 12px;
+      cursor: pointer; transition: all 0.2s; margin-top: 12px;
+    }
+    .reset-btn:hover { border-color: var(--blood); color: #ef4444; }
+
+    .spin-count { font-size: 12px; color: var(--muted); text-align: center; }
+
+    footer { text-align: center; padding: 32px 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    footer strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">🎃 ALPTOBERFEST</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Rules</a>
+      <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+      <a href="wheel.html" class="nav-link active">🎡 Wheel</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-title">🎡 GRAND PRIZE WHEEL</div>
+  <div class="page-sub">2 winners · ~$1,500 each · Live on the call</div>
+  <div style="text-align:center"><span class="qualifier">🏆 Must have 7,500+ MTD Net ALP to qualify</span></div>
+
+  <div class="wheel-area">
+    <div class="wheel-container">
+      <div class="wheel-ring"></div>
+      <div class="wheel-pointer"></div>
+      <canvas id="wheel" width="380" height="380"></canvas>
+      <div class="wheel-hub">🎃</div>
+    </div>
+
+    <button class="spin-btn" id="spin-btn" onclick="spin()">🍺 SPIN!</button>
+    <div class="spin-count" id="spin-count">Spin 1 of 2</div>
+  </div>
+
+  <!-- Names Panel -->
+  <div class="names-panel">
+    <div class="names-panel-title">Eligible Agents (7,500+ ALP)</div>
+    <div class="names-panel-sub">Add qualifying agents below. Wheel pulls from this list randomly.</div>
+    <div class="names-grid" id="names-grid"></div>
+    <div class="add-name-row">
+      <input class="name-input" id="name-input" type="text" placeholder="Agent name..." onkeydown="if(event.key==='Enter')addName()" />
+      <button class="add-btn" onclick="addName()">+ Add</button>
+    </div>
+    <br>
+    <button class="reset-btn" onclick="resetWinners()">↺ Reset Winners (new spin round)</button>
+  </div>
+</div>
+
+<!-- Winner Banner -->
+<div class="winner-banner" id="winner-banner">
+  <div class="winner-box">
+    <span class="winner-trophy">🏆</span>
+    <div class="winner-label">Grand Prize Winner</div>
+    <div class="winner-name" id="winner-name">—</div>
+    <div class="winner-prize">~$1,500 Prize 🎉</div>
+    <button class="winner-close" onclick="closeWinner()">Close</button>
+  </div>
+</div>
+
+<footer>
+  <strong>ALPTOBERFEST 2026</strong> · Grand Prize Wheel · Run live on the October 30 call
+</footer>
+
+<script>
+  // ── STATE ────────────────────────────────────────────────────────
+  const STORAGE_KEY = 'alptoberfest_wheel';
+  let names = [];
+  let winners = [];
+  let spinning = false;
+  let spinsDone = 0;
+  const MAX_SPINS = 2;
+
+  // Wheel colors — Halloween/Oktoberfest palette
+  const COLORS = [
+    '#FF6B00','#8B0000','#7C3AED','#1B4332',
+    '#CC8800','#6B21A8','#FF2D00','#1A5276',
+    '#B7410E','#4A235A','#1B6B35','#922B21',
+  ];
+
+  // ── CANVAS WHEEL ─────────────────────────────────────────────────
+  const canvas = document.getElementById('wheel');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, R = W / 2 - 8;
+  let currentAngle = 0;
+  let animId = null;
+
+  function drawWheel(angle) {
+    ctx.clearRect(0, 0, W, H);
+    const n = Math.max(names.length, 2);
+    const arc = (2 * Math.PI) / n;
+
+    for (let i = 0; i < n; i++) {
+      const start = angle + i * arc;
+      const end = start + arc;
+      const mid = start + arc / 2;
+
+      // Slice
+      ctx.beginPath();
+      ctx.moveTo(W/2, H/2);
+      ctx.arc(W/2, H/2, R, start, end);
+      ctx.closePath();
+      ctx.fillStyle = COLORS[i % COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Dim if already won
+      const nameIdx = i % names.length;
+      const name = names.length > 0 ? names[nameIdx] : `Spot ${i+1}`;
+      if (winners.includes(name)) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(W/2, H/2);
+        ctx.arc(W/2, H/2, R, start, end);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // Label
+      ctx.save();
+      ctx.translate(W/2, H/2);
+      ctx.rotate(mid);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.font = `bold ${names.length > 8 ? 11 : 14}px Inter, sans-serif`;
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = 4;
+      const label = name.length > 12 ? name.slice(0, 11) + '…' : name;
+      ctx.fillText(label, R - 14, 5);
+      ctx.restore();
+    }
+
+    // Outer ring
+    ctx.beginPath();
+    ctx.arc(W/2, H/2, R, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(255,215,0,0.5)';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+  }
+
+  function getWinner(finalAngle) {
+    if (names.length === 0) return null;
+    const n = names.length;
+    const arc = (2 * Math.PI) / n;
+    // Pointer is at top (−π/2). Normalize angle to [0, 2π)
+    let normalized = ((-finalAngle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    // Adjust for top pointer offset
+    normalized = (normalized + Math.PI * 1.5) % (2 * Math.PI);
+    const idx = Math.floor(normalized / arc) % n;
+    return names[idx];
+  }
+
+  // ── SPIN LOGIC ───────────────────────────────────────────────────
+  function spin() {
+    if (spinning) return;
+    if (spinsDone >= MAX_SPINS) { alert('Both prizes have been awarded! Click "Reset Winners" to start over.'); return; }
+    if (names.length < 2) { alert('Add at least 2 eligible agents to spin.'); return; }
+
+    const availableNames = names.filter(n => !winners.includes(n));
+    if (availableNames.length === 0) { alert('All agents have already won! Reset to spin again.'); return; }
+
+    spinning = true;
+    document.getElementById('spin-btn').disabled = true;
+
+    // Random full rotations + target angle
+    const targetName = availableNames[Math.floor(Math.random() * availableNames.length)];
+    const targetIdx = names.indexOf(targetName);
+    const arc = (2 * Math.PI) / names.length;
+
+    // We want targetIdx slice to land under the top pointer
+    // Pointer at top = angle 0 from top. We need to rotate so targetIdx is at top.
+    // Center angle of target slice in the final wheel = targetIdx * arc + arc/2
+    // We want that to be at 3π/2 (top, since pointer is there) minus current angle
+    const targetCenter = -(targetIdx * arc + arc / 2) + (Math.PI / 2);
+    const extraSpins = (8 + Math.floor(Math.random() * 6)) * 2 * Math.PI;
+    const targetFinal = targetCenter - extraSpins;
+
+    const duration = 4000 + Math.random() * 1500;
+    const startTime = performance.now();
+    const startAngle = currentAngle;
+
+    function ease(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function frame(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      currentAngle = startAngle + (targetFinal - startAngle) * ease(t);
+      drawWheel(currentAngle);
+
+      if (t < 1) {
+        animId = requestAnimationFrame(frame);
+      } else {
+        spinning = false;
+        spinsDone++;
+        winners.push(targetName);
+        saveState();
+        updateUI();
+
+        // Show winner
+        setTimeout(() => {
+          document.getElementById('winner-name').textContent = targetName;
+          document.getElementById('winner-banner').classList.add('show');
+          confetti();
+        }, 300);
+      }
+    }
+
+    animId = requestAnimationFrame(frame);
+  }
+
+  // ── CONFETTI ─────────────────────────────────────────────────────
+  function confetti() {
+    const colors = ['#FF6B00','#FFD700','#8B0000','#7C3AED','#FF8C38'];
+    for (let i = 0; i < 80; i++) {
+      const el = document.createElement('div');
+      el.style.cssText = `
+        position:fixed; z-index:300; pointer-events:none;
+        width:${6+Math.random()*8}px; height:${6+Math.random()*8}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        left:${Math.random()*100}vw; top:-20px;
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+        opacity:${0.7+Math.random()*0.3};
+      `;
+      document.body.appendChild(el);
+      const dur = 2000 + Math.random() * 1500;
+      el.animate([
+        { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+        { transform: `translateY(110vh) rotate(${360+Math.random()*360}deg)`, opacity: 0 }
+      ], { duration: dur, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)' }).onfinish = () => el.remove();
+    }
+  }
+
+  function closeWinner() { document.getElementById('winner-banner').classList.remove('show'); }
+
+  // ── NAMES ────────────────────────────────────────────────────────
+  function addName() {
+    const input = document.getElementById('name-input');
+    const val = input.value.trim();
+    if (!val || names.includes(val)) { input.focus(); return; }
+    names.push(val);
+    input.value = '';
+    saveState();
+    updateUI();
+  }
+
+  function removeName(n) {
+    names = names.filter(x => x !== n);
+    winners = winners.filter(x => x !== n);
+    saveState(); updateUI();
+  }
+
+  function resetWinners() {
+    winners = []; spinsDone = 0;
+    saveState(); updateUI();
+  }
+
+  // ── STORAGE ───────────────────────────────────────────────────────
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ names, winners, spinsDone })); } catch(e) {}
+  }
+
+  function loadState() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      names = s.names || [];
+      winners = s.winners || [];
+      spinsDone = s.spinsDone || 0;
+    } catch(e) {}
+  }
+
+  // ── UI UPDATE ─────────────────────────────────────────────────────
+  function updateUI() {
+    // Re-draw wheel
+    drawWheel(currentAngle);
+
+    // Names grid
+    const grid = document.getElementById('names-grid');
+    grid.innerHTML = names.map(n =>
+      `<div class="name-chip ${winners.includes(n) ? 'winner-chip' : ''}">
+        ${winners.includes(n) ? '🏆 ' : ''}${n}
+        ${!winners.includes(n) ? `<span class="remove" onclick="removeName('${n.replace(/'/g,"\\'")}')">×</span>` : ''}
+      </div>`
+    ).join('') || '<span style="color:var(--muted);font-size:13px">No agents added yet</span>';
+
+    // Spin count
+    document.getElementById('spin-count').textContent = spinsDone >= MAX_SPINS
+      ? '✅ Both prizes awarded! Reset to spin again.'
+      : `Spin ${spinsDone + 1} of ${MAX_SPINS}`;
+
+    // Button
+    document.getElementById('spin-btn').disabled = spinsDone >= MAX_SPINS;
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────
+  loadState();
+  updateUI();
+</script>
+</body>
+</html>

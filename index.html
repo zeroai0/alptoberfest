@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎃 ALPTOBERFEST 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:   #FF6B00;
+      --orange2:  #FF8C38;
+      --gold:     #FFD700;
+      --blood:    #8B0000;
+      --dark:     #0A0A0A;
+      --card:     #141414;
+      --card2:    #1C1C1C;
+      --border:   #2A2A2A;
+      --text:     #F0EAD6;
+      --muted:    #777;
+      --green:    #1B6B35;
+      --purple:   #6B21A8;
+    }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ──────────────────────────────────────── */
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 60px 20px 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(255,107,0,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(107,33,168,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(139,0,0,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--blood), #CC0000);
+      border: 1px solid rgba(255,100,0,0.3);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--orange2);
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 16vw, 140px);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 40%, #FF2D00 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      text-shadow: none;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(22px, 5vw, 42px);
+      letter-spacing: 6px;
+      color: var(--text);
+      opacity: 0.7;
+      margin-bottom: 24px;
+    }
+
+    .hero-emojis {
+      font-size: 36px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .hero-dates {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,107,0,0.1);
+      border: 1px solid rgba(255,107,0,0.25);
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--orange2);
+      margin-bottom: 32px;
+    }
+
+    .hero-dates span { color: var(--muted); }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      color: white;
+      box-shadow: 0 4px 24px rgba(255,107,0,0.35);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,107,0,0.5); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── CONTAINER ─────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ── SECTION HEADER ────────────────────────────── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 6vw, 52px);
+      letter-spacing: 2px;
+      color: var(--text);
+    }
+
+    /* ── TICKET FORMULA CARD ───────────────────────── */
+    .formula-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--gold), var(--orange));
+    }
+
+    .formula-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .formula-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .formula-item.highlight {
+      border-color: rgba(255,107,0,0.4);
+      background: rgba(255,107,0,0.05);
+    }
+
+    .formula-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+
+    .formula-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .formula-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: var(--gold);
+    }
+
+    .formula-plus {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--orange);
+      font-weight: 900;
+      padding: 0 4px;
+    }
+
+    .formula-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .formula-pill {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .formula-pill.gold { border-color: rgba(255,215,0,0.3); color: var(--gold); }
+    .formula-pill.orange { border-color: rgba(255,107,0,0.4); color: var(--orange2); }
+
+    .formula-example {
+      background: rgba(255,215,0,0.06);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .formula-example strong { color: var(--gold); }
+
+    /* ── RULES GRID ────────────────────────────────── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .rule-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .rule-card-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .rule-card-title {
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .rule-card-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .rule-card-body strong { color: var(--text); }
+
+    /* ── MATCHUP SECTION ───────────────────────────── */
+    .matchup-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+
+    .matchup-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .matchup-sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .matchup-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .matchup-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 12px;
+      color: white;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .step-text strong { color: var(--gold); }
+
+    /* ── PRIZE SECTION ─────────────────────────────── */
+    .prizes-section { margin-bottom: 48px; }
+
+    .grand-prizes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 500px) { .grand-prizes { grid-template-columns: 1fr; } }
+
+    .grand-prize {
+      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,107,0,0.05));
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 18px;
+      padding: 28px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grand-prize::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+    }
+
+    .grand-prize-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+    .grand-prize-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .grand-prize-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .grand-prize-value {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .grand-prize-qualifier {
+      margin-top: 10px;
+      display: inline-block;
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .auction-prizes {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .auction-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .auction-item-icon { font-size: 22px; flex-shrink: 0; }
+
+    .auction-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    /* ── WEEKLY ────────────────────────────────────── */
+    .weekly-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 48px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .weekly-block { flex: 1; min-width: 200px; }
+
+    .weekly-block-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: var(--orange2);
+      margin-bottom: 8px;
+    }
+
+    .weekly-block-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .weekly-block-body strong { color: var(--text); }
+
+    /* ── ELIGIBILITY ───────────────────────────────── */
+    .elig-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .elig-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .elig-icon { font-size: 32px; margin-bottom: 8px; display: block; }
+    .elig-title { font-weight: 800; font-size: 13px; color: var(--text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .elig-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .elig-body strong { color: var(--orange2); }
+
+    /* ── NAV ───────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+    }
+
+    .nav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      gap: 12px;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .nav-link {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover, .nav-link.active { color: var(--text); background: var(--card2); }
+
+    /* ── DIVIDER ───────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    footer strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">🎃 ALPTOBERFEST</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Rules</a>
+      <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+      <a href="wheel.html" class="nav-link">🎡 Wheel</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🏆 Waisman Organization · WO + WP</div>
+  <div class="hero-eyebrow">Sept 28 → Oct 30, 2026</div>
+  <h1 class="hero-title">ALPTOBERFEST</h1>
+  <div class="hero-subtitle">🎃 The October ALP Battle 🍺</div>
+  <span class="hero-emojis">🔥 💀 🏆 🎃 🍺</span>
+  <div class="hero-dates">
+    <strong>September 28</strong>
+    <span>→</span>
+    <strong>October 30</strong>
+    <span>·</span>
+    <strong>WO + WP Agents</strong>
+  </div>
+  <div class="hero-cta-row">
+    <a href="leaderboard.html" class="btn btn-primary">📊 View Leaderboard</a>
+    <a href="wheel.html" class="btn btn-ghost">🎡 Spin the Wheel</a>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- TICKET FORMULA -->
+  <div class="section-header">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">Earn Your Tickets</div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">🎟️ TICKET FORMULA</div>
+
+    <div class="formula-row">
+      <div class="formula-pill gold">MTD Net ALP<br><small>1 ALP = 1 Ticket</small></div>
+      <div class="formula-plus">+</div>
+      <div class="formula-pill orange">Spread Bonus<br><small>Win Margin = Tickets</small></div>
+      <div class="formula-plus">+</div>
+      <div class="formula-pill">PR Hire<br><small>+500 each</small></div>
+      <div class="formula-plus">+</div>
+      <div class="formula-pill">Ref Sale<br><small>+250 each</small></div>
+    </div>
+
+    <div class="formula-example">
+      <strong>Example:</strong> You write <strong>$8,200</strong> MTD net ALP, beat your spread matchup by <strong>3,027</strong>, made <strong>1 PR hire</strong>, and <strong>2 ref sales</strong>
+      <br>= 8,200 + 3,027 + 500 + 500 = <strong>12,227 tickets 🎟️</strong>
+    </div>
+  </div>
+
+  <!-- SPREAD MATCHUPS -->
+  <div class="matchup-card">
+    <div class="matchup-title">⚔️ The Spread Matchup System</div>
+    <div class="matchup-sub">Head-to-head weekly battles. Win by more, fight harder next week.</div>
+
+    <div class="matchup-steps">
+      <div class="matchup-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Every agent is matched up against another agent at the start of the week. Your <strong>spread = how much more ALP you write vs. your matchup.</strong></div>
+      </div>
+      <div class="matchup-step">
+        <div class="step-num">2</div>
+        <div class="step-text">End of week, all agents are <strong>ranked by their spread margin</strong> (biggest to smallest).</div>
+      </div>
+      <div class="matchup-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Next week: <strong>#1 margin faces #2, #3 faces #4</strong>, and so on. <br><em>Big dogs fight big dogs. Close matches stay close.</em></div>
+      </div>
+      <div class="matchup-step">
+        <div class="step-num">4</div>
+        <div class="step-text">Re-seeded every Monday. Spread tickets only count if your <strong>MTD Net ALP is above $5,000</strong> by end of month.</div>
+      </div>
+      <div class="matchup-step">
+        <div class="step-num">5</div>
+        <div class="step-text"><strong>Managers</strong> can count business written under agents' names for their own spread — or apply it to that agent's spread. Your call.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULES GRID -->
+  <div class="section-header">
+    <div class="section-label">Eligibility</div>
+    <div class="section-title">Who Can Play</div>
+  </div>
+
+  <div class="rules-grid">
+    <div class="rule-card">
+      <span class="rule-card-icon">✅</span>
+      <div class="rule-card-title">Agents (WO + WP)</div>
+      <div class="rule-card-body">All active agents in <strong>WO and WP</strong> are eligible. Must be on company minimum retention (case by case).</div>
+    </div>
+    <div class="rule-card">
+      <span class="rule-card-icon">🧑‍💼</span>
+      <div class="rule-card-title">Managers</div>
+      <div class="rule-card-body">Managers have their <strong>own pool</strong>. Can count business in agents' names for their own spread.</div>
+    </div>
+    <div class="rule-card">
+      <span class="rule-card-icon">⚠️</span>
+      <div class="rule-card-title">MGAs — Separate Battle</div>
+      <div class="rule-card-body">MGAs are <strong>not included here</strong> — they have a separate MGA Battle based on baseline ALP + hires increase.</div>
+    </div>
+    <div class="rule-card">
+      <span class="rule-card-icon">📋</span>
+      <div class="rule-card-title">Trials & Codes</div>
+      <div class="rule-card-body">Trials <strong>not included</strong> in Monday upload but count for net if they place. Codes follow same rules as agents.</div>
+    </div>
+    <div class="rule-card">
+      <span class="rule-card-icon">📅</span>
+      <div class="rule-card-title">Verification</div>
+      <div class="rule-card-body">Prizes paid in <strong>December</strong> after November verification. Results must be confirmed clean.</div>
+    </div>
+    <div class="rule-card">
+      <span class="rule-card-icon">📅</span>
+      <div class="rule-card-title">Monday Uploads</div>
+      <div class="rule-card-body">Monday ALP upload is used to calculate spreads. <strong>Leaderboard updated every Monday</strong> after upload.</div>
+    </div>
+  </div>
+
+  <!-- PRIZES -->
+  <div class="section-header">
+    <div class="section-label">End of Month</div>
+    <div class="section-title">The Prize Event</div>
+  </div>
+
+  <div class="prizes-section">
+    <div class="grand-prizes">
+      <div class="grand-prize">
+        <span class="grand-prize-icon">🎡</span>
+        <div class="grand-prize-label">Grand Prize Wheel</div>
+        <div class="grand-prize-name">2 Winners · $1,500 Each</div>
+        <div class="grand-prize-value">Random spin — biggest prizes of the month</div>
+        <span class="grand-prize-qualifier">Must have 7,500+ ALP to qualify</span>
+      </div>
+      <div class="grand-prize">
+        <span class="grand-prize-icon">🎟️</span>
+        <div class="grand-prize-label">Ticket Auction</div>
+        <div class="grand-prize-name">Bid Your Tickets</div>
+        <div class="grand-prize-value">Highest ticket bid wins each prize item</div>
+        <span class="grand-prize-qualifier">Open to all qualifying agents</span>
+      </div>
+    </div>
+
+    <div class="section-label" style="text-align:center;margin-bottom:16px;margin-top:32px;">Auction Prize Menu</div>
+    <div class="auction-prizes">
+      <div class="auction-item"><span class="auction-item-icon">📈</span><div class="auction-item-name">Lead Category Bump</div></div>
+      <div class="auction-item"><span class="auction-item-icon">💻</span><div class="auction-item-name">1 Year Zoom Business Free</div></div>
+      <div class="auction-item"><span class="auction-item-icon">📞</span><div class="auction-item-name">60-Min 1-on-1 with Phill</div></div>
+      <div class="auction-item"><span class="auction-item-icon">🎙️</span><div class="auction-item-name">30-Min Call with an SGA (your pick)</div></div>
+      <div class="auction-item"><span class="auction-item-icon">💳</span><div class="auction-item-name">$500 Amazon Gift Card</div></div>
+      <div class="auction-item"><span class="auction-item-icon">💳</span><div class="auction-item-name">$250 Visa Gift Card</div></div>
+      <div class="auction-item"><span class="auction-item-icon">🍽️</span><div class="auction-item-name">$150 Restaurant Gift Card</div></div>
+      <div class="auction-item"><span class="auction-item-icon">⛽</span><div class="auction-item-name">$100 Gas Card</div></div>
+      <div class="auction-item"><span class="auction-item-icon">🎓</span><div class="auction-item-name">Premium Training (1 Year)</div></div>
+      <div class="auction-item"><span class="auction-item-icon">🃏</span><div class="auction-item-name">Wild Card — Pick from Secret Menu</div></div>
+    </div>
+  </div>
+
+  <!-- WEEKLY MONDAYS -->
+  <div class="weekly-card">
+    <div class="weekly-block">
+      <div class="weekly-block-title">📅 Every Monday</div>
+      <div class="weekly-block-body">
+        Spread review meeting to go over the week's matchups.<br><br>
+        Leaderboard updated after <strong>Monday ALP upload</strong>.<br><br>
+        New matchups re-seeded by last week's margin.
+      </div>
+    </div>
+    <div class="weekly-block">
+      <div class="weekly-block-title">🎟️ New Agent Raffle</div>
+      <div class="weekly-block-body">
+        <strong>$100 weekly raffle</strong> exclusively for new agents.<br><br>
+        ~$400 total across the month's Mondays.<br><br>
+        Keep pushing — every week is a fresh chance.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>ALPTOBERFEST 2026</strong> · Waisman Organization · WO + WP<br>
+  Sept 28 → Oct 30 · Prizes verified &amp; paid in December
+</footer>
+
+</body>
+</html>
