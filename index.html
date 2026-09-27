@@ -11,10 +11,11 @@
 
     :root {
       --navy:    #002060;
+      --accent:  #4A9B6F;
       --navy2:   #003087;
       --green:   #006B3C;
       --green2:  #008B4C;
-      --gold:    #C9A84C;
+      --accent:  #4A9B6F;
       --dark:    #030912;
       --card:    #080F1E;
       --card2:   #0D1828;
@@ -50,7 +51,7 @@
       font-size: 20px; letter-spacing: 3px;
       color: var(--white); text-decoration: none;
     }
-    .nav-logo span { color: var(--gold); }
+    .nav-logo span { color: var(--accent); }
     .nav-links { display: flex; gap: 2px; align-items: center; }
     .nav-link {
       padding: 7px 16px; border-radius: 6px;
@@ -90,8 +91,8 @@
 
     .hero-eyebrow {
       display: inline-block;
-      border: 1px solid rgba(201,168,76,0.5);
-      color: var(--gold);
+      border: 1px solid rgba(74,155,111,0.5);
+      color: var(--accent);
       font-size: 11px; font-weight: 800;
       letter-spacing: 4px; text-transform: uppercase;
       padding: 7px 22px; border-radius: 2px;
@@ -106,7 +107,7 @@
       color: var(--white);
       margin-bottom: 16px;
     }
-    .hero-title .accent { color: var(--gold); }
+    .hero-title .accent { color: var(--accent); }
 
     .hero-tagline {
       font-family: 'Bebas Neue', sans-serif;
@@ -129,7 +130,7 @@
     .hero-stat:last-child { border-right: none; }
     .hero-stat-val {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 30px; letter-spacing: 1px; color: var(--gold);
+      font-size: 30px; letter-spacing: 1px; color: var(--accent);
       display: block; line-height: 1;
     }
     .hero-stat-label {
@@ -156,7 +157,7 @@
       background: transparent; color: var(--white);
       border: 1px solid rgba(255,255,255,0.3);
     }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
     .hero-scroll {
       position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -214,7 +215,7 @@
     }
     .score-card:nth-child(1) .score-card-top { background: var(--green); }
     .score-card:nth-child(2) .score-card-top { background: var(--navy2); }
-    .score-card:nth-child(3) .score-card-top { background: var(--gold); }
+    .score-card:nth-child(3) .score-card-top { background: var(--accent); }
     .score-card:nth-child(4) .score-card-top { background: var(--red); }
 
     .score-val {
@@ -222,7 +223,7 @@
       font-size: 52px; letter-spacing: 1px; line-height: 1;
       color: var(--white); margin-bottom: 8px;
     }
-    .score-val span { color: var(--gold); font-size: 32px; }
+    .score-val span { color: var(--accent); font-size: 32px; }
     .score-name {
       font-size: 11px; font-weight: 800; letter-spacing: 2px;
       text-transform: uppercase; color: var(--white); margin-bottom: 8px;
@@ -237,8 +238,8 @@
     }
     .formula-bar strong { color: var(--white); }
     .formula-bar .plus { color: var(--green2); font-size: 18px; }
-    .formula-bar .eq { color: var(--gold); font-size: 18px; }
-    .formula-result { color: var(--gold); font-size: 14px; }
+    .formula-bar .eq { color: var(--accent); font-size: 18px; }
+    .formula-result { color: var(--accent); font-size: 14px; }
 
     /* SPREAD MATCHUPS */
     .spread-section { border-top: 1px solid var(--border); }
@@ -267,7 +268,7 @@
 
     .grand-prize-banner {
       background: linear-gradient(135deg, var(--navy), var(--navy2));
-      border: 1px solid rgba(201,168,76,0.3);
+      border: 1px solid rgba(74,155,111,0.3);
       padding: 48px; margin-bottom: 2px;
       display: flex; align-items: center; justify-content: space-between;
       gap: 32px; flex-wrap: wrap;
@@ -276,12 +277,12 @@
     .grand-prize-banner::before {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--navy2), var(--gold), var(--green));
+      background: linear-gradient(90deg, var(--navy2), var(--accent), var(--green));
     }
     .grand-left {}
     .grand-label {
       font-size: 10px; font-weight: 800; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
     }
     .grand-title {
       font-family: 'Bebas Neue', sans-serif; font-size: 48px;
@@ -291,7 +292,7 @@
     .grand-right { text-align: right; }
     .grand-value {
       font-family: 'Bebas Neue', sans-serif; font-size: 72px;
-      letter-spacing: 2px; color: var(--gold); line-height: 1;
+      letter-spacing: 2px; color: var(--accent); line-height: 1;
     }
     .grand-qualifier {
       font-size: 11px; font-weight: 700; letter-spacing: 2px;
@@ -330,7 +331,7 @@
     .timeline-row:last-child { border-bottom: none; }
     .tl-time {
       font-family: 'Bebas Neue', sans-serif; font-size: 28px;
-      letter-spacing: 1px; color: var(--gold); text-align: right;
+      letter-spacing: 1px; color: var(--accent); text-align: right;
       padding-top: 2px;
     }
     .tl-line { background: var(--border); position: relative; }
@@ -370,7 +371,7 @@
     .weekly-item:last-child { border-right: none; }
     .weekly-item-title {
       font-size: 11px; font-weight: 800; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
     }
     .weekly-item-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
     .weekly-item-body strong { color: var(--text); }
@@ -424,8 +425,8 @@
         <span class="hero-stat-label">Per Ref Sale</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-val">$1,500</span>
-        <span class="hero-stat-label">Grand Prize</span>
+        <span class="hero-stat-val">TIERED</span>
+        <span class="hero-stat-label">Prize Pool</span>
       </div>
     </div>
 
@@ -543,11 +544,11 @@
       <div class="grand-left">
         <div class="grand-label">Grand Prize Wheel — 2 Winners</div>
         <div class="grand-title">Spin to Win</div>
-        <div class="grand-sub">Random draw. Run live on November 6. Must have 7,500+ MTD Net ALP to qualify.</div>
+        <div class="grand-sub">Random draw. Run live on November 6. Must have 7,500+ MTD Net ALP to qualify. Prize pool determined by total ALP written this month.</div>
       </div>
       <div class="grand-right">
-        <div class="grand-value">$1,500</div>
-        <div class="grand-qualifier">Per Winner · 2 Total</div>
+        <div class="grand-value">TIERED</div>
+        <div class="grand-qualifier">Based on total ALP written</div>
       </div>
     </div>
 
@@ -591,7 +592,7 @@
       </div>
       <div class="timeline-row">
         <div class="tl-time">1:30</div>
-        <div class="tl-line"><div class="tl-dot" style="background:var(--gold)"></div></div>
+        <div class="tl-line"><div class="tl-dot" style="background:var(--accent)"></div></div>
         <div>
           <div class="tl-event">Competition Begins</div>
           <div class="tl-detail">Matchups announced. Rules reviewed. <strong>ALPTOBERFEST officially kicks off.</strong></div>

@@ -1,426 +1,675 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title> Leaderboard — ALPTOBERFEST 2026</title>
- <link rel="preconnect" href="https://fonts.googleapis.com" />
- <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
- <style>
- *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard — ALPTOBERFEST 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
- :root {
- --navy: #002060; --green: #006B3C; --green2: #008B4C; --gold2: #B8963C; --navy: #003087; --navy2: #004BB5; --red: #CC0000; --red2: #E53935; --gold2: #FFC200; --orange: #FF6B00;
- --orange2: #FF8C38;
- --gold: #FFD700;
- --blood: #8B0000;
- --dark: #030912;
- --card: #080F1E;
- --card2: #0D1828;
- --border: #16284A;
- --text: #EAEEF8;
- --muted: #5A6E96;
- --green: #22C55E;
- --red: #EF4444;
- }
+    :root {
+      --navy:   #002060;
+      --navy2:  #003087;
+      --green:  #006B3C;
+      --green2: #008B4C;
+      --green3: #00A35B;
+      --dark:   #030912;
+      --card:   #080F1E;
+      --card2:  #0D1828;
+      --border: #16284A;
+      --text:   #EAEEF8;
+      --muted:  #5A6E96;
+      --white:  #FFFFFF;
+      --grey:   #B0BAD0;
+      --red:    #B00020;
+    }
 
- body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 
- nav {
- position: sticky; top: 0; z-index: 100;
- background: rgba(3,9,18,0.95); backdrop-filter: blur(12px);
- border-bottom: 1px solid var(--border); padding: 0 20px;
- }
- .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; }
- .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
- .nav-links { display: flex; gap: 4px; align-items: center; }
- .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; transition: all 0.2s; }
- .nav-link:hover, .nav-link.active { color: var(--white); background: rgba(0,107,60,0.2); }
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(3,9,18,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+      letter-spacing: 3px; color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--green3); }
+    .nav-links { display: flex; gap: 2px; }
+    .nav-link {
+      padding: 7px 16px; border-radius: 6px; font-size: 12px;
+      font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--white); background: rgba(0,107,60,0.2); }
+    .nav-link.cta { background: var(--green); color: var(--white); }
+    .nav-link.cta:hover { background: var(--green2); }
 
- .page-header {
- text-align: center; padding: 48px 20px 32px;
- background: radial-gradient(ellipse at 50% 0%, rgba(0,48,135,0.3) 0%, transparent 60%);
- }
- .page-header-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
- .page-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 72px); letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
- .update-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--card2); border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--muted); }
- .update-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
- @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    /* PAGE HEADER */
+    .page-header {
+      padding: 60px 24px 48px;
+      background: linear-gradient(180deg, rgba(0,32,96,0.3) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner { max-width: 1200px; margin: 0 auto; }
+    .page-eyebrow {
+      font-size: 10px; font-weight: 800; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--green3); margin-bottom: 10px;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 6vw, 72px); letter-spacing: 2px;
+      color: var(--white); line-height: 1; margin-bottom: 6px;
+    }
+    .page-sub { font-size: 13px; color: var(--muted); }
 
- .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
 
- /* tabs */
- .tabs { display: flex; gap: 8px; margin: 32px 0 24px; flex-wrap: wrap; }
- .tab { padding: 8px 20px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.2s; }
- .tab.active { background: linear-gradient(135deg, var(--red), #AA0000); border-color: transparent; color: white; }
- .tab:hover:not(.active) { border- color: var(--gold); }
+    /* ── ALP PROGRESS BARS ─────────────────────────── */
+    .progress-section { margin-bottom: 48px; }
 
- /* leaderboard table */
- .lb-table { width: 100%; border-collapse: collapse; }
- .lb-table thead th {
- padding: 12px 16px; text-align: left; font-size: 10px; font-weight: 800;
- letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
- border-bottom: 1px solid var(--border);
- }
- .lb-table thead th:last-child { text-align: right; }
+    .progress-section-title {
+      font-size: 10px; font-weight: 800; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--green3);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
 
- .lb-table tbody tr {
- border-bottom: 1px solid rgba(42,42,42,0.5);
- transition: background 0.15s;
- }
- .lb-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .org-bars { display: flex; flex-direction: column; gap: 28px; }
 
- .lb-table tbody td { padding: 14px 16px; font-size: 14px; vertical-align: middle; }
+    .org-bar-block {
+      background: var(--card); border: 1px solid var(--border);
+    }
 
- .rank-cell { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; width: 48px; }
- .rank-1 { color: var(--gold); }
- .rank-2 { color: #C0C0C0; }
- .rank-3 { color: #CD7F32; }
- .rank-other { color: var(--muted); }
+    .org-bar-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px 14px; gap: 16px; flex-wrap: wrap;
+    }
+    .org-bar-left { display: flex; align-items: center; gap: 16px; }
+    .org-tag {
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+      letter-spacing: 2px; color: var(--white);
+    }
+    .org-current {
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+      letter-spacing: 1px; color: var(--green3);
+    }
+    .org-current-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
 
- .agent-cell { display: flex; align-items: center; gap: 12px; }
- .agent-avatar {
- width: 38px; height: 38px; border-radius: 50%;
- background: linear-gradient(135deg, var(--orange), var(--blood));
- display: flex; align-items: center; justify-content: center;
- font-weight: 900; font-size: 14px; color: white; flex-shrink: 0;
- border: 2px solid var(--border);
- }
- .agent-name { font-weight: 700; color: var(--text); }
- .agent-org { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .org-bar-right { text-align: right; }
+    .org-tier-badge {
+      display: inline-block;
+      background: rgba(0,107,60,0.15); border: 1px solid rgba(0,163,91,0.3);
+      border-radius: 3px; padding: 4px 12px;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--green3);
+    }
+    .org-tier-prize {
+      font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 600;
+    }
 
- .tickets-cell { text-align: right; }
- .tickets-num { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--gold); }
- .tickets-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+    /* Track */
+    .org-bar-track {
+      padding: 0 24px 20px; position: relative;
+    }
+    .bar-rail {
+      height: 12px; background: rgba(255,255,255,0.06);
+      border-radius: 2px; position: relative; overflow: visible;
+      margin-bottom: 10px;
+    }
+    .bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--green), var(--green3));
+      border-radius: 2px; transition: width 1s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+    }
+    .bar-fill::after {
+      content: ''; position: absolute; right: 0; top: -3px;
+      width: 3px; height: 18px; background: var(--white);
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
 
- .alp-cell { font-weight: 700; color: var(--text); }
- .alp-cell small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+    /* Tier markers */
+    .bar-markers {
+      display: flex; position: absolute;
+      top: 0; left: 24px; right: 24px; height: 12px;
+    }
+    .bar-marker {
+      position: absolute; display: flex; flex-direction: column;
+      align-items: center; transform: translateX(-50%);
+    }
+    .bar-marker-line {
+      width: 1px; height: 12px; background: rgba(255,255,255,0.25);
+    }
+    .bar-marker-label {
+      position: absolute; top: 16px; font-size: 9px;
+      font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+      transform: translateX(-50%);
+    }
+    .bar-marker.achieved .bar-marker-line { background: var(--green3); }
+    .bar-marker.achieved .bar-marker-label { color: var(--green3); }
 
- .bonus-cell { font-size: 12px; color: var(--muted); }
- .bonus-pill { display: inline-block; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; margin: 2px; font-size: 11px; color: var(--text); }
- .bonus-pill.green { border-color: rgba(34,197,94,0.3); color: var(--green); }
+    /* Tier legend */
+    .tier-legend {
+      display: flex; gap: 0; margin-top: 24px; border: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .tier-item {
+      flex: 1; min-width: 140px; padding: 14px 16px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .tier-item:last-child { border-right: none; }
+    .tier-item.active { background: rgba(0,107,60,0.1); }
+    .tier-item.active::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--green2);
+    }
+    .tier-item-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+    .tier-item-target { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .tier-item-prize { font-size: 11px; font-weight: 800; color: var(--grey); }
+    .tier-item.active .tier-item-prize { color: var(--green3); }
 
- .wheel-badge {
- display: inline-block;
- background: rgba(255,215,0,0.1);
- border: 1px solid rgba(255,215,0,0.3);
- border-radius: 100px;
- padding: 3px 10px;
- font-size: 10px;
- font-weight: 700;
- color: var(--gold);
- }
+    /* ── TABS ──────────────────────────────────────── */
+    .tabs { display: flex; gap: 2px; margin-bottom: 24px; }
+    .tab {
+      padding: 10px 24px; border: 1px solid var(--border);
+      background: var(--card); font-size: 12px; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted); cursor: pointer; transition: all 0.2s;
+      border-radius: 3px;
+    }
+    .tab.active {
+      background: var(--green); border-color: var(--green);
+      color: var(--white);
+    }
+    .tab:hover:not(.active) { color: var(--text); border-color: var(--green2); }
 
- /* matchup section */
- .matchup-section { margin-top: 48px; }
- .matchup-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
- .matchup-header-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--text); }
- .week-badge { background: rgba(0,48,135,0.2); border: 1px solid rgba(255,215,0,0.2); border-radius: 100px; padding: 6px 16px; font-size: 12px; font-weight: 700; color: var(--gold); }
+    /* ── LEADERBOARD TABLE ─────────────────────────── */
+    .lb-card { background: var(--card); border: 1px solid var(--border); }
+    .lb-card-top { height: 3px; background: linear-gradient(90deg, var(--navy2), var(--green), var(--green3)); }
 
- .matchups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+    .lb-table { width: 100%; border-collapse: collapse; }
+    .lb-table thead th {
+      padding: 12px 20px; text-align: left;
+      font-size: 9px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .lb-table thead th:last-child { text-align: right; }
+    .lb-table tbody tr { border-bottom: 1px solid rgba(22,40,74,0.5); transition: background 0.1s; }
+    .lb-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .lb-table tbody td { padding: 14px 20px; font-size: 13px; vertical-align: middle; }
 
- .matchup-card {
- background: var(--card); border: 1px solid var(--border);
- border-radius: 16px; padding: 20px;
- }
- .matchup-card.winner { border-color: rgba(255,215,0,0.25); }
+    .rank-cell { width: 52px; }
+    .rank-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 26px;
+      letter-spacing: 1px; color: var(--muted);
+    }
+    .rank-num.r1 { color: var(--white); }
+    .rank-num.r2 { color: var(--grey); }
+    .rank-num.r3 { color: var(--green3); }
 
- .vs-row { display: flex; align-items: center; gap: 12px; }
- .vs-agent { flex: 1; }
- .vs-agent-name { font-weight: 800; font-size: 14px; color: var(--text); }
- .vs-agent-alp { font-size: 12px; color: var(--muted); margin-top: 2px; }
- .vs-sep { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--muted); }
+    .agent-name { font-weight: 800; color: var(--white); }
+    .agent-meta { font-size: 11px; color: var(--muted); margin-top: 2px; display: flex; gap: 8px; align-items: center; }
+    .org-pill {
+      display: inline-block; background: rgba(0,48,135,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px; padding: 1px 7px;
+      font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--grey);
+    }
+    .wheel-pill {
+      display: inline-block; background: rgba(0,107,60,0.2);
+      border: 1px solid rgba(0,163,91,0.3);
+      border-radius: 2px; padding: 1px 7px;
+      font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--green3);
+    }
 
- .spread-result {
- margin-top: 14px; padding-top: 14px;
- border-top: 1px solid var(--border);
- display: flex; align-items: center; justify-content: space-between;
- }
- .spread-winner { font-size: 12px; font-weight: 700; }
- .spread-winner span { color: var(--green); }
- .spread-margin { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; color: var(--gold); }
+    .alp-val { font-weight: 800; color: var(--text); }
+    .alp-label { font-size: 10px; color: var(--muted); }
 
- /* card wrapper with top border */
- .lb-card {
- background: var(--card); border: 1px solid var(--border);
- border-radius: 20px; overflow: hidden;
- }
- .lb-card-top { height: 3px; background: linear-gradient(90deg, var(--orange), var(--gold), var(--orange)); }
+    .bonus-tag {
+      display: inline-block; background: var(--card2);
+      border: 1px solid var(--border); border-radius: 2px;
+      padding: 3px 8px; font-size: 11px; font-weight: 700;
+      color: var(--grey); margin: 2px;
+    }
+    .bonus-tag.spread { border-color: rgba(0,163,91,0.3); color: var(--green3); }
 
- /* empty state */
- .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
- .empty-state .icon { font-size: 48px; margin-bottom: 12px; display: block; }
- .empty-state p { font-size: 14px; line-height: 1.6; }
+    .tickets-cell { text-align: right; }
+    .tickets-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 26px;
+      letter-spacing: 1px; color: var(--white);
+    }
+    .tickets-label { font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
 
- footer { text-align: center; padding: 32px 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
- footer strong { color: var(--text); }
- </style>
+    /* ── MATCHUPS ──────────────────────────────────── */
+    .matchup-section { margin-top: 48px; }
+    .matchup-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    }
+    .matchup-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 32px;
+      letter-spacing: 2px; color: var(--white);
+    }
+    .week-pill {
+      background: rgba(0,48,135,0.3); border: 1px solid var(--border);
+      border-radius: 3px; padding: 6px 16px;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--grey);
+    }
+
+    .matchups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .matchup-card { background: var(--card2); padding: 20px 24px; }
+
+    .vs-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .vs-agent { flex: 1; }
+    .vs-name { font-weight: 800; font-size: 14px; color: var(--white); }
+    .vs-alp { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .vs-sep {
+      font-family: 'Bebas Neue', sans-serif; font-size: 18px;
+      color: var(--border); letter-spacing: 1px;
+    }
+    .spread-result {
+      padding-top: 14px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .spread-winner-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    .spread-winner-name { font-weight: 800; color: var(--green3); font-size: 13px; }
+    .spread-margin { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--grey); letter-spacing: 1px; }
+
+    /* Empty / Loading */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty-state p { font-size: 13px; line-height: 1.6; }
+
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    footer strong { color: var(--text); }
+  </style>
 </head>
 <body>
 
 <nav>
- <div class="nav-inner">
- <a href="index.html" class="nav-logo" style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:#FFFFFF;text-decoration:none;">ALP<span style="color:#C9A84C">TOBERFEST</span> 2026</a>
- <div class="nav-links">
- <a href="index.html" class="nav-link">Rules</a>
- <a href="leaderboard.html" class="nav-link active">Leaderboard</a>
- <a href="wheel.html" class="nav-link"> Wheel</a>
- <a href="form.html" class="nav-link"> Sign Up</a>
- </div>
- </div>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">ALP<span>TOBERFEST</span> 2026</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Rules</a>
+      <a href="leaderboard.html" class="nav-link active">Leaderboard</a>
+      <a href="wheel.html" class="nav-link">Prize Wheel</a>
+      <a href="form.html" class="nav-link cta">Register</a>
+    </div>
+  </div>
 </nav>
 
 <div class="page-header">
- <div class="page-header-label">Live Rankings</div>
- <div class="page-header-title"> Leaderboard</div>
- <div class="update-badge">
- <div class="update-dot"></div>
- <span id="last-updated">Loading...</span>
- </div>
+  <div class="page-header-inner">
+    <div class="page-eyebrow">Live Rankings</div>
+    <div class="page-title">Leaderboard</div>
+    <div class="page-sub">Updated every Monday after ALP upload. Last update: <span id="last-updated">—</span></div>
+  </div>
 </div>
 
 <div class="container">
 
- <div class="tabs">
- <div class="tab active" onclick="switchTab('main')"> Leaderboard</div>
- <div class="tab" onclick="switchTab('mga')"> MGA Battle</div>
- </div>
+  <!-- ALP PROGRESS BARS -->
+  <div class="progress-section">
+    <div class="progress-section-title">October ALP Progress — Prize Pool Tracker</div>
 
- <!-- MAIN LEADERBOARD (Agents + Managers combined) -->
- <div id="tab-main">
- <div class="lb-card">
- <div class="lb-card-top"></div>
- <div style="overflow-x:auto">
- <table class="lb-table">
- <thead>
- <tr>
- <th>#</th>
- <th>Agent / Manager</th>
- <th>MTD Net ALP</th>
- <th>Bonuses</th>
- <th style="text-align:right">Total Tickets</th>
- </tr>
- </thead>
- <tbody id="agent-tbody">
- <tr><td colspan="5"><div class="empty-state"><span class="icon">—</span><p>Competition starts Monday Sept 28.<br>Leaderboard updates every Monday after ALP upload.</p></div></td></tr>
- </tbody>
- </table>
- </div>
- </div>
- </div>
+    <div class="org-bars">
 
- <!-- MGA BATTLE -->
- <div id="tab-mga" style="display:none">
- <div class="lb-card">
- <div class="lb-card-top"></div>
- <div style="overflow-x:auto">
- <table class="lb-table">
- <thead>
- <tr>
- <th>#</th>
- <th>MGA</th>
- <th>Baseline ALP</th>
- <th>Current ALP</th>
- <th style="text-align:right">Growth</th>
- </tr>
- </thead>
- <tbody id="mga-tbody">
- <tr><td colspan="5"><div class="empty-state"><span class="icon">—</span><p>MGA Battle starts Monday Sept 28.<br>Rankings based on % increase over last 2-month baseline.</p></div></td></tr>
- </tbody>
- </table>
- </div>
- </div>
- </div>
+      <!-- WO -->
+      <div class="org-bar-block">
+        <div class="org-bar-header">
+          <div class="org-bar-left">
+            <div>
+              <div class="org-tag">WO</div>
+            </div>
+            <div>
+              <div class="org-current" id="wo-current">$0</div>
+              <div class="org-current-label">MTD Net ALP</div>
+            </div>
+          </div>
+          <div class="org-bar-right">
+            <div class="org-tier-badge" id="wo-tier-badge">Below Baseline</div>
+            <div class="org-tier-prize" id="wo-tier-prize">Prize pool unlocks at $181,000</div>
+          </div>
+        </div>
+        <div class="org-bar-track">
+          <div class="bar-rail">
+            <div class="bar-fill" id="wo-fill" style="width:0%"></div>
+            <!-- Tier markers positioned by JS -->
+            <div class="bar-markers" id="wo-markers"></div>
+          </div>
+        </div>
+        <div class="tier-legend">
+          <div class="tier-item" id="wo-t0">
+            <div class="tier-item-label">Baseline</div>
+            <div class="tier-item-target">$181,000</div>
+            <div class="tier-item-prize">Prize pool unlocks</div>
+          </div>
+          <div class="tier-item" id="wo-t1">
+            <div class="tier-item-label">10% Growth</div>
+            <div class="tier-item-target">$199,100</div>
+            <div class="tier-item-prize">Tier 1 pool</div>
+          </div>
+          <div class="tier-item" id="wo-t2">
+            <div class="tier-item-label">20% Growth</div>
+            <div class="tier-item-target">$217,200</div>
+            <div class="tier-item-prize">Tier 2 pool</div>
+          </div>
+          <div class="tier-item" id="wo-t3">
+            <div class="tier-item-label">30% Growth</div>
+            <div class="tier-item-target">$235,300</div>
+            <div class="tier-item-prize">Tier 3 pool</div>
+          </div>
+        </div>
+      </div>
 
- <!-- SPREAD MATCHUPS -->
- <div class="matchup-section">
- <div class="matchup-header">
- <div class="matchup-header-title"> This Week's Matchups</div>
- <div class="week-badge" id="week-label">Week 1 — Sept 28</div>
- </div>
- <div class="matchups-grid" id="matchups-grid">
- <div class="matchup-card">
- <div class="empty-state" style="padding:24px 12px">
- <span class="icon">—</span>
- <p>Matchups set Monday Sept 28.<br>Check back after the Monday meeting.</p>
- </div>
- </div>
- </div>
- </div>
+      <!-- WP -->
+      <div class="org-bar-block">
+        <div class="org-bar-header">
+          <div class="org-bar-left">
+            <div>
+              <div class="org-tag">WP</div>
+            </div>
+            <div>
+              <div class="org-current" id="wp-current">$0</div>
+              <div class="org-current-label">MTD Net ALP</div>
+            </div>
+          </div>
+          <div class="org-bar-right">
+            <div class="org-tier-badge" id="wp-tier-badge">Below Baseline</div>
+            <div class="org-tier-prize" id="wp-tier-prize">Prize pool unlocks at $81,000</div>
+          </div>
+        </div>
+        <div class="org-bar-track">
+          <div class="bar-rail">
+            <div class="bar-fill" id="wp-fill" style="width:0%"></div>
+            <div class="bar-markers" id="wp-markers"></div>
+          </div>
+        </div>
+        <div class="tier-legend">
+          <div class="tier-item" id="wp-t0">
+            <div class="tier-item-label">Baseline</div>
+            <div class="tier-item-target">$81,000</div>
+            <div class="tier-item-prize">Prize pool unlocks</div>
+          </div>
+          <div class="tier-item" id="wp-t1">
+            <div class="tier-item-label">10% Growth</div>
+            <div class="tier-item-target">$89,100</div>
+            <div class="tier-item-prize">Tier 1 pool</div>
+          </div>
+          <div class="tier-item" id="wp-t2">
+            <div class="tier-item-label">20% Growth</div>
+            <div class="tier-item-target">$97,200</div>
+            <div class="tier-item-prize">Tier 2 pool</div>
+          </div>
+          <div class="tier-item" id="wp-t3">
+            <div class="tier-item-label">30% Growth</div>
+            <div class="tier-item-target">$105,300</div>
+            <div class="tier-item-prize">Tier 3 pool</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('main')">Leaderboard</div>
+    <div class="tab" onclick="switchTab('mga')">MGA Battle</div>
+  </div>
+
+  <!-- MAIN LEADERBOARD -->
+  <div id="tab-main">
+    <div class="lb-card">
+      <div class="lb-card-top"></div>
+      <div style="overflow-x:auto">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Agent / Manager</th>
+              <th>MTD Net ALP</th>
+              <th>Bonuses</th>
+              <th style="text-align:right">Total Tickets</th>
+            </tr>
+          </thead>
+          <tbody id="agent-tbody">
+            <tr><td colspan="5"><div class="empty-state"><p>Competition starts Monday Sept 28.<br>Leaderboard updates every Monday after ALP upload.</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MGA BATTLE -->
+  <div id="tab-mga" style="display:none">
+    <div class="lb-card">
+      <div class="lb-card-top"></div>
+      <div style="overflow-x:auto">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>MGA</th>
+              <th>2-Month Baseline ALP</th>
+              <th>Current ALP</th>
+              <th>Baseline Hires</th>
+              <th style="text-align:right">Current Hires</th>
+            </tr>
+          </thead>
+          <tbody id="mga-tbody">
+            <tr><td colspan="6"><div class="empty-state"><p>MGA Battle starts Monday Sept 28.<br>Head-to-head increase off last 2-month baseline.</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPREAD MATCHUPS -->
+  <div class="matchup-section">
+    <div class="matchup-header">
+      <div class="matchup-title">This Week's Matchups</div>
+      <div class="week-pill" id="week-label">Week 1 — Sept 28</div>
+    </div>
+    <div class="matchups-grid" id="matchups-grid">
+      <div class="matchup-card">
+        <div class="empty-state" style="padding:32px 16px">
+          <p>Matchups set Monday Sept 28.<br>Check back after the Monday meeting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <footer>
- <strong>ALPTOBERFEST 2026</strong> · Waisman Organization · Updated every Monday after ALP upload
+  <strong>ALPTOBERFEST 2026</strong> &nbsp;·&nbsp; Waisman Organization &nbsp;·&nbsp; Updated every Monday
 </footer>
 
 <script>
- // ── DATA ─────────────────────────────────────────────────────────
- // Edit the SHEET_ID below to point to the published Google Sheet.
- // Publish sheet: File → Share → Publish to web → CSV
- // Tabs needed: "Agents", "Managers", "MGA", "Matchups"
- const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
- const SHEET_BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=`;
+  // ── CONFIG ────────────────────────────────────────────────────────
+  const WO_TIERS = [181000, 199100, 217200, 235300];
+  const WP_TIERS = [81000,  89100,  97200,  105300];
+  const TIER_LABELS = ['Baseline', '+10%', '+20%', '+30%'];
 
- // Fallback demo data (shown until real sheet is connected)
- const DEMO_AGENTS = [
- { name: 'Tommy B.', org: 'WO', alp: 14200, spread: 4100, hires: 2, refs: 3 },
- { name: 'Jenni M.', org: 'WP', alp: 13800, spread: 3950, hires: 1, refs: 4 },
- { name: 'Marcus R.', org: 'WO', alp: 11500, spread: 2700, hires: 3, refs: 1 },
- { name: 'Ashley K.', org: 'WP', alp: 10900, spread: 1200, hires: 0, refs: 2 },
- { name: 'Darius W.', org: 'WO', alp: 9400, spread: 3200, hires: 1, refs: 0 },
- { name: 'Lexi N.', org: 'WP', alp: 8800, spread: 2100, hires: 0, refs: 3 },
- { name: 'Brionna T.', org: 'WO', alp: 8100, spread: 600, hires: 1, refs: 1 },
- { name: 'Jordan S.', org: 'WP', alp: 7300, spread: 1800, hires: 2, refs: 0 },
- ];
+  // ── LIVE ALP — Emily updates these each Monday ────────────────────
+  // Format: current MTD net ALP for each org
+  const LIVE_ALP = {
+    wo: 0,   // <-- Emily updates this
+    wp: 0,   // <-- Emily updates this
+  };
 
- const DEMO_MATCHUPS = [
- { a: 'Tommy B.', b: 'Jenni M.', aAlp: 14200, bAlp: 13800 },
- { a: 'Marcus R.', b: 'Darius W.', aAlp: 11500, bAlp: 9400 },
- { a: 'Ashley K.', b: 'Lexi N.', aAlp: 10900, bAlp: 8800 },
- { a: 'Brionna T.', b: 'Jordan S.', aAlp: 8100, bAlp: 7300 },
- ];
+  // ── DEMO AGENTS ──────────────────────────────────────────────────
+  const DEMO_AGENTS = [
+    { name: 'Tommy B.',    org: 'WO', alp: 14200, spread: 4100, hires: 2, refs: 3 },
+    { name: 'Jenni M.',   org: 'WP', alp: 13800, spread: 3950, hires: 1, refs: 4 },
+    { name: 'Marcus R.',  org: 'WO', alp: 11500, spread: 2700, hires: 3, refs: 1 },
+    { name: 'Ashley K.',  org: 'WP', alp: 10900, spread: 1200, hires: 0, refs: 2 },
+    { name: 'Darius W.',  org: 'WO', alp:  9400, spread: 3200, hires: 1, refs: 0 },
+    { name: 'Lexi N.',    org: 'WP', alp:  8800, spread: 2100, hires: 0, refs: 3 },
+  ];
 
- // ── HELPERS ───────────────────────────────────────────────────────
- function calcTickets(a) {
- return a.alp + (a.alp >= 5000 ? a.spread : 0) + a.hires * 500 + a.refs * 250;
- }
+  const DEMO_MATCHUPS = [
+    { a: 'Tommy B.',  b: 'Jenni M.',  aAlp: 14200, bAlp: 13800 },
+    { a: 'Marcus R.', b: 'Darius W.', aAlp: 11500, bAlp:  9400 },
+    { a: 'Ashley K.', b: 'Lexi N.',   aAlp: 10900, bAlp:  8800 },
+  ];
 
- function fmt(n) { return n.toLocaleString(); }
+  // ── HELPERS ───────────────────────────────────────────────────────
+  function fmt(n) { return Number(n).toLocaleString(); }
+  function fmtDollar(n) { return '$' + fmt(n); }
+  function calcTickets(a) { return a.alp + (a.alp >= 5000 ? a.spread : 0) + a.hires * 500 + a.refs * 250; }
 
- function rankClass(i) {
- if (i === 0) return 'rank-1';
- if (i === 1) return 'rank-2';
- if (i === 2) return 'rank-3';
- return 'rank-other';
- }
+  // ── PROGRESS BARS ────────────────────────────────────────────────
+  function updateProgressBar(org, current, tiers) {
+    const max = tiers[3] * 1.05; // 5% buffer past top tier
+    const pct = Math.min((current / max) * 100, 100);
 
- function rankEmoji(i) {
- if (i === 0) return '';
- if (i === 1) return '';
- if (i === 2) return '';
- return i + 1;
- }
+    // Fill
+    document.getElementById(`${org}-fill`).style.width = pct + '%';
 
- function initials(name) {
- return name.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase();
- }
+    // Current ALP display
+    document.getElementById(`${org}-current`).textContent = fmtDollar(current);
 
- // ── RENDER ────────────────────────────────────────────────────────
- function renderAgents(agents) {
- const sorted = [...agents].sort((a,b) => calcTickets(b) - calcTickets(a));
- const tbody = document.getElementById('agent-tbody');
- tbody.innerHTML = sorted.map((a, i) => {
- const tickets = calcTickets(a);
- const bonusParts = [];
- if (a.spread > 0 && a.alp >= 5000) bonusParts.push(`<span class="bonus-pill green">+${fmt(a.spread)} spread</span>`);
- if (a.hires > 0) bonusParts.push(`<span class="bonus-pill">${a.hires} hire${a.hires>1?'s':''} (+${fmt(a.hires*500)})</span>`);
- if (a.refs > 0) bonusParts.push(`<span class="bonus-pill">${a.refs} ref${a.refs>1?'s':''} (+${fmt(a.refs*250)})</span>`);
- const wheelTag = a.alp >= 7500 ? '<br><span class="wheel-badge"> Wheel Eligible</span>' : '';
- return `<tr>
- <td class="rank-cell ${rankClass(i)}">${rankEmoji(i)}</td>
- <td><div class="agent-cell">
- <div class="agent-avatar">${initials(a.name)}</div>
- <div><div class="agent-name">${a.name}</div><div class="agent-org">${a.org}${wheelTag}</div></div>
- </div></td>
- <td class="alp-cell">$${fmt(a.alp)}<small>MTD Net</small></td>
- <td class="bonus-cell">${bonusParts.join('') || '<span style="color:var(--muted)">—</span>'}</td>
- <td class="tickets-cell"><div class="tickets-num">${fmt(tickets)}</div><div class="tickets-label">tickets</div></td>
- </tr>`;
- }).join('');
- }
+    // Which tier are we at?
+    let tierIdx = -1;
+    for (let i = tiers.length - 1; i >= 0; i--) {
+      if (current >= tiers[i]) { tierIdx = i; break; }
+    }
 
- function renderMatchups(matchups) {
- const grid = document.getElementById('matchups-grid');
- grid.innerHTML = matchups.map(m => {
- const aWins = m.aAlp > m.bAlp;
- const margin = Math.abs(m.aAlp - m.bAlp);
- const winner = aWins ? m.a : m.b;
- return `<div class="matchup-card ${margin > 0 ? 'winner' : ''}">
- <div class="vs-row">
- <div class="vs-agent">
- <div class="vs-agent-name">${m.a}</div>
- <div class="vs-agent-alp">$${fmt(m.aAlp)} ALP</div>
- </div>
- <div class="vs-sep">VS</div>
- <div class="vs-agent" style="text-align:right">
- <div class="vs-agent-name">${m.b}</div>
- <div class="vs-agent-alp">$${fmt(m.bAlp)} ALP</div>
- </div>
- </div>
- ${margin > 0 ? `<div class="spread-result">
- <div class="spread-winner">Winner: <span>${winner}</span></div>
- <div class="spread-margin">+${fmt(margin)} spread</div>
- </div>` : `<div class="spread-result"><div class="spread-winner" style="color:var(--muted)">In progress...</div></div>`}
- </div>`;
- }).join('');
- }
+    // Badge + prize
+    const badge = document.getElementById(`${org}-tier-badge`);
+    const prize = document.getElementById(`${org}-tier-prize`);
 
- // ── TABS ──────────────────────────────────────────────────────────
- function switchTab(tab) {
- ['main','mga'].forEach(t => {
- document.getElementById(`tab-${t}`).style.display = t === tab ? '' : 'none';
- });
- document.querySelectorAll('.tab').forEach((el, i) => {
- el.classList.toggle('active', ['main','mga'][i] === tab);
- });
- }
+    if (tierIdx === -1) {
+      badge.textContent = 'Below Baseline';
+      badge.style.background = 'rgba(176,0,32,0.1)';
+      badge.style.borderColor = 'rgba(176,0,32,0.3)';
+      badge.style.color = '#E06080';
+      prize.textContent = `Prize pool unlocks at ${fmtDollar(tiers[0])}`;
+    } else {
+      const tierNames = ['Baseline Hit', 'Tier 1 — 10% Growth', 'Tier 2 — 20% Growth', 'Tier 3 — 30% Growth'];
+      badge.textContent = tierNames[tierIdx];
+      badge.style.background = '';
+      badge.style.borderColor = '';
+      badge.style.color = '';
+      const nextTarget = tierIdx < tiers.length - 1
+        ? `Next tier at ${fmtDollar(tiers[tierIdx + 1])}`
+        : 'Max tier reached';
+      prize.textContent = nextTarget;
+    }
 
- // ── INIT ──────────────────────────────────────────────────────────
- function init() {
- // Try to load from Google Sheet; fall back to demo data
- if (SHEET_ID === 'YOUR_GOOGLE_SHEET_ID_HERE') {
- // Demo mode
- document.getElementById('last-updated').textContent = ' Demo data — connect Google Sheet to go live';
- renderAgents(DEMO_AGENTS);
- renderMatchups(DEMO_MATCHUPS);
- } else {
- loadFromSheet();
- }
+    // Tier legend highlights
+    ['t0','t1','t2','t3'].forEach((t, i) => {
+      const el = document.getElementById(`${org}-${t}`);
+      if (el) el.classList.toggle('active', i <= tierIdx);
+    });
 
- // Set week label
- const weeks = [
- { start: new Date('2026-09-28'), label: 'Week 1 — Sept 28' },
- { start: new Date('2026-10-05'), label: 'Week 2 — Oct 5' },
- { start: new Date('2026-10-12'), label: 'Week 3 — Oct 12' },
- { start: new Date('2026-10-19'), label: 'Week 4 — Oct 19' },
- { start: new Date('2026-10-26'), label: 'Week 5 — Oct 26' },
- ];
- const now = new Date();
- let weekLabel = weeks[0].label;
- for (const w of weeks) { if (now >= w.start) weekLabel = w.label; }
- document.getElementById('week-label').textContent = weekLabel;
- }
+    // Markers
+    const markersEl = document.getElementById(`${org}-markers`);
+    markersEl.innerHTML = tiers.map((t, i) => {
+      const pos = (t / max) * 100;
+      const achieved = current >= t;
+      return `<div class="bar-marker ${achieved ? 'achieved' : ''}" style="left:${Math.min(pos,100)}%">
+        <div class="bar-marker-line"></div>
+        <div class="bar-marker-label">${TIER_LABELS[i]}</div>
+      </div>`;
+    }).join('');
+  }
 
- async function loadFromSheet() {
- try {
- // Fetch agents tab
- const res = await fetch(SHEET_BASE + 'Agents');
- const text = await res.text();
- const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
- const rows = json.table.rows;
- const agents = rows.slice(1).map(r => ({
- name: r.c[0]?.v || '',
- org: r.c[1]?.v || '',
- alp: Number(r.c[2]?.v || 0),
- spread: Number(r.c[3]?.v || 0),
- hires: Number(r.c[4]?.v || 0),
- refs: Number(r.c[5]?.v || 0),
- })).filter(a => a.name);
+  // ── LEADERBOARD ──────────────────────────────────────────────────
+  function renderAgents(agents) {
+    const sorted = [...agents].sort((a,b) => calcTickets(b) - calcTickets(a));
+    document.getElementById('agent-tbody').innerHTML = sorted.map((a, i) => {
+      const tickets = calcTickets(a);
+      const rankClass = i === 0 ? 'r1' : i === 1 ? 'r2' : i === 2 ? 'r3' : '';
+      const spreadTag = a.spread > 0 && a.alp >= 5000
+        ? `<span class="bonus-tag spread">+${fmt(a.spread)} spread</span>` : '';
+      const hiresTag = a.hires > 0 ? `<span class="bonus-tag">${a.hires} hire${a.hires>1?'s':''} (+${fmt(a.hires*500)})</span>` : '';
+      const refsTag = a.refs > 0 ? `<span class="bonus-tag">${a.refs} ref${a.refs>1?'s':''} (+${fmt(a.refs*250)})</span>` : '';
+      const wheelTag = a.alp >= 7500 ? '<span class="wheel-pill">Wheel Eligible</span>' : '';
+      return `<tr>
+        <td class="rank-cell"><div class="rank-num ${rankClass}">${i+1}</div></td>
+        <td>
+          <div class="agent-name">${a.name}</div>
+          <div class="agent-meta"><span class="org-pill">${a.org}</span>${wheelTag}</div>
+        </td>
+        <td><div class="alp-val">${fmtDollar(a.alp)}</div><div class="alp-label">MTD Net</div></td>
+        <td>${spreadTag}${hiresTag}${refsTag}</td>
+        <td class="tickets-cell"><div class="tickets-num">${fmt(tickets)}</div><div class="tickets-label">tickets</div></td>
+      </tr>`;
+    }).join('');
+  }
 
- renderAgents(agents);
- const updated = new Date().toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
- document.getElementById('last-updated').textContent = `Last updated ${updated}`;
- } catch(e) {
- console.error('Sheet load error:', e);
- document.getElementById('last-updated').textContent = 'Could not load — showing demo data';
- renderAgents(DEMO_AGENTS);
- renderMatchups(DEMO_MATCHUPS);
- }
- }
+  function renderMatchups(matchups) {
+    const grid = document.getElementById('matchups-grid');
+    grid.innerHTML = matchups.map(m => {
+      const margin = Math.abs(m.aAlp - m.bAlp);
+      const winner = m.aAlp > m.bAlp ? m.a : m.b;
+      return `<div class="matchup-card">
+        <div class="vs-row">
+          <div class="vs-agent"><div class="vs-name">${m.a}</div><div class="vs-alp">${fmtDollar(m.aAlp)} ALP</div></div>
+          <div class="vs-sep">VS</div>
+          <div class="vs-agent" style="text-align:right"><div class="vs-name">${m.b}</div><div class="vs-alp">${fmtDollar(m.bAlp)} ALP</div></div>
+        </div>
+        <div class="spread-result">
+          <div><div class="spread-winner-label">Leader</div><div class="spread-winner-name">${margin > 0 ? winner : 'Tied'}</div></div>
+          <div class="spread-margin">${margin > 0 ? '+' + fmtDollar(margin) : '—'}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
- init();
+  // ── TABS ──────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    ['main','mga'].forEach(t => {
+      document.getElementById(`tab-${t}`).style.display = t === tab ? '' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach((el, i) => {
+      el.classList.toggle('active', ['main','mga'][i] === tab);
+    });
+  }
+
+  // ── WEEK LABEL ────────────────────────────────────────────────────
+  function setWeekLabel() {
+    const weeks = [
+      { start: new Date('2026-09-28'), label: 'Week 1 — Sept 28' },
+      { start: new Date('2026-10-05'), label: 'Week 2 — Oct 5' },
+      { start: new Date('2026-10-12'), label: 'Week 3 — Oct 12' },
+      { start: new Date('2026-10-19'), label: 'Week 4 — Oct 19' },
+      { start: new Date('2026-10-26'), label: 'Week 5 — Oct 26' },
+    ];
+    const now = new Date();
+    let label = weeks[0].label;
+    for (const w of weeks) { if (now >= w.start) label = w.label; }
+    document.getElementById('week-label').textContent = label;
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────
+  function init() {
+    updateProgressBar('wo', LIVE_ALP.wo, WO_TIERS);
+    updateProgressBar('wp', LIVE_ALP.wp, WP_TIERS);
+    renderAgents(DEMO_AGENTS);
+    renderMatchups(DEMO_MATCHUPS);
+    setWeekLabel();
+    document.getElementById('last-updated').textContent = 'Competition starts Sept 28';
+  }
+
+  init();
 </script>
-
 </body>
 </html>

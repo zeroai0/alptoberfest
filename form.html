@@ -10,7 +10,7 @@
  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
  :root {
- --navy: #002060; --green: #006B3C; --green2: #008B4C; --gold2: #B8963C; --navy: #003087; --navy2: #004BB5; --red: #CC0000; --red2: #E53935; --gold2: #FFC200; --orange: #FF6B00; --orange2: #FF8C38; --gold: #FFD700;
+ --navy: #002060; --green: #006B3C; --green2: #008B4C; --gold2: #3A8A5F; --navy: #003087; --navy2: #004BB5; --red: #CC0000; --red2: #E53935; --gold2: #3A8A5F; --orange: #FF6B00; --orange2: #FF8C38; --gold: #4A9B6F;
  --dark: #030912; --card: #141414; --card2: #1C1C1C;
  --border: #16284A; --text: #F0EAD6; --muted: #777;
  --green: #22C55E; --red: #EF4444;
@@ -28,13 +28,13 @@
  border-bottom: 1px solid var(--border); padding: 0 20px;
  }
  .nav-inner { max-width: 700px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
- .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+ .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--accent), #FFF5B0, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
  .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; }
  .nav-link:hover { color: var(--white); background: rgba(0,107,60,0.2); }
 
  .page-header { text-align: center; padding: 48px 20px 32px; }
  .page-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
- .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 68px); letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), #FFF5B0, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+ .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 68px); letter-spacing: 2px; background: linear-gradient(135deg, var(--accent), #FFF5B0, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
  .page-sub { font-size: 14px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.6; }
 
  /* Office notice */
@@ -61,8 +61,8 @@
  .form-section::before {
  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
  }
- .form-section.section-info::before { background: linear-gradient(90deg, var(--navy), var(--gold)); }
- .form-section.section-goals::before { background: linear-gradient(90deg, var(--gold), var(--red)); }
+ .form-section.section-info::before { background: linear-gradient(90deg, var(--navy), var(--accent)); }
+ .form-section.section-goals::before { background: linear-gradient(90deg, var(--accent), var(--red)); }
  .form-section.section-prizes::before { background: linear-gradient(90deg, var(--navy), var(--red)); }
  .form-section.section-tips::before { background: linear-gradient(90deg, var(--green), #16A34A); }
 
@@ -98,19 +98,19 @@
  .alp-field-wrap { position: relative; }
  .alp-prefix {
  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
- font-size: 18px; font-weight: 700; color: var(--gold);
+ font-size: 18px; font-weight: 700; color: var(--accent);
  }
- .alp-input { padding-left: 32px !important; font-size: 20px !important; font-weight: 800 !important; color: var(--gold) !important; }
+ .alp-input { padding-left: 32px !important; font-size: 20px !important; font-weight: 800 !important; color: var(--accent) !important; }
 
  /* Why textarea — hero */
  .why-textarea {
  min-height: 140px !important;
- border-color: rgba(255,215,0,0.3) !important;
- background: rgba(255,215,0,0.04) !important;
+ border-color: rgba(74,155,111,0.3) !important;
+ background: rgba(74,155,111,0.04) !important;
  font-size: 15px !important;
  line-height: 1.7 !important;
  }
- .why-textarea:focus { border-color: var(--gold) !important; }
+ .why-textarea:focus { border-color: var(--accent) !important; }
  .why-hint { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
 
  /* Prize checkboxes */
@@ -136,7 +136,7 @@
  }
  .tip-icon { font-size: 20px; flex-shrink: 0; }
  .tip-text { font-size: 13px; color: var(--text); line-height: 1.5; }
- .tip-text strong { color: var(--gold); }
+ .tip-text strong { color: var(--accent); }
 
  /* Calendar */
  .oct-dates { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
@@ -145,7 +145,7 @@
  border-radius: 8px; padding: 6px 12px;
  font-size: 12px; font-weight: 700; color: var(--text);
  }
- .date-pill.holiday { border-color: rgba(255,215,0,0.3); color: var(--gold); }
+ .date-pill.holiday { border-color: rgba(74,155,111,0.3); color: var(--accent); }
  .date-pill.important { border-color: rgba(255,107,0,0.4); color: var(--orange2); }
 
  /* Submit */
@@ -177,7 +177,7 @@
 
 <nav>
  <div class="nav-inner">
- <a href="index.html" class="nav-logo" style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:#FFFFFF;text-decoration:none;">ALP<span style="color:#C9A84C">TOBERFEST</span> 2026</a>
+ <a href="index.html" class="nav-logo" style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:#FFFFFF;text-decoration:none;">ALP<span style="color:#4A9B6F">TOBERFEST</span> 2026</a>
  <a href="leaderboard.html" class="nav-link"> Leaderboard</a>
  </div>
 </nav>
