@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎃 ALPTOBERFEST — Agent Sign-Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:  #FF6B00; --orange2: #FF8C38; --gold:  #FFD700;
+      --dark:    #0A0A0A; --card:  #141414;  --card2: #1C1C1C;
+      --border:  #2A2A2A; --text:  #F0EAD6;  --muted: #777;
+      --green:   #22C55E; --red:   #EF4444;
+    }
+
+    body {
+      background: var(--dark); color: var(--text);
+      font-family: 'Inter', sans-serif; min-height: 100vh;
+      background-image: radial-gradient(ellipse at 50% 0%, rgba(255,107,0,0.1) 0%, transparent 60%);
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 20px;
+    }
+    .nav-inner { max-width: 700px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-link { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; }
+    .nav-link:hover { color: var(--text); background: var(--card2); }
+
+    .page-header { text-align: center; padding: 48px 20px 32px; }
+    .page-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+    .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 68px); letter-spacing: 2px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+    .page-sub { font-size: 14px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+    /* Office notice */
+    .office-notice {
+      max-width: 700px; margin: 0 auto 24px; padding: 0 20px;
+    }
+    .notice-card {
+      background: rgba(139,0,0,0.12); border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 14px; padding: 16px 20px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .notice-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+    .notice-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+    .notice-text strong { color: #ef4444; }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 0 20px 80px; }
+
+    /* Form sections */
+    .form-section {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px; margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+    .form-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .form-section.section-info::before { background: linear-gradient(90deg, var(--orange), var(--gold)); }
+    .form-section.section-goals::before { background: linear-gradient(90deg, var(--gold), #FF2D00); }
+    .form-section.section-prizes::before { background: linear-gradient(90deg, #7C3AED, var(--orange)); }
+    .form-section.section-tips::before { background: linear-gradient(90deg, var(--green), #16A34A); }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .section-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .section-sub strong { color: var(--orange2); }
+
+    /* Fields */
+    .field-row { display: grid; gap: 14px; margin-bottom: 14px; }
+    .field-row.two { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 500px) { .field-row.two { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+    label .req { color: var(--orange); margin-left: 2px; }
+
+    input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      color: var(--text); font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s; width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--orange); }
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+    select option { background: #1C1C1C; }
+    textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+    /* ALP goal big field */
+    .alp-field-wrap { position: relative; }
+    .alp-prefix {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      font-size: 18px; font-weight: 700; color: var(--gold);
+    }
+    .alp-input { padding-left: 32px !important; font-size: 20px !important; font-weight: 800 !important; color: var(--gold) !important; }
+
+    /* Why textarea — hero */
+    .why-textarea {
+      min-height: 140px !important;
+      border-color: rgba(255,215,0,0.3) !important;
+      background: rgba(255,215,0,0.04) !important;
+      font-size: 15px !important;
+      line-height: 1.7 !important;
+    }
+    .why-textarea:focus { border-color: var(--gold) !important; }
+    .why-hint { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
+
+    /* Prize checkboxes */
+    .prize-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 480px) { .prize-grid { grid-template-columns: 1fr; } }
+
+    .prize-check {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px; cursor: pointer;
+      transition: all 0.15s; user-select: none;
+    }
+    .prize-check:hover { border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.06); }
+    .prize-check input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--orange); flex-shrink: 0; }
+    .prize-check-label { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
+
+    /* Tips section */
+    .tips-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .tip-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .tip-icon { font-size: 20px; flex-shrink: 0; }
+    .tip-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+    .tip-text strong { color: var(--gold); }
+
+    /* Calendar */
+    .oct-dates { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .date-pill {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 12px;
+      font-size: 12px; font-weight: 700; color: var(--text);
+    }
+    .date-pill.holiday { border-color: rgba(255,215,0,0.3); color: var(--gold); }
+    .date-pill.important { border-color: rgba(255,107,0,0.4); color: var(--orange2); }
+
+    /* Submit */
+    .submit-section { text-align: center; padding: 8px 0; }
+    .submit-btn {
+      background: linear-gradient(135deg, var(--orange), #FF2D00);
+      color: white; border: none; border-radius: 14px;
+      padding: 18px 60px; font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px; letter-spacing: 3px; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 32px rgba(255,107,0,0.4);
+      width: 100%; max-width: 400px;
+    }
+    .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(255,107,0,0.6); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .submit-note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+    /* Success / Error states */
+    .success-banner, .error-banner { display: none; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; font-size: 14px; font-weight: 600; }
+    .success-banner { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--green); }
+    .error-banner { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--red); }
+    .success-banner.show, .error-banner.show { display: block; }
+
+    footer { text-align: center; padding: 32px 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    footer strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">🎃 ALPTOBERFEST</a>
+    <a href="leaderboard.html" class="nav-link">📊 Leaderboard</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-label">Agent Registration</div>
+  <div class="page-title">🍺 Sign Me Up</div>
+  <div class="page-sub">Fill this out before Sept 28. Office visitors without info on file will be turned away at the front desk.</div>
+</div>
+
+<div class="office-notice">
+  <div class="notice-card">
+    <div class="notice-icon">🚨</div>
+    <div class="notice-text">
+      <strong>Office Policy — Effective Sept 28:</strong> Anyone visiting the office must have their name, phone, and email on file. No exceptions. Front desk will not allow entry without it. Fill this out now.
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="success-banner" id="success-banner">
+    🎉 You're in! Your registration is confirmed. See you on the leaderboard. Let's get it.
+  </div>
+  <div class="error-banner" id="error-banner"></div>
+
+  <form id="signup-form" onsubmit="submitForm(event)">
+
+    <!-- SECTION 1: YOUR INFO -->
+    <div class="form-section section-info">
+      <div class="section-title">👤 Your Info</div>
+      <div class="section-sub">Required for office access and competition registration.</div>
+
+      <div class="field-row two">
+        <div class="field">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" name="full_name" placeholder="First Last" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label>Phone <span class="req">*</span></label>
+          <input type="tel" name="phone" placeholder="(555) 000-0000" required autocomplete="tel" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="field-row two">
+        <div class="field">
+          <label>Organization</label>
+          <select name="org">
+            <option value="">Select org...</option>
+            <option value="WO">WO — Waisman Organization</option>
+            <option value="WP">WP — Waisman Pavel</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Your MGA / Manager</label>
+          <input type="text" name="manager" placeholder="Manager name" />
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: OCTOBER GOALS -->
+    <div class="form-section section-goals">
+      <div class="section-title">🎯 Your October Goals</div>
+      <div class="section-sub"><strong>This is the most important part.</strong> What are you pushing for and WHY? Be specific. Be real. This is your commitment.</div>
+
+      <div class="field-row" style="margin-bottom:16px">
+        <div class="field">
+          <label>My ALP Goal for October</label>
+          <div class="alp-field-wrap">
+            <span class="alp-prefix">$</span>
+            <input class="alp-input" type="number" name="alp_goal" placeholder="10,000" min="0" step="100" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Why I'm Pushing This Month 🔥</label>
+        <textarea class="why-textarea" name="goal_why" placeholder="What's driving you? New car, pay off debt, hit a rank, prove something to yourself — write it out. The more real the better. This stays between you and the team."></textarea>
+        <div class="why-hint">Tip: The agents who write this down actually hit their goals. Don't skip it.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: PRIZE WISHLIST -->
+    <div class="form-section section-prizes">
+      <div class="section-title">🎟️ Prize Wishlist</div>
+      <div class="section-sub">Pick your top prizes — this helps us shape the auction lineup. Select as many as you want.</div>
+
+      <div class="prize-grid" style="margin-bottom:16px">
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="lead_bump" />
+          <span class="prize-check-label">📈 Lead Category Bump</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="zoom_biz" />
+          <span class="prize-check-label">💻 1 Year Zoom Business</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="call_phill" />
+          <span class="prize-check-label">📞 60-Min Call with Phill</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="call_sga" />
+          <span class="prize-check-label">🎙️ 30-Min Call with an SGA</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="amazon_500" />
+          <span class="prize-check-label">💳 $500 Amazon Gift Card</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="visa_250" />
+          <span class="prize-check-label">💳 $250 Visa Gift Card</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="restaurant_150" />
+          <span class="prize-check-label">🍽️ $150 Restaurant Card</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="gas_100" />
+          <span class="prize-check-label">⛽ $100 Gas Card</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="training" />
+          <span class="prize-check-label">🎓 Premium Training (1yr)</span>
+        </label>
+        <label class="prize-check">
+          <input type="checkbox" name="prize_picks" value="grand_prize" />
+          <span class="prize-check-label">🏆 Grand Prize Wheel (~$1,500)</span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label>Got a Better Prize Idea? Drop It Here</label>
+        <input type="text" name="prize_idea" placeholder="Something we haven't thought of..." />
+      </div>
+    </div>
+
+    <!-- SECTION 4: OCTOBER TIPS & CALENDAR -->
+    <div class="form-section section-tips">
+      <div class="section-title">📅 October Playbook</div>
+      <div class="section-sub">Key dates and tips to help you maximize the month. Read before you submit.</div>
+
+      <div class="tips-grid">
+        <div class="tip-item">
+          <span class="tip-icon">🚀</span>
+          <div class="tip-text"><strong>Start strong on Monday Sept 28.</strong> Don't wait until mid-month. Every week of upload counts toward your spread matchup. Whoever wins the first week comes in hot.</div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">⚔️</span>
+          <div class="tip-text"><strong>The spread game is real.</strong> Beat your matchup this week, you face a harder opponent next week. Dominate early, stay on top all month.</div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">👥</span>
+          <div class="tip-text"><strong>Referrals and hires = bonus tickets.</strong> Every ref sale is +250 tickets. Every PR hire is +500. These add up fast and can move you multiple spots on the leaderboard.</div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">🏅</span>
+          <div class="tip-text"><strong>Grand Prize Wheel = 7,500+ ALP.</strong> Hit that threshold and you're eligible for the live spin on Oct 30. Two winners. ~$1,500 each. That's your target.</div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">🍺</span>
+          <div class="tip-text"><strong>Monday meetings matter.</strong> Show up every Monday — spreads are reviewed, matchups are reset, and new people get a weekly $100 raffle shot. Don't miss it.</div>
+        </div>
+      </div>
+
+      <div class="section-sub" style="margin-bottom:10px"><strong>Key October Dates</strong></div>
+      <div class="oct-dates">
+        <span class="date-pill important">Sept 28 — COMPETITION STARTS 🔥</span>
+        <span class="date-pill holiday">Oct 13 — Columbus Day (mail slow, plan ahead)</span>
+        <span class="date-pill important">Every Monday — Spread Review + Raffle</span>
+        <span class="date-pill important">Oct 30 — Final Day + Prize Event 🎡</span>
+        <span class="date-pill">Nov verification → Dec prize payout</span>
+      </div>
+
+      <div class="field">
+        <label class="prize-check" style="border-radius:10px;background:var(--card2);border:1px solid var(--border);padding:12px 14px;display:flex;gap:10px;align-items:center;cursor:pointer">
+          <input type="checkbox" name="tips_read" style="width:16px;height:16px;accent-color:var(--green);flex-shrink:0" />
+          <span style="font-size:13px;font-weight:600;color:var(--text)">I've read the October playbook and I'm ready to compete 🔥</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <button type="submit" class="submit-btn" id="submit-btn">🎃 I'M IN — LET'S GO</button>
+      <div class="submit-note">Your info is stored securely and only used for competition and office access purposes.</div>
+    </div>
+
+  </form>
+</div>
+
+<footer>
+  <strong>ALPTOBERFEST 2026</strong> · Waisman Organization · Sept 28 → Oct 30
+</footer>
+
+<script>
+async function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const successEl = document.getElementById('success-banner');
+  const errorEl = document.getElementById('error-banner');
+  successEl.classList.remove('show');
+  errorEl.classList.remove('show');
+
+  const form = e.target;
+  const data = new FormData(form);
+
+  // Collect checkboxes
+  const prizePicks = [];
+  form.querySelectorAll('input[name="prize_picks"]:checked').forEach(cb => prizePicks.push(cb.value));
+
+  const payload = {
+    full_name:   data.get('full_name'),
+    phone:       data.get('phone'),
+    email:       data.get('email'),
+    org:         data.get('org') || null,
+    manager:     data.get('manager') || null,
+    alp_goal:    data.get('alp_goal') ? parseFloat(data.get('alp_goal')) : null,
+    goal_why:    data.get('goal_why') || null,
+    prize_picks: prizePicks,
+    prize_idea:  data.get('prize_idea') || null,
+    tips_read:   !!form.querySelector('input[name="tips_read"]')?.checked,
+  };
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Submitting...';
+
+  try {
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.success) {
+      form.style.display = 'none';
+      successEl.classList.add('show');
+      successEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      throw new Error(result.error || 'Unknown error');
+    }
+  } catch(err) {
+    errorEl.textContent = '❌ ' + (err.message || 'Something went wrong. Try again.');
+    errorEl.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = '🎃 I\'M IN — LET\'S GO';
+  }
+}
+</script>
+
+</body>
+</html>

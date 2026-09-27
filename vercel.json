@@ -2,8 +2,12 @@
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/leaderboard", "destination": "/leaderboard.html" },
-    { "source": "/wheel", "destination": "/wheel.html" }
+    { "source": "/wheel", "destination": "/wheel.html" },
+    { "source": "/form", "destination": "/form.html" }
   ],
+  "env": {
+    "SUPABASE_SERVICE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2ZiY2NzeWJrcmllZm55dmhmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDU3OTM4MywiZXhwIjoyMDkwMTU1MzgzfQ.x7ntDrkK7qceMywCkjyOVPBoN5t3KFUIjOI6Wgt2pGw"
+  },
   "headers": [
     {
       "source": "/(.*)",
