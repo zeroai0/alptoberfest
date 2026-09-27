@@ -482,6 +482,49 @@
       line-height: 1.3;
     }
 
+    /* ── KICKOFF SCHEDULE ───────────────────────────── */
+    .kickoff-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; margin-bottom: 48px; overflow: hidden;
+    }
+    .kickoff-top {
+      padding: 28px 32px 20px;
+      background: linear-gradient(135deg, rgba(255,107,0,0.08), rgba(139,0,0,0.06));
+      border-bottom: 1px solid var(--border);
+    }
+    .kickoff-top-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+      letter-spacing: 2px; color: var(--text); margin-bottom: 4px;
+    }
+    .kickoff-top-sub { font-size: 13px; color: var(--muted); }
+    .kickoff-timeline { padding: 24px 32px; display: flex; flex-direction: column; gap: 0; }
+    .kickoff-row {
+      display: flex; align-items: flex-start; gap: 20px;
+      padding: 16px 0; border-bottom: 1px solid rgba(42,42,42,0.6);
+    }
+    .kickoff-row:last-child { border-bottom: none; }
+    .kickoff-time {
+      min-width: 72px; font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; letter-spacing: 1px; color: var(--orange2);
+      padding-top: 2px;
+    }
+    .kickoff-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--orange); margin-top: 6px; flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(255,107,0,0.5);
+    }
+    .kickoff-content {}
+    .kickoff-event { font-weight: 800; font-size: 14px; color: var(--text); margin-bottom: 3px; }
+    .kickoff-detail { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .kickoff-detail strong { color: var(--text); }
+    .kickoff-alert {
+      margin: 0 32px 24px;
+      background: rgba(255,107,0,0.08); border: 1px solid rgba(255,107,0,0.25);
+      border-radius: 12px; padding: 14px 18px;
+      font-size: 13px; color: var(--orange2); line-height: 1.6;
+    }
+    .kickoff-alert strong { color: var(--text); }
+
     /* ── WEEKLY ────────────────────────────────────── */
     .weekly-card {
       background: var(--card);
@@ -766,6 +809,58 @@
       <div class="auction-item"><span class="auction-item-icon">⛽</span><div class="auction-item-name">$100 Gas Card</div></div>
       <div class="auction-item"><span class="auction-item-icon">🎓</span><div class="auction-item-name">Premium Training (1 Year)</div></div>
       <div class="auction-item"><span class="auction-item-icon">🃏</span><div class="auction-item-name">Wild Card — Pick from Secret Menu</div></div>
+    </div>
+  </div>
+
+  <!-- KICKOFF SCHEDULE -->
+  <div class="section-header">
+    <div class="section-label">Monday Sept 28</div>
+    <div class="section-title">🎃 Kickoff Day Schedule</div>
+  </div>
+
+  <div class="kickoff-card">
+    <div class="kickoff-top">
+      <div class="kickoff-top-title">📍 The Club — Downstairs</div>
+      <div class="kickoff-top-sub">Enter the building and head straight downstairs. Do not hang around upstairs.</div>
+    </div>
+
+    <div class="kickoff-alert">
+      ⚠️ <strong>Important:</strong> When you arrive, go directly into the building and head downstairs to the meeting room. We're keeping everyone downstairs — don't wander around upstairs.
+    </div>
+
+    <div class="kickoff-timeline">
+      <div class="kickoff-row">
+        <div class="kickoff-time">1:00</div>
+        <div class="kickoff-dot"></div>
+        <div class="kickoff-content">
+          <div class="kickoff-event">Doors Open — Arrive &amp; Get Settled</div>
+          <div class="kickoff-detail">Head straight downstairs to the meeting room. Grab your spot. 1:00–1:15 arrival window.</div>
+        </div>
+      </div>
+      <div class="kickoff-row">
+        <div class="kickoff-time">1:30</div>
+        <div class="kickoff-dot" style="background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,0.5)"></div>
+        <div class="kickoff-content">
+          <div class="kickoff-event">🔥 We Start — ALPTOBERFEST Kicks Off</div>
+          <div class="kickoff-detail">Competition officially begins. Matchups announced. Rules reviewed. Let's go.</div>
+        </div>
+      </div>
+      <div class="kickoff-row">
+        <div class="kickoff-time">3:30</div>
+        <div class="kickoff-dot" style="background:#22C55E;box-shadow:0 0 8px rgba(34,197,94,0.5)"></div>
+        <div class="kickoff-content">
+          <div class="kickoff-event">🍕 Food — Games Room (Downstairs)</div>
+          <div class="kickoff-detail">Head to the games room — also downstairs in the club. Food + good vibes.</div>
+        </div>
+      </div>
+      <div class="kickoff-row">
+        <div class="kickoff-time">4:30</div>
+        <div class="kickoff-dot" style="background:var(--muted)"></div>
+        <div class="kickoff-content">
+          <div class="kickoff-event">Back to Work / Dinners</div>
+          <div class="kickoff-detail">Most people head out around 4:30–5:00 to get back to work or evening plans.<br><strong>Promotion dinners:</strong> TBD — pending confirmation. Stay tuned.</div>
+        </div>
+      </div>
     </div>
   </div>
 
