@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   const {
     full_name, phone, email, org, manager,
-    alp_goal, goal_why, prize_picks, prize_idea, tips_read
+    alp_goal, goal_why, prize_picks, prize_idea, tips_read, attendance
   } = req.body;
 
   if (!full_name || !phone || !email) {
@@ -17,6 +17,7 @@ export default async function handler(req, res) {
   }
 
   const payload = {
+    attendance: attendance || null,
     full_name: full_name.trim(),
     phone: phone.trim(),
     email: email.trim().toLowerCase(),
