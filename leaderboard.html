@@ -457,26 +457,160 @@
 
   <!-- MGA BATTLE -->
   <div id="tab-mga" style="display:none">
-    <div class="lb-card">
-      <div class="lb-card-top"></div>
-      <div style="overflow-x:auto">
-        <table class="lb-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>MGA</th>
-              <th>2-Month Baseline ALP</th>
-              <th>Current ALP</th>
-              <th>Baseline Hires</th>
-              <th style="text-align:right">Current Hires</th>
-            </tr>
-          </thead>
-          <tbody id="mga-tbody">
-            <tr><td colspan="6"><div class="empty-state"><p>MGA Battle starts Monday Sept 28.<br>Head-to-head increase off last 2-month baseline.</p></div></td></tr>
-          </tbody>
-        </table>
+
+    <!-- Prize escalation strip -->
+    <div style="display:flex;gap:1px;margin-bottom:24px;background:var(--border);border:1px solid var(--border)">
+      <div style="flex:1;padding:14px 16px;background:var(--card2);border-top:3px solid var(--green2)">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green3);margin-bottom:3px">Week 1 — Sept 28</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white)">$100</div>
+        <div style="font-size:10px;color:var(--muted)">OS Credits</div>
+      </div>
+      <div style="flex:1;padding:14px 16px;background:var(--card2)">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Week 2 — Oct 5</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--grey)">$150</div>
+        <div style="font-size:10px;color:var(--muted)">OS Credits</div>
+      </div>
+      <div style="flex:1;padding:14px 16px;background:var(--card2)">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Week 3 — Oct 12</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--grey)">$200</div>
+        <div style="font-size:10px;color:var(--muted)">OS Credits</div>
+      </div>
+      <div style="flex:1;padding:14px 16px;background:var(--card2)">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Week 4 — Oct 19</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--grey)">$300</div>
+        <div style="font-size:10px;color:var(--muted)">OS Credits</div>
+      </div>
+      <div style="flex:1;padding:14px 16px;background:var(--card);border-top:3px solid var(--navy2)">
+        <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:3px">FINAL — Oct 26</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white)">$400</div>
+        <div style="font-size:10px;color:var(--muted)">OS Credits</div>
       </div>
     </div>
+
+    <!-- Week 1 Matchups -->
+    <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+      Week 1 Matchups — Sept 28
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px">
+
+      <!-- Robin vs Charity -->
+      <div style="background:var(--card2);padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:14px;color:var(--white)">Robin Gonzalez</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">WO · MGA</div>
+          </div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--border)">VS</div>
+          <div style="flex:1;text-align:right">
+            <div style="font-weight:800;font-size:14px;color:var(--white)">Charity Keasler</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">WP · RGA</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+          <div style="background:var(--card);padding:10px 12px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">ALP Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">$10,880<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px;text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">ALP Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">$2,812<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Hire Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">1.6<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px;text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Hire Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">2.6<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3);">Week 1 — In Progress</div>
+      </div>
+
+      <!-- Anthony vs Morgan -->
+      <div style="background:var(--card2);padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:14px;color:var(--white)">Anthony Welsh</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">WO · RGA</div>
+          </div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--border)">VS</div>
+          <div style="flex:1;text-align:right">
+            <div style="font-weight:800;font-size:14px;color:var(--white)">Morgan Clegg</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">WO · MGA</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+          <div style="background:var(--card);padding:10px 12px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">ALP Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">$3,686<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px;text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">ALP Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">$7,396<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Hire Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">2.9<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px;text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Hire Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">3.5<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3);">Week 1 — In Progress</div>
+      </div>
+
+      <!-- Damian vs Jacob -->
+      <div style="background:var(--card2);padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:14px;color:var(--white)">Damian Davis</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">WO · RGA</div>
+          </div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--border)">VS</div>
+          <div style="flex:1;text-align:right">
+            <div style="font-weight:800;font-size:14px;color:var(--white)">Jacob Collins</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">WP · MGA</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+          <div style="background:var(--card);padding:10px 12px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">ALP Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">$11,642<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px;text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">ALP Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">$4,509<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Hire Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">5.9<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+          <div style="background:var(--card);padding:10px 12px;text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Hire Baseline</div>
+            <div style="font-weight:800;color:var(--text);font-size:13px">1.9<span style="font-size:10px;color:var(--muted);font-weight:400">/wk</span></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3);">Week 1 — In Progress</div>
+      </div>
+
+      <!-- Katrina BYE -->
+      <div style="background:var(--card);padding:24px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;border:1px dashed var(--border);">
+        <div style="font-weight:800;font-size:14px;color:var(--white)">Katrina Bailey</div>
+        <div style="font-size:11px;color:var(--muted)">WP · MGA</div>
+        <div style="margin-top:8px;padding:6px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">BYE — Week 1</div>
+        <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:4px">ALP baseline: $2,711/wk · Hires: 1.5/wk</div>
+      </div>
+
+    </div>
+
+    <!-- Note -->
+    <div style="padding:14px 20px;background:var(--card);border:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6">
+      <strong style="color:var(--text)">Scoring:</strong> Each week, whoever beats their weekly baseline by the most — in both ALP and hires — wins the matchup and earns OS Credits. Matchups re-draw each Monday. Stakes increase every week. Final week pays $400.
+    </div>
+
   </div>
 
   <!-- SPREAD MATCHUPS -->
