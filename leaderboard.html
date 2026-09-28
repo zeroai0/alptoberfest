@@ -454,12 +454,7 @@
         <div class="matchup-title">This Week's Matchups</div>
         <div class="week-pill" id="week-label">Week 1 — Sept 28</div>
       </div>
-      <!-- WO Matchups -->
-      <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:12px;margin-top:32px;padding-bottom:8px;border-bottom:1px solid var(--border)">Waisman Organization</div>
-      <div class="matchups-grid" id="matchups-grid-wo"><div class="matchup-card"><div class="empty-state" style="padding:24px"><p>WO matchups load after Monday upload.</p></div></div></div>
-      <!-- WP Matchups -->
-      <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:12px;margin-top:32px;padding-bottom:8px;border-bottom:1px solid var(--border)">Waisman Pavel</div>
-      <div class="matchups-grid" id="matchups-grid-wp"><div class="matchup-card"><div class="empty-state" style="padding:24px"><p>WP matchups load after Monday upload.</p></div></div></div>
+      <div class="matchups-grid" id="matchups-grid"><div class="matchup-card"><div class="empty-state" style="padding:24px"><p>Competition starts Monday Sept 28. Matchups load after ALP upload.</p></div></div></div>
     </div>
 
   </div>
@@ -789,12 +784,8 @@
   }
 
   function renderMatchups(matchups) {
-    const woGrid = document.getElementById('matchups-grid-wo');
-    const wpGrid = document.getElementById('matchups-grid-wp');
-    const wo = matchups.filter(m => m.a_org === 'WO');
-    const wp = matchups.filter(m => m.a_org === 'WP');
-    woGrid.innerHTML = wo.length ? wo.map(buildMatchupCard).join('') : '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>No WO matchups yet.</p></div></div>';
-    wpGrid.innerHTML = wp.length ? wp.map(buildMatchupCard).join('') : '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>No WP matchups yet.</p></div></div>';
+    const grid = document.getElementById('matchups-grid');
+    grid.innerHTML = matchups.length ? matchups.map(buildMatchupCard).join('') : '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>No matchups yet.</p></div></div>';
   }
 
   // ── TABS ──────────────────────────────────────────────────────────
