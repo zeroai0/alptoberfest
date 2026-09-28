@@ -547,7 +547,7 @@
 
     <!-- Note -->
     <div style="padding:14px 20px;background:var(--card);border:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6">
-      <strong style="color:var(--text)">Scoring:</strong> ALP and hires are weighted equally. Universal baseline: $2K ALP + 2 hires per week. Double both = 100% growth. Your combined growth multiplier determines the winner — whoever grows the most above that bar wins the week and earns Recruiting Dollars. Matchups re-draw each Monday. Stakes increase every week. Final week pays $400.
+      <strong style="color:var(--text)">Scoring:</strong> Each MGA is scored against their own individual baseline — ALP and hires weighted equally. Whoever grows the most above their baseline wins the matchup and earns Recruiting Dollars. <strong style="color:var(--grey)">Minimum baseline: $3K ALP / 3 hires per week.</strong> Matchups re-draw each Monday. Stakes increase every week. Final week pays $400.
     </div>
 
   </div>
@@ -578,6 +578,17 @@
   const WO_TIERS = [80000, 100000, 110000, 140000];
   const WP_TIERS = [181000, 200000, 230000, 260000];
   const TIER_LABELS = ['Baseline', '+10%', '+20%', '+30%'];
+
+  // ── MGA BASELINES (hidden — not displayed) — floored at $3K ALP / 3 hires ────
+  const MGA_BASELINES = {
+    'Damian Davis':    { alp: 11642, hires: 5.9 },
+    'Robin Gonzalez':  { alp: 10880, hires: 3.0 },  // hire floor (was 1.6)
+    'Morgan Clegg':    { alp:  7396, hires: 3.5 },
+    'Jacob Collins':   { alp:  4509, hires: 3.0 },  // hire floor (was 1.9)
+    'Anthony Welsh':   { alp:  3686, hires: 3.0 },  // hire floor (was 2.9)
+    'Charity Keasler': { alp:  3000, hires: 3.0 },  // both floors (ALP was 2812, hires 2.6)
+    'Katrina Bailey':  { alp:  3000, hires: 3.0 },  // both floors (ALP was 2711, hires 1.5)
+  };
 
   // ── LIVE ALP — Emily updates these each Monday ────────────────────
   // Format: current MTD net ALP for each org
