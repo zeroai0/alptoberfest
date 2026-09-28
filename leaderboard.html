@@ -632,10 +632,10 @@
     { name: 'Agent F',  org: 'WP', alp: 0, spread: 0, hires: 0, refs: 0 },
   ];
 
-  // Week 1 matchups — seeded from Aug+Sept avg ALP (fairest spread pairing)
-  // aBase/bBase = avg monthly ALP baseline from Aug+Sept tracker
-  // aAlp/bAlp = current week ALP (updated by Emily each Monday)
+  // Week 1 matchups — seeded from Aug+Sept avg ALP
+  // aBase/bBase = avg weekly ALP baseline · aAlp/bAlp = current week (Emily updates each Monday)
   const WEEK1_MATCHUPS = [
+    // ── ESTABLISHED AGENTS ──
     { a:'Kurt Evans',        a_org:'WO', aBase:12474, aAlp:0,  b:'Alex Stemle',       b_org:'WO', bBase:11029, bAlp:0 },
     { a:'Brionna Ritter',    a_org:'WO', aBase:9307,  aAlp:0,  b:'Lexi Nichols',      b_org:'WO', bBase:8391,  bAlp:0 },
     { a:'Anya Sorin',        a_org:'WP', aBase:5891,  aAlp:0,  b:'Franklin Omolaja',  b_org:'WO', bBase:5482,  bAlp:0 },
@@ -652,20 +652,31 @@
     { a:'Robert Gray',       a_org:'WP', aBase:1646,  aAlp:0,  b:'Michael Woelke',    b_org:'WO', bBase:1629,  bAlp:0 },
     { a:'Elijha Gonzales',   a_org:'WO', aBase:1479,  aAlp:0,  b:'Nicole Donovan',    b_org:'WP', bBase:1421,  bAlp:0 },
     { a:'Joseph Gomez',      a_org:'WO', aBase:1171,  aAlp:0,  b:'Jenna Wolf',        b_org:'WO', bBase:1060,  bAlp:0 },
-    { a:'Brian Wilson',      a_org:'WO', aBase:1051,  aAlp:0,  b:'Prestin Smith',     b_org:'WO', bBase:1050,  bAlp:0 },
     { a:'Gisella Vallejo',   a_org:'WO', aBase:993,   aAlp:0,  b:'Joseph Price',      b_org:'WP', bBase:930,   bAlp:0 },
     { a:'Caimbrien Jones',   a_org:'WP', aBase:922,   aAlp:0,  b:'Dylan Fountain',    b_org:'WO', bBase:848,   bAlp:0 },
-    { a:'Blake Royster',     a_org:'WO', aBase:801,   aAlp:0,  b:'Andrew Sabol',      b_org:'WO', bBase:737,   bAlp:0 },
     { a:'Wayne Rhodd',       a_org:'WO', aBase:606,   aAlp:0,  b:'Colin Finnell',     b_org:'WO', bBase:604,   bAlp:0 },
-    { a:'Zachary Yost',      a_org:'WP', aBase:572,   aAlp:0,  b:'Kaitlyn Janlin',    b_org:'WO', bBase:542,   bAlp:0 },
     { a:'Lonna Shirar',      a_org:'WP', aBase:528,   aAlp:0,  b:'Jovon Henry',       b_org:'WP', bBase:500,   bAlp:0 },
     { a:'Samantha Turner',   a_org:'WP', aBase:352,   aAlp:0,  b:'Ben Shortridge',    b_org:'WP', bBase:268,   bAlp:0 },
     { a:'Genaveva Comia',    a_org:'WO', aBase:264,   aAlp:0,  b:'Crystal Kronewitter',b_org:'WP', bBase:262,  bAlp:0 },
     { a:'Stefan Davis',      a_org:'WP', aBase:262,   aAlp:0,  b:'Brandy Medrano',    b_org:'WP', bBase:248,   bAlp:0 },
     { a:'Quincy Savala',     a_org:'WO', aBase:242,   aAlp:0,  b:'Jacob Carter',      b_org:'WO', bBase:222,   bAlp:0 },
     { a:'Jacob Franz',       a_org:'WP', aBase:212,   aAlp:0,  b:'Rebecca Cobb',      b_org:'WP', bBase:210,   bAlp:0 },
-    { a:'Robin Knezek',      a_org:'WO', aBase:206,   aAlp:0,  b:'Cordelia Bowman',   b_org:'WP', bBase:92,    bAlp:0 },
-    { a:'Zane Sneathen',     a_org:'WO', aBase:28,    aAlp:0,  b:'Chase Mayo',        b_org:'WO', bBase:4,     bAlp:0 },
+    // ── ORPHANS PAIRED WITH NEW ACTIVE AGENTS ──
+    { a:'Prestin Smith',     a_org:'WO', aBase:1050,  aAlp:0,  b:'Kirklin Spicer',    b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Andrew Sabol',      a_org:'WO', aBase:737,   aAlp:0,  b:'Sebastian Galvan',  b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Kaitlyn Janlin',    a_org:'WO', aBase:542,   aAlp:0,  b:'Lily Coon',         b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Robin Knezek',      a_org:'WO', aBase:206,   aAlp:0,  b:'Catherine Kellman', b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Chase Mayo',        a_org:'WO', aBase:4,     aAlp:0,  b:'Nichelle Vincent',  b_org:'WO', bBase:0,     bAlp:0 },
+    // ── NEW ACTIVE AGENTS ──
+    { a:'Azzan Daniels',     a_org:'WO', aBase:0,     aAlp:0,  b:'Ariana Reyes',      b_org:'WP', bBase:0,     bAlp:0 },
+    { a:'Brianna Fuller',    a_org:'WO', aBase:0,     aAlp:0,  b:'Brenda Shepherd',   b_org:'WP', bBase:0,     bAlp:0 },
+    // ── WEEK 0 — NEW STARTS ──
+    { a:'Alicia Corcoran',   a_org:'WO', aBase:0,     aAlp:0,  b:'Joseph Mitter',     b_org:'WP', bBase:0,     bAlp:0 },
+    { a:'Amanecer Payne',    a_org:'WO', aBase:0,     aAlp:0,  b:'Marisa Bejarano',   b_org:'WP', bBase:0,     bAlp:0 },
+    { a:'Jacob Aaron',       a_org:'WO', aBase:0,     aAlp:0,  b:'Jehiah Scott',      b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Jesse Bloise',      a_org:'WO', aBase:0,     aAlp:0,  b:'Jordan Wrightsman', b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Naomi Chambless',   a_org:'WO', aBase:0,     aAlp:0,  b:'Spencer Lee',       b_org:'WO', bBase:0,     bAlp:0 },
+    { a:'Walter Garrett',    a_org:'WO', aBase:0,     aAlp:0,  isBye:true },
   ];
   const DEMO_MATCHUPS = WEEK1_MATCHUPS;
 
@@ -757,6 +768,9 @@
   }
 
   function buildMatchupCard(m) {
+    if (m.isBye) return `<div class="matchup-card" style="opacity:0.5">
+      <div class="vs-row"><div class="vs-agent"><div class="vs-name">${m.a}</div><div style="display:flex;align-items:center;gap:4px;margin-top:3px"><span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.a_org}</span></div></div><div class="vs-sep">—</div><div class="vs-agent" style="text-align:right"><div class="vs-name" style="color:var(--muted)">BYE</div></div></div>
+      <div class="spread-result"><div><div class="spread-winner-label">No matchup</div></div><div class="spread-margin">—</div></div></div>`;
     const margin = Math.abs(m.aAlp - m.bAlp);
     const winner = m.aAlp > m.bAlp ? m.a : m.b;
     const hasAlp = m.aAlp > 0 || m.bAlp > 0;
