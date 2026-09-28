@@ -357,17 +357,17 @@
           <div class="tier-item" id="wo-t0" style="display:none"></div>
           <div class="tier-item" id="wo-t1">
             <div class="tier-item-label">10% Growth</div>
-            <div class="tier-item-target">$100,000</div>
+            <div class="tier-item-target">$200,000</div>
             <div class="tier-item-prize">Agent $1,500 · MGA $3,000</div>
           </div>
           <div class="tier-item" id="wo-t2">
             <div class="tier-item-label">20% Growth</div>
-            <div class="tier-item-target">$110,000</div>
+            <div class="tier-item-target">$230,000</div>
             <div class="tier-item-prize">Agent $2,500 · MGA $4,000</div>
           </div>
           <div class="tier-item" id="wo-t3">
             <div class="tier-item-label">30% Growth</div>
-            <div class="tier-item-target">$140,000</div>
+            <div class="tier-item-target">$260,000</div>
             <div class="tier-item-prize">Agent $3,500 · MGA $5,000</div>
           </div>
         </div>
@@ -401,17 +401,17 @@
           <div class="tier-item" id="wp-t0" style="display:none"></div>
           <div class="tier-item" id="wp-t1">
             <div class="tier-item-label">10% Growth</div>
-            <div class="tier-item-target">$200,000</div>
+            <div class="tier-item-target">$100,000</div>
             <div class="tier-item-prize">Agent $1,500 · MGA $3,000</div>
           </div>
           <div class="tier-item" id="wp-t2">
             <div class="tier-item-label">20% Growth</div>
-            <div class="tier-item-target">$230,000</div>
+            <div class="tier-item-target">$110,000</div>
             <div class="tier-item-prize">Agent $2,500 · MGA $4,000</div>
           </div>
           <div class="tier-item" id="wp-t3">
             <div class="tier-item-label">30% Growth</div>
-            <div class="tier-item-target">$260,000</div>
+            <div class="tier-item-target">$140,000</div>
             <div class="tier-item-prize">Agent $3,500 · MGA $5,000</div>
           </div>
         </div>
@@ -447,6 +447,21 @@
         </table>
       </div>
     </div>
+
+    <!-- SPREAD MATCHUPS (inside leaderboard tab) -->
+    <div class="matchup-section">
+      <div class="matchup-header">
+        <div class="matchup-title">This Week's Matchups</div>
+        <div class="week-pill" id="week-label">Week 1 — Sept 28</div>
+      </div>
+      <!-- WO Matchups -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:12px;margin-top:32px;padding-bottom:8px;border-bottom:1px solid var(--border)">Waisman Organization</div>
+      <div class="matchups-grid" id="matchups-grid-wo"><div class="matchup-card"><div class="empty-state" style="padding:24px"><p>WO matchups load after Monday upload.</p></div></div></div>
+      <!-- WP Matchups -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:12px;margin-top:32px;padding-bottom:8px;border-bottom:1px solid var(--border)">Waisman Pavel</div>
+      <div class="matchups-grid" id="matchups-grid-wp"><div class="matchup-card"><div class="empty-state" style="padding:24px"><p>WP matchups load after Monday upload.</p></div></div></div>
+    </div>
+
   </div>
 
   <!-- MGA BATTLE -->
@@ -581,20 +596,6 @@
 
   </div>
 
-  <!-- SPREAD MATCHUPS -->
-  <div class="matchup-section">
-    <div class="matchup-header">
-      <div class="matchup-title">This Week's Matchups</div>
-      <div class="week-pill" id="week-label">Week 1 — Sept 28</div>
-    </div>
-    <div class="matchups-grid" id="matchups-grid">
-      <div class="matchup-card">
-        <div class="empty-state" style="padding:32px 16px">
-          <p>Matchups set Monday Sept 28.<br>Check back after the Monday meeting.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </div>
 
@@ -604,8 +605,8 @@
 
 <script>
   // ── CONFIG ────────────────────────────────────────────────────────
-  const WO_TIERS = [80000, 100000, 110000, 140000];
-  const WP_TIERS = [181000, 200000, 230000, 260000];
+  const WO_TIERS = [181000, 200000, 230000, 260000];
+  const WP_TIERS = [80000,  100000, 110000, 140000];
   const TIER_LABELS = ['Baseline', '+10%', '+20%', '+30%'];
 
   // ── MGA BASELINES (hidden — not displayed) — floored at $3K ALP / 3 hires ────
@@ -760,38 +761,40 @@
     }).join('');
   }
 
+  function buildMatchupCard(m) {
+    const margin = Math.abs(m.aAlp - m.bAlp);
+    const winner = m.aAlp > m.bAlp ? m.a : m.b;
+    const hasAlp = m.aAlp > 0 || m.bAlp > 0;
+    const aOrgTag = m.a_org ? `<span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.a_org}</span>` : '';
+    const bOrgTag = m.b_org ? `<span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.b_org}</span>` : '';
+    return `<div class="matchup-card">
+      <div class="vs-row">
+        <div class="vs-agent">
+          <div class="vs-name">${m.a}</div>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:3px">${aOrgTag}</div>
+          ${hasAlp ? `<div class="vs-alp">${fmtDollar(m.aAlp)} this wk</div>` : ''}
+        </div>
+        <div class="vs-sep">VS</div>
+        <div class="vs-agent" style="text-align:right">
+          <div class="vs-name">${m.b}</div>
+          <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:3px">${bOrgTag}</div>
+          ${hasAlp ? `<div class="vs-alp">${fmtDollar(m.bAlp)} this wk</div>` : ''}
+        </div>
+      </div>
+      <div class="spread-result">
+        <div><div class="spread-winner-label">${hasAlp ? 'Leader' : 'In Progress'}</div>${hasAlp ? `<div class="spread-winner-name">${margin > 0 ? winner : 'Tied'}</div>` : ''}</div>
+        <div class="spread-margin">${hasAlp && margin > 0 ? '+' + fmtDollar(margin) : '—'}</div>
+      </div>
+    </div>`;
+  }
+
   function renderMatchups(matchups) {
-    const grid = document.getElementById('matchups-grid');
-    grid.innerHTML = matchups.map(m => {
-      const margin = Math.abs(m.aAlp - m.bAlp);
-      const winner = m.aAlp > m.bAlp ? m.a : m.b;
-      const hasAlp = m.aAlp > 0 || m.bAlp > 0;
-      const aOrgTag = m.a_org ? `<span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.a_org}</span>` : '';
-      const bOrgTag = m.b_org ? `<span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.b_org}</span>` : '';
-      const aBaseLabel = '';
-      const bBaseLabel = '';
-      return `<div class="matchup-card">
-        <div class="vs-row">
-          <div class="vs-agent">
-            <div class="vs-name">${m.a}</div>
-            <div style="display:flex;align-items:center;gap:4px;margin-top:3px">${aOrgTag}</div>
-            ${aBaseLabel}
-            ${hasAlp ? `<div class="vs-alp">${fmtDollar(m.aAlp)} this wk</div>` : ''}
-          </div>
-          <div class="vs-sep">VS</div>
-          <div class="vs-agent" style="text-align:right">
-            <div class="vs-name">${m.b}</div>
-            <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:3px">${bOrgTag}</div>
-            ${bBaseLabel}
-            ${hasAlp ? `<div class="vs-alp">${fmtDollar(m.bAlp)} this wk</div>` : ''}
-          </div>
-        </div>
-        <div class="spread-result">
-          <div><div class="spread-winner-label">${hasAlp ? 'Leader' : 'Week 1 — In Progress'}</div>${hasAlp ? `<div class="spread-winner-name">${margin > 0 ? winner : 'Tied'}</div>` : ''}</div>
-          <div class="spread-margin">${hasAlp && margin > 0 ? '+' + fmtDollar(margin) : '—'}</div>
-        </div>
-      </div>`;
-    }).join('');
+    const woGrid = document.getElementById('matchups-grid-wo');
+    const wpGrid = document.getElementById('matchups-grid-wp');
+    const wo = matchups.filter(m => m.a_org === 'WO');
+    const wp = matchups.filter(m => m.a_org === 'WP');
+    woGrid.innerHTML = wo.length ? wo.map(buildMatchupCard).join('') : '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>No WO matchups yet.</p></div></div>';
+    wpGrid.innerHTML = wp.length ? wp.map(buildMatchupCard).join('') : '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>No WP matchups yet.</p></div></div>';
   }
 
   // ── TABS ──────────────────────────────────────────────────────────
