@@ -1,15 +1,9 @@
 {
-  "redirects": [
-    { "source": "/", "destination": "/form.html", "permanent": false },
-    { "source": "/leaderboard", "destination": "/form.html", "permanent": false },
-    { "source": "/leaderboard.html", "destination": "/form.html", "permanent": false },
-    { "source": "/wheel", "destination": "/form.html", "permanent": false },
-    { "source": "/wheel.html", "destination": "/form.html", "permanent": false },
-    { "source": "/index.html", "destination": "/form.html", "permanent": false }
-  ],
   "rewrites": [
     { "source": "/form", "destination": "/form.html" },
-    { "source": "/admin", "destination": "/admin.html" }
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/leaderboard", "destination": "/leaderboard.html" },
+    { "source": "/wheel", "destination": "/wheel.html" }
   ],
   "env": {
     "SUPABASE_SERVICE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2ZiY2NzeWJrcmllZm55dmhmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDU3OTM4MywiZXhwIjoyMDkwMTU1MzgzfQ.x7ntDrkK7qceMywCkjyOVPBoN5t3KFUIjOI6Wgt2pGw"
