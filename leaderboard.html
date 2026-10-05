@@ -862,10 +862,14 @@
 
   function buildMatchupCard(m, aStats, bStats) {
     aStats = aStats || {}; bStats = bStats || {};
+    // Use Mon UPL if available (finalized); fall back to HT mid-week
     const aMonUpl = aStats.monday_alp || 0;
     const bMonUpl = bStats.monday_alp || 0;
     const aHt     = aStats.ht_alp    || 0;
     const bHt     = bStats.ht_alp    || 0;
+    const aAlp    = aMonUpl || aHt;   // best available ALP for this week
+    const bAlp    = bMonUpl || bHt;
+    const alpLabel = (aMonUpl > 0 || bMonUpl > 0) ? 'Mon UPL' : 'HT (Thu)';
     const aNet    = aStats.weekly_net || 0;
     const bNet    = bStats.weekly_net || 0;
     const aHires  = aStats.pr_hires   || 0;
@@ -883,10 +887,10 @@
         <div class="mc-result"><div><div class="mc-result-label">No Matchup</div></div><div class="mc-spread">—</div></div>
       </div>`;
 
-    const hasData    = aMonUpl > 0 || bMonUpl > 0;
-    const margin     = Math.abs(aMonUpl - bMonUpl);
-    const aLeadsUpl  = aMonUpl >= bMonUpl;
-    const winnerName = margin === 0 ? null : (aLeadsUpl ? m.a : m.b);
+    const hasData    = aAlp > 0 || bAlp > 0;
+    const margin     = Math.abs(aAlp - bAlp);
+    const aLeads     = aAlp >= bAlp;
+    const winnerName = margin === 0 ? null : (aLeads ? m.a : m.b);
 
     const dv = (val, isLead) => `<span style="font-weight:700;color:${!val ? 'var(--muted)' : isLead ? 'var(--green3)' : 'var(--text)'}">${ val ? fmtDollar(val) : '—'}</span>`;
     const dn = (val, isLead) => `<span style="font-weight:700;color:${!val ? 'var(--muted)' : isLead ? 'var(--green3)' : 'var(--text)'}">${ val || '—'}</span>`;
@@ -900,9 +904,9 @@
         </div>
         <div class="mc-stats">
           <div class="mc-row">
-            <div>${dv(aMonUpl, aLeadsUpl)}</div>
-            <div class="mc-label">Mon UPL</div>
-            <div style="text-align:right">${dv(bMonUpl, !aLeadsUpl)}</div>
+            <div>${dv(aAlp, aLeads)}</div>
+            <div class="mc-label">${alpLabel}</div>
+            <div style="text-align:right">${dv(bAlp, !aLeads)}</div>
           </div>
           <div class="mc-row">
             <div>${dv(aNet, aNet >= bNet)}</div>
@@ -923,7 +927,7 @@
         </div>
         <div class="mc-result">
           <div>
-            <div class="mc-result-label">${hasData ? 'Leader (Mon UPL)' : 'In Progress'}</div>
+            <div class="mc-result-label">${hasData ? `Leader (${alpLabel})` : 'In Progress'}</div>
             ${hasData && winnerName ? `<div class="mc-result-name">${winnerName}</div>` : ''}
           </div>
           <div class="mc-spread${hasData && margin > 0 ? ' live' : ''}">${hasData && margin > 0 ? '+' + fmtDollar(margin) : '—'}</div>
