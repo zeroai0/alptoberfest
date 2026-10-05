@@ -1140,9 +1140,10 @@
   }
 
   // ── INIT ──────────────────────────────────────────────────────────
-  function init() {
-    updateProgressBar('wo', LIVE_ALP.wo, WO_TIERS);
-    updateProgressBar('wp', LIVE_ALP.wp, WP_TIERS);
+  async function init() {
+    // Render bars immediately with 0, then update with live data
+    updateProgressBar('wo', 0, WO_TIERS);
+    updateProgressBar('wp', 0, WP_TIERS);
     renderAgents(DEMO_AGENTS);
 
     const curIdx = getCurrentWeekIdx();
@@ -1152,6 +1153,20 @@
     });
     switchWeek(defaultIdx);
     document.getElementById('last-updated').textContent = 'Updated every Monday after ALP upload';
+
+    // Fetch live MTD ALP for progress bars
+    try {
+      const r = await fetch('/api/org-alp').catch(() => null);
+      if (r && r.ok) {
+        const { wo, wp } = await r.json();
+        updateProgressBar('wo', wo || 0, WO_TIERS);
+        updateProgressBar('wp', wp || 0, WP_TIERS);
+        document.getElementById('last-updated').textContent =
+          `MTD ALP as of ${new Date().toLocaleDateString('en-US', {month:'short',day:'numeric'})} · Updated every Monday after upload`;
+      }
+    } catch(e) {
+      console.warn('Could not load org ALP:', e);
+    }
   }
 
   init();
