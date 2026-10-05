@@ -921,7 +921,7 @@
       document.querySelectorAll('#mga-week-nav .week-nav-tab').forEach((el, i) => {
         if (i === curIdx) el.classList.add('current-week');
       });
-      switchMgaWeek(curIdx);
+      switchMgaWeek(curIdx); // MGA always has data for all weeks
     }
   }
 
@@ -931,6 +931,17 @@
     let idx = 0;
     WEEKS.forEach((w, i) => { if (now >= new Date(w.date)) idx = i; });
     return idx;
+  }
+
+  // Returns the best week to show by default:
+  // current week if it has matchups, otherwise the most recent week that does
+  function getDefaultWeekIdx() {
+    const cur = getCurrentWeekIdx();
+    if (ALL_WEEK_MATCHUPS[cur] && ALL_WEEK_MATCHUPS[cur].length > 0) return cur;
+    for (let i = cur - 1; i >= 0; i--) {
+      if (ALL_WEEK_MATCHUPS[i] && ALL_WEEK_MATCHUPS[i].length > 0) return i;
+    }
+    return 0;
   }
 
   // ── WEEK SWITCHER — fetches live HQ + manual data ─────────────────
@@ -1135,10 +1146,11 @@
     renderAgents(DEMO_AGENTS);
 
     const curIdx = getCurrentWeekIdx();
+    const defaultIdx = getDefaultWeekIdx();
     document.querySelectorAll('.week-nav-tab').forEach((el, i) => {
       if (i === curIdx) el.classList.add('current-week');
     });
-    switchWeek(curIdx);
+    switchWeek(defaultIdx);
     document.getElementById('last-updated').textContent = 'Updated every Monday after ALP upload';
   }
 
