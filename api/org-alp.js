@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   try {
     const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/pbl_agency_summary?agency=in.(WO,WP)&period_type=eq.mtd&report_period=gte.2026-10-01&select=agency,net,report_period&order=report_period.desc&limit=10`,
+      `${SUPABASE_URL}/rest/v1/pbl_agency_summary?agency=in.(WO,WP)&period_type=eq.mtd&report_period=gte.2026-10-01&select=agency,gross,report_period&order=report_period.desc&limit=10`,
       { headers: hdrs }
     );
     const rows = r.ok ? await r.json() : [];
@@ -23,8 +23,8 @@ export default async function handler(req, res) {
         const ag = (row.agency || '').toUpperCase();
         if (!seen[ag] && (ag === 'WO' || ag === 'WP')) {
           seen[ag] = true;
-          if (ag === 'WO') result.wo = Number(row.net) || 0;
-          if (ag === 'WP') result.wp = Number(row.net) || 0;
+          if (ag === 'WO') result.wo = Number(row.gross) || 0;
+          if (ag === 'WP') result.wp = Number(row.gross) || 0;
         }
       });
     }
