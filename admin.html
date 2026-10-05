@@ -501,7 +501,11 @@
    const key   = normName(inp.dataset.agent);
    const field = inp.dataset.field;
    if (!statsMap[key]) statsMap[key] = { agent_name: inp.dataset.agent };
-   statsMap[key][field] = parseFloat(inp.value) || 0;
+   // Use parseInt for hire/sale counts, parseFloat for dollar amounts
+   const val = (field === 'pr_hires' || field === 'ref_sales')
+     ? (parseInt(inp.value, 10) || 0)
+     : (parseFloat(inp.value) || 0);
+   statsMap[key][field] = val;
   });
 
   const stats = Object.values(statsMap).filter(s =>
@@ -513,7 +517,7 @@
    return;
   }
 
-  statusEl.textContent = `Saving ${stats.length} agent records…`;
+  statusEl.textContent = `Saving ${stats.length} agent record${stats.length !== 1 ? 's' : ''} for week of ${weekOf}…`;
 
   try {
    const res = await fetch('/api/weekly-stats', {

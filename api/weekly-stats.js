@@ -39,9 +39,9 @@ export default async function handler(req, res) {
       .map(s => ({
         week_of,
         agent_name: String(s.agent_name).trim(),
-        weekly_net:  Number(s.weekly_net)  || 0,
-        pr_hires:    Number(s.pr_hires)    || 0,
-        ref_sales:   Number(s.ref_sales)   || 0,
+        weekly_net:  Math.round(Number(s.weekly_net)  || 0),
+        pr_hires:    Math.round(Number(s.pr_hires)    || 0),
+        ref_sales:   Math.round(Number(s.ref_sales)   || 0),
         updated_at:  now,
       }));
 
