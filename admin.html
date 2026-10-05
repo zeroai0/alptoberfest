@@ -304,6 +304,16 @@
 
  function normName(n) { return (n||'').toLowerCase().trim(); }
 
+ // Maps leaderboard display name → HQ full name (add here as mismatches are found)
+ const NAME_ALIASES = {
+  'lexi nichols':  'alexis nichols',
+  'alex stemle':   'alexander stemle',
+ };
+ function hqKey(displayName) {
+  const k = normName(displayName);
+  return NAME_ALIASES[k] || k;
+ }
+
  function login() {
  const pass = document.getElementById('pass-input').value;
  if (!pass) return;
@@ -437,7 +447,7 @@
   const fmt = n => n ? '$' + Number(n).toLocaleString() : '—';
   tbody.innerHTML = ALL_AGENTS.map((agent, idx) => {
    const key = normName(agent.name);
-   const hq  = wsHqMap[key]    || {};
+   const hq  = wsHqMap[hqKey(agent.name)] || {};
    const man = wsManualMap[key] || {};
    const monUpl = hq.monday_alp || 0;
    const ht     = hq.ht_alp    || 0;

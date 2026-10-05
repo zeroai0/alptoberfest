@@ -749,6 +749,16 @@
   function fmt(n) { return Number(n).toLocaleString(); }
   function fmtDollar(n) { return '$' + fmt(n); }
   function normName(n) { return (n || '').toLowerCase().trim(); }
+
+  // Maps leaderboard display name → HQ full name (add here as mismatches are found)
+  const NAME_ALIASES = {
+    'lexi nichols':  'alexis nichols',
+    'alex stemle':   'alexander stemle',
+  };
+  function hqKey(displayName) {
+    const k = normName(displayName);
+    return NAME_ALIASES[k] || k;
+  }
   function calcTickets(a) { return a.alp + (a.alp >= 5000 ? a.spread : 0) + a.hires * 500 + a.refs * 250; }
 
   // ── PROGRESS BARS ────────────────────────────────────────────────
@@ -912,12 +922,12 @@
       return;
     }
     grid.innerHTML = matchups.map(m => {
-      const aKey = normName(m.a);
-      const bKey = m.b ? normName(m.b) : null;
-      const aHQ  = hqMap[aKey]    || {};
-      const bHQ  = bKey ? (hqMap[bKey] || {}) : {};
-      const aMan = manualMap[aKey] || {};
-      const bMan = bKey ? (manualMap[bKey] || {}) : {};
+      const aKey  = normName(m.a);
+      const bKey  = m.b ? normName(m.b) : null;
+      const aHQ   = hqMap[hqKey(m.a)]  || {};
+      const bHQ   = bKey ? (hqMap[hqKey(m.b)] || {}) : {};
+      const aMan  = manualMap[aKey]     || {};
+      const bMan  = bKey ? (manualMap[bKey] || {}) : {};
       const aStats = { monday_alp: aHQ.monday_alp, ht_alp: aHQ.ht_alp, weekly_net: aMan.weekly_net, pr_hires: aMan.pr_hires, ref_sales: aMan.ref_sales };
       const bStats = { monday_alp: bHQ.monday_alp, ht_alp: bHQ.ht_alp, weekly_net: bMan.weekly_net, pr_hires: bMan.pr_hires, ref_sales: bMan.ref_sales };
       return buildMatchupCard(m, aStats, bStats);
