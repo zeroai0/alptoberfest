@@ -6,6 +6,21 @@ const SUPABASE_URL = 'https://vjcfbccsybkriefnyvhf.supabase.co';
 // October week_of fetch dates
 const OCT_WEEKS = ['2026-10-05','2026-10-12','2026-10-19','2026-10-26'];
 
+// HQ full name → leaderboard display name (for manual stats lookup)
+// Manual stats are saved using the leaderboard display name
+const HQ_TO_DISPLAY = {
+  'alexis nichols':   'lexi nichols',
+  'alexander stemle': 'alex stemle',
+  'anna sorin':       'anya sorin',
+  'ginevra renzetti': 'gigi renzetti',
+  'benjamin shortridge': 'ben shortridge',
+};
+
+function manualKey(hqName) {
+  const k = (hqName || '').toLowerCase().trim();
+  return HQ_TO_DISPLAY[k] || k;
+}
+
 export default async function handler(req, res) {
   const KEY = process.env.SUPABASE_SERVICE_KEY;
   if (!KEY) return res.status(500).json({ error: 'Missing service key' });
@@ -71,8 +86,7 @@ export default async function handler(req, res) {
       if (alp <= 0) return;
       const name = nameMap[agentId];
       if (!name) return;
-      const key = name.toLowerCase().trim();
-      const { hires = 0, refs = 0 } = manualMap[key] || {};
+      const { hires = 0, refs = 0 } = manualMap[manualKey(name)] || manualMap[name.toLowerCase().trim()] || {};
       result.push({ name, org, alp, hires, refs, spread: 0 });
     });
 
