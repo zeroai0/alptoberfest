@@ -57,6 +57,18 @@
 
  .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
 
+ /* Admin tabs */
+ .admin-tabs { display: flex; gap: 2px; padding: 0 20px; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+ .admin-tab {
+  padding: 14px 24px; font-size: 12px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s;
+ }
+ .admin-tab.active { color: var(--text); border-bottom-color: #4A9B6F; }
+ .admin-tab:hover:not(.active) { color: var(--text); }
+ .tab-panel { display: none; }
+ .tab-panel.active { display: block; }
+
  /* Stats row */
  .stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
  .stat-card {
@@ -135,11 +147,21 @@
 <div class="admin-wrap" id="admin-wrap">
  <header>
  <div class="header-inner">
- <div class="header-title">ALPTOBERFEST — Signup Entries</div>
+ <div class="header-title">ALPTOBERFEST 2026 — Admin</div>
  <div class="header-count" id="header-count"></div>
  </div>
  </header>
 
+ <!-- Tab nav -->
+ <div style="background:var(--card);border-bottom:1px solid var(--border)">
+  <div class="admin-tabs">
+   <div class="admin-tab active" id="tab-btn-signups" onclick="switchAdminTab('signups')">Signups</div>
+   <div class="admin-tab" id="tab-btn-weekly" onclick="switchAdminTab('weekly')">Weekly Stats</div>
+  </div>
+ </div>
+
+ <!-- Signups tab -->
+ <div class="tab-panel active" id="tab-signups">
  <div class="container">
  <div class="stats-row" id="stats-row">
  <div class="stat-card"><div class="stat-val" id="stat-total">—</div><div class="stat-label">Total Signups</div></div>
@@ -179,9 +201,13 @@
  </div>
  </div>
  </div>
+ </div>
+</div>
 
- <!-- ── WEEKLY STATS ENTRY ─────────────────────────────────── -->
- <div style="margin-top:40px;padding-top:32px;border-top:2px solid var(--border)">
+<!-- Weekly Stats tab -->
+<div class="tab-panel" id="tab-weekly">
+ <div class="container">
+  <div>
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
    <div>
     <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#4A9B6F;margin-bottom:4px">Weekly Data Entry</div>
@@ -219,7 +245,6 @@
    </table>
   </div>
  </div>
-
  </div>
 </div>
 
@@ -301,7 +326,6 @@
  document.getElementById('entries-table').style.display = 'table';
  updateStats();
  renderTable();
- loadWeekData(); // auto-load current week stats
  } catch(e) {
  document.getElementById('login-error').textContent = 'Error loading data';
  document.getElementById('login-error').style.display = 'block';
@@ -500,8 +524,14 @@
   }
  }
 
- // Auto-load current week on admin unlock
- const origLoadEntries = loadEntries;
+ // ── TAB SWITCHER ────────────────────────────────────────────────
+ function switchAdminTab(tab) {
+  ['signups','weekly'].forEach(t => {
+   document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+   document.getElementById(`tab-btn-${t}`).classList.toggle('active', t === tab);
+  });
+  if (tab === 'weekly') loadWeekData();
+ }
 </script>
 </body>
 </html>
