@@ -48,7 +48,7 @@ export default async function handler(req, res) {
     if (records.length === 0) return res.status(400).json({ error: 'No valid records' });
 
     const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/alptoberfest_weekly_stats`,
+      `${SUPABASE_URL}/rest/v1/alptoberfest_weekly_stats?on_conflict=week_of,agent_name`,
       {
         method: 'POST',
         headers: {
