@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     );
     if (!r.ok) return res.status(500).json({ error: 'Fetch failed' });
     const data = await r.json();
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
+    res.setHeader('Cache-Control', 'no-store');
     return res.status(200).json(Array.isArray(data) ? data : []);
   }
 

@@ -971,14 +971,7 @@
       return;
     }
 
-    if (weekDataCache[idx]) {
-      const { hqMap, manualMap } = weekDataCache[idx];
-      statusEl.textContent = `Showing data for ${WEEKS[idx].label}.`;
-      renderMatchups(matchups, hqMap, manualMap);
-      return;
-    }
-
-    statusEl.textContent = 'Loading live data from HQ…';
+    statusEl.textContent = 'Loading live data…';
     renderMatchups(matchups, {}, {});
 
     try {
@@ -994,7 +987,6 @@
       const manualMap = {};
       (Array.isArray(manArr) ? manArr : []).forEach(r => { manualMap[normName(r.agent_name)] = r; });
 
-      weekDataCache[idx] = { hqMap, manualMap };
       const t = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
       statusEl.textContent = `Mon UPL + HT from HQ · Last loaded ${t}`;
       renderMatchups(matchups, hqMap, manualMap);
