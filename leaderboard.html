@@ -892,11 +892,7 @@
             <div class="mc-label">Ref Sales</div>
             <div style="text-align:right">${dn(bRefs, bRefs > aRefs)}</div>
           </div>
-          <div class="mc-row ht-row">
-            <div><span style="font-weight:700;color:var(--muted)">${aHt ? fmtDollar(aHt) : '—'}</span></div>
-            <div><div class="mc-label">HT ↗</div><div class="mc-ht-note">display only</div></div>
-            <div style="text-align:right"><span style="font-weight:700;color:var(--muted)">${bHt ? fmtDollar(bHt) : '—'}</span></div>
-          </div>
+          <!-- HT hidden on public site — admin only -->
         </div>
         <div class="mc-result">
           <div>
