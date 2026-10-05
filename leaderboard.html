@@ -734,11 +734,12 @@
   const ALL_WEEK_MATCHUPS = [WEEK1_MATCHUPS, WEEK2_MATCHUPS, WEEK3_MATCHUPS, WEEK4_MATCHUPS, WEEK5_MATCHUPS];
 
   const WEEKS = [
-    { label: 'Week 1 — Sept 28', date: '2026-09-28' },
-    { label: 'Week 2 — Oct 5',   date: '2026-10-05' },
-    { label: 'Week 3 — Oct 12',  date: '2026-10-12' },
-    { label: 'Week 4 — Oct 19',  date: '2026-10-19' },
-    { label: 'Week 5 — Oct 26',  date: '2026-10-26' },
+    // label = competition window, fetchDate = Monday the upload lands (one week later)
+    { label: 'Week 1 — Sept 28', date: '2026-09-28', fetchDate: '2026-10-05' },
+    { label: 'Week 2 — Oct 5',   date: '2026-10-05', fetchDate: '2026-10-12' },
+    { label: 'Week 3 — Oct 12',  date: '2026-10-12', fetchDate: '2026-10-19' },
+    { label: 'Week 4 — Oct 19',  date: '2026-10-19', fetchDate: '2026-10-26' },
+    { label: 'Week 5 — Oct 26',  date: '2026-10-26', fetchDate: '2026-11-02' },
   ];
 
   // Data cache: weekIdx → {hqMap, manualMap}
@@ -960,9 +961,9 @@
     document.querySelectorAll('.week-nav-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
     document.getElementById('week-label').textContent = WEEKS[idx].label;
 
-    const matchups = ALL_WEEK_MATCHUPS[idx];
-    const weekOf   = WEEKS[idx].date;
-    const statusEl = document.getElementById('matchup-status');
+    const matchups  = ALL_WEEK_MATCHUPS[idx];
+    const weekOf    = WEEKS[idx].fetchDate; // Mon UPL uploads land the following Monday
+    const statusEl  = document.getElementById('matchup-status');
 
     if (!matchups || matchups.length === 0) {
       statusEl.textContent = 'Matchups for this week will be posted after Monday re-seeding.';
