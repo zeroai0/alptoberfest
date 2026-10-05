@@ -157,6 +157,7 @@
   <div class="admin-tabs">
    <div class="admin-tab active" id="tab-btn-signups" onclick="switchAdminTab('signups')">Signups</div>
    <div class="admin-tab" id="tab-btn-weekly" onclick="switchAdminTab('weekly')">Weekly Stats</div>
+   <div class="admin-tab" id="tab-btn-mga" onclick="switchAdminTab('mga')">MGA Battle</div>
   </div>
  </div>
 
@@ -201,6 +202,51 @@
  </div>
  </div>
  </div>
+ </div>
+</div>
+
+<!-- MGA Battle tab -->
+<div class="tab-panel" id="tab-mga">
+ <div class="container">
+  <div>
+   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div>
+     <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#4A9B6F;margin-bottom:4px">MGA Battle Data Entry</div>
+     <div style="font-size:20px;font-weight:800;color:var(--text)">MGA Weekly Stats</div>
+     <div style="font-size:12px;color:var(--muted);margin-top:2px">Enter Weekly ALP and Hires for each MGA. Growth vs baseline auto-calculated.</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+     <select id="mga-week-select" style="background:var(--card2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:6px;font-size:12px;font-weight:700" onchange="loadMgaData()">
+      <option value="2026-10-05" selected>Week 1 — Sept 28–Oct 4</option>
+      <option value="2026-10-12">Week 2 — Oct 5–11</option>
+      <option value="2026-10-19">Week 3 — Oct 12–18</option>
+      <option value="2026-10-26">Week 4 — Oct 19–25</option>
+      <option value="2026-11-02">Week 5 — Oct 26–30</option>
+     </select>
+     <button onclick="saveMgaStats()" style="background:#22C55E;color:#000;border:none;border-radius:6px;padding:9px 20px;font-size:12px;font-weight:800;cursor:pointer">Save Week</button>
+    </div>
+   </div>
+
+   <div id="mga-status" style="font-size:11px;color:var(--muted);margin-bottom:12px">Select a week to load data.</div>
+
+   <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+     <thead>
+      <tr style="border-bottom:1px solid var(--border)">
+       <th style="text-align:left;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">MGA</th>
+       <th style="text-align:left;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Org</th>
+       <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Baseline ALP</th>
+       <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Baseline Hires</th>
+       <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text)">Weekly ALP</th>
+       <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text)">Weekly Hires</th>
+       <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#4A9B6F">ALP Growth</th>
+       <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#4A9B6F">Hire Growth</th>
+      </tr>
+     </thead>
+     <tbody id="mga-tbody"><tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Select a week above to load.</td></tr></tbody>
+    </table>
+   </div>
+  </div>
  </div>
 </div>
 
@@ -542,11 +588,114 @@
 
  // ── TAB SWITCHER ────────────────────────────────────────────────
  function switchAdminTab(tab) {
-  ['signups','weekly'].forEach(t => {
+  ['signups','weekly','mga'].forEach(t => {
    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
    document.getElementById(`tab-btn-${t}`).classList.toggle('active', t === tab);
   });
   if (tab === 'weekly') loadWeekData();
+  if (tab === 'mga') loadMgaData();
+ }
+
+ // ── MGA BATTLE FUNCTIONS ────────────────────────────────────────────
+ const MGA_LIST = [
+  // WO
+  { name: 'Damian Davis',   org: 'WO', baseline_alp: 11642, baseline_hires: 5.9 },
+  { name: 'Robin Gonzalez', org: 'WO', baseline_alp: 10880, baseline_hires: 3.0 },
+  { name: 'Morgan Clegg',   org: 'WO', baseline_alp:  7396, baseline_hires: 3.5 },
+  { name: 'Anthony Welsh',  org: 'WO', baseline_alp:  3686, baseline_hires: 3.0 },
+  // WP
+  { name: 'Jacob Collins',   org: 'WP', baseline_alp: 4509, baseline_hires: 3.0 },
+  { name: 'Charity Keasler', org: 'WP', baseline_alp: 3000, baseline_hires: 3.0 },
+  { name: 'Katrina Bailey',  org: 'WP', baseline_alp: 3000, baseline_hires: 3.0 },
+ ];
+
+ let mgaDataMap = {}; // mga_name → {weekly_alp, weekly_hires}
+
+ async function loadMgaData() {
+  const weekOf  = document.getElementById('mga-week-select').value;
+  const statusEl = document.getElementById('mga-status');
+  statusEl.textContent = 'Loading saved MGA stats…';
+
+  try {
+   const res = await fetch(`/api/mga-stats?week_of=${weekOf}`).catch(() => null);
+   const arr = (res && res.ok) ? await res.json() : [];
+   mgaDataMap = {};
+   (Array.isArray(arr) ? arr : []).forEach(r => { mgaDataMap[r.mga_name] = r; });
+   statusEl.textContent = `Loaded. Enter Weekly ALP and Hires, then click Save Week.`;
+   renderMgaTable();
+  } catch(e) {
+   statusEl.textContent = 'Error loading data.';
+  }
+ }
+
+ function renderMgaTable() {
+  const tbody = document.getElementById('mga-tbody');
+  const fmt = n => n ? '$' + Number(n).toLocaleString() : '—';
+  tbody.innerHTML = MGA_LIST.map(mga => {
+   const saved = mgaDataMap[mga.name] || {};
+   const pct = (actual, baseline) => {
+    if (!actual || !baseline) return '—';
+    const g = ((actual - baseline) / baseline * 100).toFixed(1);
+    return `<span style="color:${g >= 0 ? '#22C55E' : '#CC4444'}">${g >= 0 ? '+' : ''}${g}%</span>`;
+   };
+   return `<tr style="border-bottom:1px solid var(--border)" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+    <td style="padding:8px 12px;font-weight:700;color:var(--text)">${esc(mga.name)}</td>
+    <td style="padding:8px 12px"><span style="background:rgba(0,48,135,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:2px;padding:1px 7px;font-size:10px;font-weight:800;color:#B0BAD0">${mga.org}</span></td>
+    <td style="padding:8px 12px;text-align:right;color:var(--muted);font-size:11px">${fmt(mga.baseline_alp)}</td>
+    <td style="padding:8px 12px;text-align:right;color:var(--muted);font-size:11px">${mga.baseline_hires}</td>
+    <td style="padding:8px 6px;text-align:right">
+     <input type="number" min="0" step="100" data-mga-field="weekly_alp" data-mga-name="${esc(mga.name)}"
+      value="${saved.weekly_alp || ''}" placeholder="0"
+      style="width:110px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:4px;font-size:12px;text-align:right" />
+    </td>
+    <td style="padding:8px 6px;text-align:right">
+     <input type="number" min="0" step="0.1" data-mga-field="weekly_hires" data-mga-name="${esc(mga.name)}"
+      value="${saved.weekly_hires || ''}" placeholder="0"
+      style="width:80px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:4px;font-size:12px;text-align:right" />
+    </td>
+    <td style="padding:8px 12px;text-align:right;font-size:12px">${pct(saved.weekly_alp, mga.baseline_alp)}</td>
+    <td style="padding:8px 12px;text-align:right;font-size:12px">${pct(saved.weekly_hires, mga.baseline_hires)}</td>
+   </tr>`;
+  }).join('');
+ }
+
+ async function saveMgaStats() {
+  const weekOf   = document.getElementById('mga-week-select').value;
+  const statusEl = document.getElementById('mga-status');
+
+  const inputs = document.querySelectorAll('#mga-tbody input[data-mga-name]');
+  const statsMap = {};
+  inputs.forEach(inp => {
+   const name  = inp.dataset.mgaName;
+   const field = inp.dataset.mgaField;
+   if (!statsMap[name]) statsMap[name] = { mga_name: name };
+   statsMap[name][field] = parseFloat(inp.value) || 0;
+  });
+
+  const stats = Object.values(statsMap).filter(s => s.weekly_alp > 0 || s.weekly_hires > 0);
+  if (!stats.length) { statusEl.textContent = 'Nothing to save — all fields are 0 or empty.'; return; }
+
+  statusEl.textContent = `Saving ${stats.length} MGA records…`;
+  try {
+   const res = await fetch('/api/mga-stats', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ admin_key: adminPass, week_of: weekOf, stats }),
+   });
+   const data = await res.json();
+   if (res.ok && data.success) {
+    statusEl.textContent = `✓ Saved ${data.saved} MGA records for ${weekOf}. Leaderboard will reflect changes immediately.`;
+    statusEl.style.color = '#22C55E';
+    setTimeout(() => { statusEl.style.color = ''; }, 3000);
+    loadMgaData();
+   } else {
+    statusEl.textContent = `Error: ${data.error || 'Save failed'}`;
+    statusEl.style.color = '#CC4444';
+   }
+  } catch(e) {
+   statusEl.textContent = 'Network error saving data.';
+   statusEl.style.color = '#CC4444';
+  }
  }
 </script>
 </body>

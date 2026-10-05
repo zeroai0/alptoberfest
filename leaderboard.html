@@ -504,8 +504,27 @@
   <!-- MGA BATTLE -->
   <div id="tab-mga" style="display:none">
 
-    <!-- ── WO MGA BATTLE ── -->
-    <div style="margin-bottom:40px">
+    <!-- Week nav -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+      <div>
+        <div style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:4px">MGA Battle</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;color:var(--white)" id="mga-week-label">—</div>
+      </div>
+    </div>
+    <div class="week-nav" id="mga-week-nav">
+      <div class="week-nav-tab" onclick="switchMgaWeek(0)">Wk 1<span>Sept 28–Oct 4</span></div>
+      <div class="week-nav-tab" onclick="switchMgaWeek(1)">Wk 2<span>Oct 5–11</span></div>
+      <div class="week-nav-tab" onclick="switchMgaWeek(2)">Wk 3<span>Oct 12–18</span></div>
+      <div class="week-nav-tab" onclick="switchMgaWeek(3)">Wk 4<span>Oct 19–25</span></div>
+      <div class="week-nav-tab" onclick="switchMgaWeek(4)">Wk 5<span>Oct 26–30</span></div>
+    </div>
+    <div id="mga-status" class="matchup-status">Loading…</div>
+
+    <!-- Dynamic matchup content -->
+    <div id="mga-battle-content"></div>
+
+    <!-- WO Rotation Schedule (always visible) -->
+    <div style="margin-bottom:40px;display:none" id="wo-mga-section">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px">
         <div>
           <div style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:4px">MGA Battle</div>
@@ -587,48 +606,9 @@
 
     </div>
 
-    <!-- ── WP MGA BATTLE ── -->
-    <div style="margin-bottom:32px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px">
-        <div>
-          <div style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:4px">MGA Battle</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--white)">Waisman Pavel</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Prize per Winner / Week</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green3)">$200</div>
-          <div style="font-size:10px;color:var(--muted)">Recruiting Dollars · Steve's discretion
-        </div>
-      </div>
-
-      <!-- WP 3-way -->
-      <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Week 1 — Sept 28 · 3-Way Competition</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px">
-
-        <div style="background:var(--card2);padding:24px;text-align:center">
-          <div style="font-weight:800;font-size:14px;color:var(--white)">Jacob Collins</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">WP · MGA</div>
-          <div style="margin-top:12px;padding:8px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3);">In Progress</div>
-        </div>
-
-        <div style="background:var(--card2);padding:24px;text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border)">
-          <div style="font-weight:800;font-size:14px;color:var(--white)">Charity Keasler</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">WP · RGA</div>
-          <div style="margin-top:12px;padding:8px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3);">In Progress</div>
-        </div>
-
-        <div style="background:var(--card2);padding:24px;text-align:center">
-          <div style="font-weight:800;font-size:14px;color:var(--white)">Katrina Bailey</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">WP · MGA</div>
-          <div style="margin-top:12px;padding:8px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3);">In Progress</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── Scoring note ── -->
-    <div style="padding:14px 20px;background:var(--card);border:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6">
-      <strong style="color:var(--text)">Scoring:</strong> Each MGA is scored against their own individual baseline — ALP and hires weighted equally. Whoever grows the most above their baseline wins and earns Recruiting Dollars. <strong style="color:var(--grey)">Minimum baseline: $3K ALP / 3 hires per week.</strong> WO matchups rotate each week so everyone faces each other. WP runs as a 3-way — highest growth wins each week.
+    <!-- Scoring note -->
+    <div style="margin-top:24px;padding:14px 20px;background:var(--card);border:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6">
+      <strong style="color:var(--text)">Scoring:</strong> Each MGA scored vs their own baseline (Jul–Aug avg). ALP growth % + hires growth % averaged equally. Highest combined growth wins. <strong style="color:var(--grey)">Min baseline: $3K ALP / 3 hires.</strong> WO rotates head-to-head each week. WP is a 3-way — highest growth wins.
     </div>
 
   </div>
@@ -945,6 +925,13 @@
     document.querySelectorAll('.tab').forEach((el, i) => {
       el.classList.toggle('active', ['main','mga'][i] === tab);
     });
+    if (tab === 'mga') {
+      const curIdx = getCurrentWeekIdx();
+      document.querySelectorAll('#mga-week-nav .week-nav-tab').forEach((el, i) => {
+        if (i === curIdx) el.classList.add('current-week');
+      });
+      switchMgaWeek(curIdx);
+    }
   }
 
   // ── CURRENT WEEK DETECTION ────────────────────────────────────────
@@ -994,6 +981,159 @@
       console.warn('Data load failed:', e);
       statusEl.textContent = 'Could not load live data — showing pairings only.';
       renderMatchups(matchups, {}, {});
+    }
+  }
+
+  // ── MGA BATTLE DATA ─────────────────────────────────────────────────
+  const MGA_BASELINES = {
+    'Damian Davis':    { alp: 11642, hires: 5.9, org: 'WO', title: 'RGA' },
+    'Robin Gonzalez':  { alp: 10880, hires: 3.0, org: 'WO', title: 'MGA' },
+    'Morgan Clegg':    { alp:  7396, hires: 3.5, org: 'WO', title: 'MGA' },
+    'Anthony Welsh':   { alp:  3686, hires: 3.0, org: 'WO', title: 'RGA' },
+    'Jacob Collins':   { alp:  4509, hires: 3.0, org: 'WP', title: 'MGA' },
+    'Charity Keasler': { alp:  3000, hires: 3.0, org: 'WP', title: 'RGA' },
+    'Katrina Bailey':  { alp:  3000, hires: 3.0, org: 'WP', title: 'MGA' },
+  };
+
+  // WO head-to-head pairings per week (rotating)
+  const WO_MGA_PAIRINGS = [
+    [['Damian Davis','Robin Gonzalez'], ['Morgan Clegg','Anthony Welsh']],  // Wk1
+    [['Damian Davis','Morgan Clegg'],  ['Robin Gonzalez','Anthony Welsh']], // Wk2
+    [['Damian Davis','Anthony Welsh'], ['Robin Gonzalez','Morgan Clegg']],  // Wk3
+    [['Damian Davis','Robin Gonzalez'], ['Morgan Clegg','Anthony Welsh']],  // Wk4
+    [['Damian Davis','Morgan Clegg'],  ['Robin Gonzalez','Anthony Welsh']], // Wk5
+  ];
+
+  // WP: 3-way all weeks
+  const WP_MGA = ['Jacob Collins','Charity Keasler','Katrina Bailey'];
+
+  function mgaCombinedGrowth(name, stats) {
+    const base = MGA_BASELINES[name];
+    if (!base || !stats) return null;
+    const alpG   = base.alp   ? (stats.weekly_alp   - base.alp)   / base.alp   * 100 : 0;
+    const hiresG = base.hires ? (stats.weekly_hires - base.hires) / base.hires * 100 : 0;
+    return (alpG + hiresG) / 2;
+  }
+
+  function mgaStatCard(name, stats, isWinner) {
+    const base = MGA_BASELINES[name] || {};
+    const alp   = stats ? (stats.weekly_alp   || 0) : 0;
+    const hires = stats ? (stats.weekly_hires || 0) : 0;
+    const combined = mgaCombinedGrowth(name, stats);
+    const hasData = alp > 0 || hires > 0;
+    const growthColor = combined >= 0 ? 'var(--green3)' : '#E06080';
+    const winBorder = isWinner ? 'border-top:3px solid var(--green3);' : '';
+    return `
+      <div style="background:var(--card2);padding:20px;${winBorder}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div>
+            <div style="font-weight:800;font-size:14px;color:${isWinner ? 'var(--green3)' : 'var(--white)'}">${name}${isWinner ? ' 🏆' : ''}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${base.org || ''} · ${base.title || 'MGA'}</div>
+          </div>
+          ${hasData && combined !== null ? `<div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${growthColor}">${combined >= 0 ? '+' : ''}${combined.toFixed(1)}%</div>` : ''}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+          <div style="background:var(--card);padding:10px;border-radius:4px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Weekly ALP</div>
+            <div style="font-weight:700;color:${hasData ? 'var(--text)' : 'var(--muted)'}">${alp ? '$' + alp.toLocaleString() : '—'}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px">Baseline: $${(base.alp||0).toLocaleString()}</div>
+          </div>
+          <div style="background:var(--card);padding:10px;border-radius:4px">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Weekly Hires</div>
+            <div style="font-weight:700;color:${hasData ? 'var(--text)' : 'var(--muted)'}">${hires || '—'}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px">Baseline: ${base.hires||0}</div>
+          </div>
+        </div>
+        ${!hasData ? '<div style="margin-top:10px;padding:6px 10px;background:rgba(0,107,60,0.08);border:1px solid rgba(0,163,91,0.2);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green3)">In Progress</div>' : ''}
+      </div>`;
+  }
+
+  function renderMgaBattle(mgaMap, weekIdx) {
+    const content = document.getElementById('mga-battle-content');
+    const weekLabel = WEEKS[weekIdx].label;
+
+    // WO Section
+    const woPairings = WO_MGA_PAIRINGS[weekIdx];
+    let woHtml = `
+      <div style="margin-bottom:32px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:4px">WO · Head-to-Head</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--white)">Waisman Organization</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Prize per Winner / Wk</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--green3)">$${[100,150,200,300,400][weekIdx] || 100} OS Credits</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px">`;
+
+    woPairings.forEach(([nameA, nameB]) => {
+      const sA = mgaMap[nameA]; const sB = mgaMap[nameB];
+      const cgA = mgaCombinedGrowth(nameA, sA); const cgB = mgaCombinedGrowth(nameB, sB);
+      const hasData = (sA && (sA.weekly_alp > 0 || sA.weekly_hires > 0)) || (sB && (sB.weekly_alp > 0 || sB.weekly_hires > 0));
+      const winner = hasData && cgA !== null && cgB !== null ? (cgA > cgB ? nameA : cgB > cgA ? nameB : null) : null;
+      woHtml += `
+        <div style="background:var(--card);border:1px solid var(--border)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+            ${mgaStatCard(nameA, sA, winner === nameA)}
+            ${mgaStatCard(nameB, sB, winner === nameB)}
+          </div>
+          <div style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--card2)">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Leader</div>
+            <div style="font-weight:800;font-size:13px;color:${winner ? 'var(--green3)' : 'var(--muted)'}">${winner || (hasData ? 'Tied' : '— In Progress')}</div>
+          </div>
+        </div>`;
+    });
+
+    woHtml += `</div></div>`;
+
+    // WP Section
+    const wpSorted = [...WP_MGA].sort((a, b) => {
+      const cgA = mgaCombinedGrowth(a, mgaMap[a]) ?? -Infinity;
+      const cgB = mgaCombinedGrowth(b, mgaMap[b]) ?? -Infinity;
+      return cgB - cgA;
+    });
+    const hasWpData = WP_MGA.some(n => mgaMap[n] && (mgaMap[n].weekly_alp > 0 || mgaMap[n].weekly_hires > 0));
+    const wpWinner = hasWpData ? wpSorted[0] : null;
+
+    let wpHtml = `
+      <div style="margin-bottom:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green3);margin-bottom:4px">WP · 3-Way Competition</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--white)">Waisman Pavel</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Prize per Winner / Wk · Steve's discretion</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--green3)">$200 OS Credits</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)">`;
+    WP_MGA.forEach(name => { wpHtml += mgaStatCard(name, mgaMap[name], name === wpWinner); });
+    wpHtml += `</div>`;
+    if (wpWinner) wpHtml += `<div style="margin-top:8px;padding:10px 16px;background:var(--card2);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Leader</div><div style="font-weight:800;color:var(--green3)">${wpWinner}</div></div>`;
+    wpHtml += `</div>`;
+
+    content.innerHTML = woHtml + wpHtml;
+  }
+
+  async function switchMgaWeek(idx) {
+    document.querySelectorAll('#mga-week-nav .week-nav-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
+    document.getElementById('mga-week-label').textContent = WEEKS[idx].label;
+    const statusEl = document.getElementById('mga-status');
+    statusEl.textContent = 'Loading MGA data…';
+    try {
+      const res = await fetch(`/api/mga-stats?week_of=${WEEKS[idx].fetchDate}`).catch(() => null);
+      const arr = (res && res.ok) ? await res.json() : [];
+      const mgaMap = {};
+      (Array.isArray(arr) ? arr : []).forEach(r => { mgaMap[r.mga_name] = r; });
+      const t = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      statusEl.textContent = `Last loaded ${t}`;
+      renderMgaBattle(mgaMap, idx);
+    } catch(e) {
+      statusEl.textContent = 'Could not load data.';
+      renderMgaBattle({}, idx);
     }
   }
 
