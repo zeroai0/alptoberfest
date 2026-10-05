@@ -179,11 +179,105 @@
  </div>
  </div>
  </div>
+
+ <!-- ── WEEKLY STATS ENTRY ─────────────────────────────────── -->
+ <div style="margin-top:40px;padding-top:32px;border-top:2px solid var(--border)">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+   <div>
+    <div style="font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#4A9B6F;margin-bottom:4px">Weekly Data Entry</div>
+    <div style="font-size:20px;font-weight:800;color:var(--text)">Matchup Stats</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:2px">Mon UPL + HT auto-pull from HQ. Enter Weekly Net, PR Hires, Ref Sales below.</div>
+   </div>
+   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <select id="week-select" style="background:var(--card2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:6px;font-size:12px;font-weight:700" onchange="loadWeekData()">
+     <option value="2026-09-28">Week 1 — Sept 28–Oct 4</option>
+     <option value="2026-10-05" selected>Week 2 — Oct 5–11</option>
+     <option value="2026-10-12">Week 3 — Oct 12–18</option>
+     <option value="2026-10-19">Week 4 — Oct 19–25</option>
+     <option value="2026-10-26">Week 5 — Oct 26–30</option>
+    </select>
+    <button onclick="saveWeekStats()" style="background:#22C55E;color:#000;border:none;border-radius:6px;padding:9px 20px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:0.5px">Save Week</button>
+   </div>
+  </div>
+
+  <div id="ws-status" style="font-size:11px;color:var(--muted);margin-bottom:12px">Select a week to load data.</div>
+
+  <div id="ws-table-wrap" style="overflow-x:auto">
+   <table id="ws-table" style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead>
+     <tr style="border-bottom:1px solid var(--border)">
+      <th style="text-align:left;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Agent</th>
+      <th style="text-align:left;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Org</th>
+      <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#4A9B6F">Mon UPL ↗</th>
+      <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">HT ↗</th>
+      <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text)">Weekly Net</th>
+      <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text)">PR Hires</th>
+      <th style="text-align:right;padding:8px 12px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text)">Ref Sales</th>
+     </tr>
+    </thead>
+    <tbody id="ws-tbody"><tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted)">Loading...</td></tr></tbody>
+   </table>
+  </div>
+ </div>
+
+ </div>
 </div>
 
 <script>
  let allEntries = [];
  let adminPass = '';
+
+ // ── Weekly stats state ────────────────────────────────────────────
+ // All Week 1 agent names (both sides of each matchup)
+ const ALL_AGENTS = [
+  {name:'Kurt Evans',org:'WO'},{name:'Alex Stemle',org:'WO'},
+  {name:'Brionna Ritter',org:'WO'},{name:'Lexi Nichols',org:'WO'},
+  {name:'Anya Sorin',org:'WP'},{name:'Zachary Rice',org:'WP'},
+  {name:'Amanda Finch',org:'WP'},{name:'Joshua Hall',org:'WP'},
+  {name:'Liza Fornal',org:'WO'},{name:'Tonya Hudak',org:'WP'},
+  {name:'Sydney Curtin',org:'WO'},{name:'Mya Wittenborn',org:'WO'},
+  {name:'Teresa Tharp',org:'WO'},{name:'Nicholas Ibrahim',org:'WO'},
+  {name:'Ozreal Belcher',org:'WO'},{name:'Jasmyne Martinez',org:'WO'},
+  {name:'Lisa Richardson',org:'WP'},{name:'Andrew McAllister',org:'WP'},
+  {name:'Kathy Bull',org:'WO'},{name:'Joy Terbush',org:'WO'},
+  {name:'Anna Steele',org:'WP'},{name:'Katelyn Sublette',org:'WP'},
+  {name:'Gigi Renzetti',org:'WO'},{name:'Kearstin Barry',org:'WO'},
+  {name:'Larry Smith',org:'WO'},{name:'Zahra Arifee',org:'WO'},
+  {name:'Robert Gray',org:'WP'},{name:'Michael Woelke',org:'WO'},
+  {name:'Elijha Gonzales',org:'WO'},{name:'Nicole Donovan',org:'WP'},
+  {name:'Joseph Gomez',org:'WO'},{name:'Jenna Wolf',org:'WO'},
+  {name:'Gisella Vallejo',org:'WO'},{name:'Joseph Price',org:'WP'},
+  {name:'Caimbrien Jones',org:'WP'},{name:'Dylan Fountain',org:'WO'},
+  {name:'Colin Finnell',org:'WO'},{name:'Tangella Fields',org:'WP'},
+  {name:'Lonna Shirar',org:'WP'},{name:'Jovon Henry',org:'WP'},
+  {name:'Samantha Turner',org:'WP'},{name:'Ben Shortridge',org:'WP'},
+  {name:'Genaveva Comia',org:'WO'},{name:'Crystal Kronewitter',org:'WP'},
+  {name:'Stefan Davis',org:'WP'},{name:'Brandy Medrano',org:'WP'},
+  {name:'Quincy Savala',org:'WO'},{name:'Jacob Carter',org:'WO'},
+  {name:'Jacob Franz',org:'WP'},{name:'Rebecca Cobb',org:'WP'},
+  {name:'Prestin Smith',org:'WO'},{name:'Kirklin Spicer',org:'WO'},
+  {name:'Andrew Sabol',org:'WO'},{name:'Sebastian Galvan',org:'WO'},
+  {name:'Kaitlyn Janlin',org:'WO'},{name:'Lily Coon',org:'WO'},
+  {name:'Robin Knezek',org:'WO'},{name:'Catherine Kellman',org:'WO'},
+  {name:'Chase Mayo',org:'WO'},{name:'Sarah June',org:'WP'},
+  {name:'Azzan Daniels',org:'WO'},{name:'Ariana Reyes',org:'WP'},
+  {name:'Brianna Fuller',org:'WO'},{name:'Brenda Shepherd',org:'WP'},
+  {name:'Alicia Corcoran',org:'WO'},{name:'Joseph Mitter',org:'WP'},
+  {name:'Amanecer Payne',org:'WO'},{name:'Marisa Bejarano',org:'WP'},
+  {name:'Jacob Aaron',org:'WO'},{name:'Jehiah Scott',org:'WO'},
+  {name:'Jesse Bloise',org:'WO'},{name:'Jordan Wrightsman',org:'WO'},
+  {name:'Naomi Chambless',org:'WO'},{name:'Spencer Lee',org:'WO'},
+  {name:'Walter Garrett',org:'WO'},
+  {name:'Lizbeth Primero',org:'WO'},{name:'Ebraheem Hassan',org:'WO'},
+  {name:'Jordan Westmoreland',org:'WO'},{name:'Jay Lemenager',org:'WO'},
+  {name:'Taylor Medeiros',org:'WO'},{name:'Savannah Miller',org:'WO'},
+  {name:'Cara Coletti',org:'WO'},{name:'Celia Williams',org:'WP'},
+ ];
+
+ let wsHqMap = {};    // normalized name → {monday_alp, ht_alp}
+ let wsManualMap = {}; // normalized name → {weekly_net, pr_hires, ref_sales}
+
+ function normName(n) { return (n||'').toLowerCase().trim(); }
 
  function login() {
  const pass = document.getElementById('pass-input').value;
@@ -207,6 +301,7 @@
  document.getElementById('entries-table').style.display = 'table';
  updateStats();
  renderTable();
+ loadWeekData(); // auto-load current week stats
  } catch(e) {
  document.getElementById('login-error').textContent = 'Error loading data';
  document.getElementById('login-error').style.display = 'block';
@@ -286,6 +381,127 @@
  a.download = `alptoberfest-signups-${new Date().toISOString().slice(0,10)}.csv`;
  a.click();
  }
+
+ // ── WEEKLY STATS FUNCTIONS ────────────────────────────────────────────
+ async function loadWeekData() {
+  const weekOf = document.getElementById('week-select').value;
+  const statusEl = document.getElementById('ws-status');
+  statusEl.textContent = 'Loading HQ data + saved stats…';
+
+  try {
+   const [hqRes, manRes] = await Promise.all([
+    fetch(`/api/weekly-data?week_of=${weekOf}`).catch(() => null),
+    fetch(`/api/weekly-stats?week_of=${weekOf}`).catch(() => null),
+   ]);
+   const hqArr  = (hqRes  && hqRes.ok)  ? await hqRes.json()  : [];
+   const manArr = (manRes && manRes.ok) ? await manRes.json() : [];
+
+   wsHqMap = {};
+   (Array.isArray(hqArr) ? hqArr : []).forEach(r => { wsHqMap[normName(r.name)] = r; });
+   wsManualMap = {};
+   (Array.isArray(manArr) ? manArr : []).forEach(r => { wsManualMap[normName(r.agent_name)] = r; });
+
+   statusEl.textContent = `Loaded. Mon UPL + HT from HQ (read-only). Enter Weekly Net, PR Hires, Ref Sales and click Save Week.`;
+   renderWsTable();
+  } catch(e) {
+   statusEl.textContent = 'Error loading data. Check connection.';
+  }
+ }
+
+ function renderWsTable() {
+  const tbody = document.getElementById('ws-tbody');
+  const fmt = n => n ? '$' + Number(n).toLocaleString() : '—';
+  tbody.innerHTML = ALL_AGENTS.map((agent, idx) => {
+   const key = normName(agent.name);
+   const hq  = wsHqMap[key]    || {};
+   const man = wsManualMap[key] || {};
+   const monUpl = hq.monday_alp || 0;
+   const ht     = hq.ht_alp    || 0;
+   return `<tr style="border-bottom:1px solid var(--border);transition:background 0.1s" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+    <td style="padding:8px 12px;font-weight:700;color:var(--text)">${esc(agent.name)}</td>
+    <td style="padding:8px 12px"><span style="background:rgba(0,48,135,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:2px;padding:1px 7px;font-size:10px;font-weight:800;color:#B0BAD0">${agent.org}</span></td>
+    <td style="padding:8px 12px;text-align:right;color:${monUpl ? '#4A9B6F' : 'var(--muted)'};font-weight:700">${fmt(monUpl)}</td>
+    <td style="padding:8px 12px;text-align:right;color:var(--muted);font-weight:700">${fmt(ht)}</td>
+    <td style="padding:8px 6px;text-align:right">
+     <input type="number" min="0" step="100" data-field="weekly_net" data-agent="${esc(agent.name)}"
+      value="${man.weekly_net || ''}" placeholder="0"
+      style="width:100px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:4px;font-size:12px;text-align:right"
+      oninput="wsInputChanged(this)" />
+    </td>
+    <td style="padding:8px 6px;text-align:right">
+     <input type="number" min="0" step="1" data-field="pr_hires" data-agent="${esc(agent.name)}"
+      value="${man.pr_hires || ''}" placeholder="0"
+      style="width:70px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:4px;font-size:12px;text-align:right"
+      oninput="wsInputChanged(this)" />
+    </td>
+    <td style="padding:8px 6px;text-align:right">
+     <input type="number" min="0" step="1" data-field="ref_sales" data-agent="${esc(agent.name)}"
+      value="${man.ref_sales || ''}" placeholder="0"
+      style="width:70px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:4px;font-size:12px;text-align:right"
+      oninput="wsInputChanged(this)" />
+    </td>
+   </tr>`;
+  }).join('');
+ }
+
+ // Track edits in memory before saving
+ function wsInputChanged(input) {
+  const agentName = input.dataset.agent;
+  const field     = input.dataset.field;
+  const key       = normName(agentName);
+  if (!wsManualMap[key]) wsManualMap[key] = { agent_name: agentName };
+  wsManualMap[key][field]       = parseFloat(input.value) || 0;
+  wsManualMap[key].agent_name  = agentName;
+ }
+
+ async function saveWeekStats() {
+  const weekOf  = document.getElementById('week-select').value;
+  const statusEl = document.getElementById('ws-status');
+
+  // Collect all input values
+  const inputs = document.querySelectorAll('#ws-tbody input[data-agent]');
+  const statsMap = {};
+  inputs.forEach(inp => {
+   const key   = normName(inp.dataset.agent);
+   const field = inp.dataset.field;
+   if (!statsMap[key]) statsMap[key] = { agent_name: inp.dataset.agent };
+   statsMap[key][field] = parseFloat(inp.value) || 0;
+  });
+
+  const stats = Object.values(statsMap).filter(s =>
+   s.weekly_net > 0 || s.pr_hires > 0 || s.ref_sales > 0
+  );
+
+  if (stats.length === 0) {
+   statusEl.textContent = 'Nothing to save — all fields are 0 or empty.';
+   return;
+  }
+
+  statusEl.textContent = `Saving ${stats.length} agent records…`;
+
+  try {
+   const res = await fetch('/api/weekly-stats', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ admin_key: adminPass, week_of: weekOf, stats }),
+   });
+   const data = await res.json();
+   if (res.ok && data.success) {
+    statusEl.textContent = `✓ Saved ${data.saved} records for ${weekOf}. Leaderboard will reflect changes immediately.`;
+    statusEl.style.color = '#22C55E';
+    setTimeout(() => { statusEl.style.color = ''; }, 3000);
+   } else {
+    statusEl.textContent = `Error: ${data.error || 'Save failed'}`;
+    statusEl.style.color = '#CC4444';
+   }
+  } catch(e) {
+   statusEl.textContent = 'Network error saving data.';
+   statusEl.style.color = '#CC4444';
+  }
+ }
+
+ // Auto-load current week on admin unlock
+ const origLoadEntries = loadEntries;
 </script>
 </body>
 </html>

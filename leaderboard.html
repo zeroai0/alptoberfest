@@ -271,24 +271,52 @@
       text-transform: uppercase; color: var(--grey);
     }
 
-    .matchups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-    .matchup-card { background: var(--card2); padding: 20px 24px; }
+    /* Week nav tabs (inside matchup section) */
+    .week-nav { display: flex; gap: 2px; margin-bottom: 16px; flex-wrap: wrap; }
+    .week-nav-tab {
+      padding: 8px 16px; border: 1px solid var(--border);
+      background: var(--card); font-size: 11px; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+      border-radius: 3px; display: flex; flex-direction: column; align-items: center; gap: 1px;
+    }
+    .week-nav-tab span { font-size: 9px; font-weight: 600; letter-spacing: 0.5px; color: var(--muted); text-transform: none; }
+    .week-nav-tab.active { background: var(--navy2); border-color: var(--navy2); color: var(--white); }
+    .week-nav-tab.active span { color: rgba(255,255,255,0.55); }
+    .week-nav-tab.current-week { border-color: var(--green2); }
+    .week-nav-tab:hover:not(.active) { color: var(--text); border-color: var(--green2); }
+    .matchup-status { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
 
-    .vs-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .vs-agent { flex: 1; }
-    .vs-name { font-weight: 800; font-size: 14px; color: var(--white); }
-    .vs-alp { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .vs-sep {
-      font-family: 'Bebas Neue', sans-serif; font-size: 18px;
-      color: var(--border); letter-spacing: 1px;
+    .matchups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .matchup-card { background: var(--card2); padding: 18px 20px; }
+
+    /* Matchup card internals */
+    .mc-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+    .mc-agent { flex: 1; }
+    .mc-agent-r { flex: 1; text-align: right; }
+    .mc-name { font-weight: 800; font-size: 13px; color: var(--white); line-height: 1.2; }
+    .mc-org-pill {
+      display: inline-block; margin-top: 4px;
+      background: rgba(0,48,135,0.3); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px; padding: 1px 6px;
+      font-size: 9px; font-weight: 800; letter-spacing: 1px; color: var(--grey);
     }
-    .spread-result {
-      padding-top: 14px; border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .spread-winner-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
-    .spread-winner-name { font-weight: 800; color: var(--green3); font-size: 13px; }
-    .spread-margin { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--grey); letter-spacing: 1px; }
+    .mc-vs { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: rgba(255,255,255,0.12); letter-spacing: 1px; padding-top: 2px; }
+    .mc-stats { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+    .mc-row { display: grid; grid-template-columns: 1fr 90px 1fr; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(22,40,74,0.4); font-size: 12px; }
+    .mc-row:last-child { border-bottom: none; }
+    .mc-row.ht-row { opacity: 0.5; }
+    .mc-label { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); text-align: center; }
+    .mc-ht-note { font-size: 8px; font-weight: 600; letter-spacing: 0.5px; color: var(--muted); text-align: center; margin-top: 1px; }
+    .mc-val-a { font-weight: 700; color: var(--text); }
+    .mc-val-b { font-weight: 700; color: var(--text); text-align: right; }
+    .mc-val-a.leader, .mc-val-b.leader { color: var(--green3); }
+    .mc-val-a.zero, .mc-val-b.zero { color: var(--muted); }
+    .mc-result { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .mc-result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    .mc-result-name { font-weight: 800; color: var(--green3); font-size: 12px; margin-top: 1px; }
+    .mc-spread { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--grey); letter-spacing: 1px; }
+    .mc-spread.live { color: var(--green3); }
 
     /* Empty / Loading */
     .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
@@ -449,12 +477,26 @@
     </div>
 
     <!-- SPREAD MATCHUPS (inside leaderboard tab) -->
+    <!-- WEEKLY MATCHUPS — 5-week tabbed view -->
     <div class="matchup-section">
       <div class="matchup-header">
-        <div class="matchup-title">This Week's Matchups</div>
-        <div class="week-pill" id="week-label">Week 1 — Sept 28</div>
+        <div class="matchup-title">Weekly Matchups</div>
+        <div class="week-pill" id="week-label">—</div>
       </div>
-      <div class="matchups-grid" id="matchups-grid"><div class="matchup-card"><div class="empty-state" style="padding:24px"><p>Competition starts Monday Sept 28. Matchups load after ALP upload.</p></div></div></div>
+
+      <div class="week-nav" id="week-nav">
+        <div class="week-nav-tab" onclick="switchWeek(0)">Wk 1<span>Sept 28–Oct 4</span></div>
+        <div class="week-nav-tab" onclick="switchWeek(1)">Wk 2<span>Oct 5–11</span></div>
+        <div class="week-nav-tab" onclick="switchWeek(2)">Wk 3<span>Oct 12–18</span></div>
+        <div class="week-nav-tab" onclick="switchWeek(3)">Wk 4<span>Oct 19–25</span></div>
+        <div class="week-nav-tab" onclick="switchWeek(4)">Wk 5<span>Oct 26–30</span></div>
+      </div>
+
+      <div id="matchup-status" class="matchup-status">Loading…</div>
+
+      <div class="matchups-grid" id="matchups-grid">
+        <div class="matchup-card"><div class="empty-state" style="padding:24px"><p>Select a week above.</p></div></div>
+      </div>
     </div>
 
   </div>
@@ -683,11 +725,30 @@
     { a:'Taylor Medeiros',   a_org:'WO', aBase:0,     aAlp:0,  b:'Savannah Miller',   b_org:'WO', bBase:0,     bAlp:0 },
     { a:'Cara Coletti',      a_org:'WO', aBase:0,     aAlp:0,  b:'Celia Williams',    b_org:'WP', bBase:0,     bAlp:0 },
   ];
-  const DEMO_MATCHUPS = WEEK1_MATCHUPS;
+  // Weeks 2-5: updated each Monday after re-seeding
+  const WEEK2_MATCHUPS = [];
+  const WEEK3_MATCHUPS = [];
+  const WEEK4_MATCHUPS = [];
+  const WEEK5_MATCHUPS = [];
+
+  const ALL_WEEK_MATCHUPS = [WEEK1_MATCHUPS, WEEK2_MATCHUPS, WEEK3_MATCHUPS, WEEK4_MATCHUPS, WEEK5_MATCHUPS];
+
+  const WEEKS = [
+    { label: 'Week 1 — Sept 28', date: '2026-09-28' },
+    { label: 'Week 2 — Oct 5',   date: '2026-10-05' },
+    { label: 'Week 3 — Oct 12',  date: '2026-10-12' },
+    { label: 'Week 4 — Oct 19',  date: '2026-10-19' },
+    { label: 'Week 5 — Oct 26',  date: '2026-10-26' },
+  ];
+
+  // Data cache: weekIdx → {hqMap, manualMap}
+  const weekDataCache = {};
+  let activeWeekIdx = 0;
 
   // ── HELPERS ───────────────────────────────────────────────────────
   function fmt(n) { return Number(n).toLocaleString(); }
   function fmtDollar(n) { return '$' + fmt(n); }
+  function normName(n) { return (n || '').toLowerCase().trim(); }
   function calcTickets(a) { return a.alp + (a.alp >= 5000 ? a.spread : 0) + a.hires * 500 + a.refs * 250; }
 
   // ── PROGRESS BARS ────────────────────────────────────────────────
@@ -772,39 +833,99 @@
     }).join('');
   }
 
-  function buildMatchupCard(m) {
-    if (m.isBye) return `<div class="matchup-card" style="opacity:0.5">
-      <div class="vs-row"><div class="vs-agent"><div class="vs-name">${m.a}</div><div style="display:flex;align-items:center;gap:4px;margin-top:3px"><span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.a_org}</span></div></div><div class="vs-sep">—</div><div class="vs-agent" style="text-align:right"><div class="vs-name" style="color:var(--muted)">BYE</div></div></div>
-      <div class="spread-result"><div><div class="spread-winner-label">No matchup</div></div><div class="spread-margin">—</div></div></div>`;
-    const margin = Math.abs(m.aAlp - m.bAlp);
-    const winner = m.aAlp > m.bAlp ? m.a : m.b;
-    const hasAlp = m.aAlp > 0 || m.bAlp > 0;
-    const aOrgTag = m.a_org ? `<span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.a_org}</span>` : '';
-    const bOrgTag = m.b_org ? `<span style="font-size:10px;font-weight:700;padding:1px 6px;background:rgba(0,107,60,0.15);color:var(--green3);border-radius:2px">${m.b_org}</span>` : '';
-    return `<div class="matchup-card">
-      <div class="vs-row">
-        <div class="vs-agent">
-          <div class="vs-name">${m.a}</div>
-          <div style="display:flex;align-items:center;gap:4px;margin-top:3px">${aOrgTag}</div>
-          ${hasAlp ? `<div class="vs-alp">${fmtDollar(m.aAlp)} this wk</div>` : ''}
+  function buildMatchupCard(m, aStats, bStats) {
+    aStats = aStats || {}; bStats = bStats || {};
+    const aMonUpl = aStats.monday_alp || 0;
+    const bMonUpl = bStats.monday_alp || 0;
+    const aHt     = aStats.ht_alp    || 0;
+    const bHt     = bStats.ht_alp    || 0;
+    const aNet    = aStats.weekly_net || 0;
+    const bNet    = bStats.weekly_net || 0;
+    const aHires  = aStats.pr_hires   || 0;
+    const bHires  = bStats.pr_hires   || 0;
+    const aRefs   = aStats.ref_sales  || 0;
+    const bRefs   = bStats.ref_sales  || 0;
+
+    if (m.isBye) return `
+      <div class="matchup-card" style="opacity:0.5">
+        <div class="mc-head">
+          <div class="mc-agent"><div class="mc-name">${m.a}</div><span class="mc-org-pill">${m.a_org}</span></div>
+          <div class="mc-vs">—</div>
+          <div class="mc-agent mc-agent-r"><div class="mc-name" style="color:var(--muted)">BYE</div></div>
         </div>
-        <div class="vs-sep">VS</div>
-        <div class="vs-agent" style="text-align:right">
-          <div class="vs-name">${m.b}</div>
-          <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:3px">${bOrgTag}</div>
-          ${hasAlp ? `<div class="vs-alp">${fmtDollar(m.bAlp)} this wk</div>` : ''}
+        <div class="mc-result"><div><div class="mc-result-label">No Matchup</div></div><div class="mc-spread">—</div></div>
+      </div>`;
+
+    const hasData    = aMonUpl > 0 || bMonUpl > 0;
+    const margin     = Math.abs(aMonUpl - bMonUpl);
+    const aLeadsUpl  = aMonUpl >= bMonUpl;
+    const winnerName = margin === 0 ? null : (aLeadsUpl ? m.a : m.b);
+
+    const dv = (val, isLead) => `<span style="font-weight:700;color:${!val ? 'var(--muted)' : isLead ? 'var(--green3)' : 'var(--text)'}">${ val ? fmtDollar(val) : '—'}</span>`;
+    const dn = (val, isLead) => `<span style="font-weight:700;color:${!val ? 'var(--muted)' : isLead ? 'var(--green3)' : 'var(--text)'}">${ val || '—'}</span>`;
+
+    return `
+      <div class="matchup-card">
+        <div class="mc-head">
+          <div class="mc-agent"><div class="mc-name">${m.a}</div><span class="mc-org-pill">${m.a_org}</span></div>
+          <div class="mc-vs">VS</div>
+          <div class="mc-agent mc-agent-r"><div class="mc-name">${m.b}</div><span class="mc-org-pill">${m.b_org}</span></div>
         </div>
-      </div>
-      <div class="spread-result">
-        <div><div class="spread-winner-label">${hasAlp ? 'Leader' : 'In Progress'}</div>${hasAlp ? `<div class="spread-winner-name">${margin > 0 ? winner : 'Tied'}</div>` : ''}</div>
-        <div class="spread-margin">${hasAlp && margin > 0 ? '+' + fmtDollar(margin) : '—'}</div>
-      </div>
-    </div>`;
+        <div class="mc-stats">
+          <div class="mc-row">
+            <div>${dv(aMonUpl, aLeadsUpl)}</div>
+            <div class="mc-label">Mon UPL</div>
+            <div style="text-align:right">${dv(bMonUpl, !aLeadsUpl)}</div>
+          </div>
+          <div class="mc-row">
+            <div>${dv(aNet, aNet >= bNet)}</div>
+            <div class="mc-label">Weekly Net</div>
+            <div style="text-align:right">${dv(bNet, bNet >= aNet)}</div>
+          </div>
+          <div class="mc-row">
+            <div>${dn(aHires, aHires > bHires)}</div>
+            <div class="mc-label">PR Hires</div>
+            <div style="text-align:right">${dn(bHires, bHires > aHires)}</div>
+          </div>
+          <div class="mc-row">
+            <div>${dn(aRefs, aRefs > bRefs)}</div>
+            <div class="mc-label">Ref Sales</div>
+            <div style="text-align:right">${dn(bRefs, bRefs > aRefs)}</div>
+          </div>
+          <div class="mc-row ht-row">
+            <div><span style="font-weight:700;color:var(--muted)">${aHt ? fmtDollar(aHt) : '—'}</span></div>
+            <div><div class="mc-label">HT ↗</div><div class="mc-ht-note">display only</div></div>
+            <div style="text-align:right"><span style="font-weight:700;color:var(--muted)">${bHt ? fmtDollar(bHt) : '—'}</span></div>
+          </div>
+        </div>
+        <div class="mc-result">
+          <div>
+            <div class="mc-result-label">${hasData ? 'Leader (Mon UPL)' : 'In Progress'}</div>
+            ${hasData && winnerName ? `<div class="mc-result-name">${winnerName}</div>` : ''}
+          </div>
+          <div class="mc-spread${hasData && margin > 0 ? ' live' : ''}">${hasData && margin > 0 ? '+' + fmtDollar(margin) : '—'}</div>
+        </div>
+      </div>`;
   }
 
-  function renderMatchups(matchups) {
+  function renderMatchups(matchups, hqMap, manualMap) {
+    hqMap = hqMap || {}; manualMap = manualMap || {};
     const grid = document.getElementById('matchups-grid');
-    grid.innerHTML = matchups.length ? matchups.map(buildMatchupCard).join('') : '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>No matchups yet.</p></div></div>';
+    if (!matchups || matchups.length === 0) {
+      grid.innerHTML = '<div class="matchup-card"><div class="empty-state" style="padding:24px"><p>Matchups for this week will be posted after Monday re-seeding.</p></div></div>';
+      return;
+    }
+    grid.innerHTML = matchups.map(m => {
+      const aKey = normName(m.a);
+      const bKey = m.b ? normName(m.b) : null;
+      const aHQ  = hqMap[aKey]    || {};
+      const bHQ  = bKey ? (hqMap[bKey] || {}) : {};
+      const aMan = manualMap[aKey] || {};
+      const bMan = bKey ? (manualMap[bKey] || {}) : {};
+      const aStats = { monday_alp: aHQ.monday_alp, ht_alp: aHQ.ht_alp, weekly_net: aMan.weekly_net, pr_hires: aMan.pr_hires, ref_sales: aMan.ref_sales };
+      const bStats = { monday_alp: bHQ.monday_alp, ht_alp: bHQ.ht_alp, weekly_net: bMan.weekly_net, pr_hires: bMan.pr_hires, ref_sales: bMan.ref_sales };
+      return buildMatchupCard(m, aStats, bStats);
+    }).join('');
   }
 
   // ── TABS ──────────────────────────────────────────────────────────
@@ -817,19 +938,62 @@
     });
   }
 
-  // ── WEEK LABEL ────────────────────────────────────────────────────
-  function setWeekLabel() {
-    const weeks = [
-      { start: new Date('2026-09-28'), label: 'Week 1 — Sept 28' },
-      { start: new Date('2026-10-05'), label: 'Week 2 — Oct 5' },
-      { start: new Date('2026-10-12'), label: 'Week 3 — Oct 12' },
-      { start: new Date('2026-10-19'), label: 'Week 4 — Oct 19' },
-      { start: new Date('2026-10-26'), label: 'Week 5 — Oct 26' },
-    ];
+  // ── CURRENT WEEK DETECTION ────────────────────────────────────────
+  function getCurrentWeekIdx() {
     const now = new Date();
-    let label = weeks[0].label;
-    for (const w of weeks) { if (now >= w.start) label = w.label; }
-    document.getElementById('week-label').textContent = label;
+    let idx = 0;
+    WEEKS.forEach((w, i) => { if (now >= new Date(w.date)) idx = i; });
+    return idx;
+  }
+
+  // ── WEEK SWITCHER — fetches live HQ + manual data ─────────────────
+  async function switchWeek(idx) {
+    activeWeekIdx = idx;
+    document.querySelectorAll('.week-nav-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
+    document.getElementById('week-label').textContent = WEEKS[idx].label;
+
+    const matchups = ALL_WEEK_MATCHUPS[idx];
+    const weekOf   = WEEKS[idx].date;
+    const statusEl = document.getElementById('matchup-status');
+
+    if (!matchups || matchups.length === 0) {
+      statusEl.textContent = 'Matchups for this week will be posted after Monday re-seeding.';
+      renderMatchups([], {}, {});
+      return;
+    }
+
+    if (weekDataCache[idx]) {
+      const { hqMap, manualMap } = weekDataCache[idx];
+      statusEl.textContent = `Showing data for ${WEEKS[idx].label}.`;
+      renderMatchups(matchups, hqMap, manualMap);
+      return;
+    }
+
+    statusEl.textContent = 'Loading live data from HQ…';
+    renderMatchups(matchups, {}, {});
+
+    try {
+      const [hqRes, manRes] = await Promise.all([
+        fetch(`/api/weekly-data?week_of=${weekOf}`).catch(() => null),
+        fetch(`/api/weekly-stats?week_of=${weekOf}`).catch(() => null),
+      ]);
+      const hqArr  = (hqRes  && hqRes.ok)  ? await hqRes.json()  : [];
+      const manArr = (manRes && manRes.ok) ? await manRes.json() : [];
+
+      const hqMap = {};
+      (Array.isArray(hqArr)  ? hqArr  : []).forEach(r => { hqMap[normName(r.name)] = r; });
+      const manualMap = {};
+      (Array.isArray(manArr) ? manArr : []).forEach(r => { manualMap[normName(r.agent_name)] = r; });
+
+      weekDataCache[idx] = { hqMap, manualMap };
+      const t = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      statusEl.textContent = `Mon UPL + HT from HQ · Last loaded ${t}`;
+      renderMatchups(matchups, hqMap, manualMap);
+    } catch(e) {
+      console.warn('Data load failed:', e);
+      statusEl.textContent = 'Could not load live data — showing pairings only.';
+      renderMatchups(matchups, {}, {});
+    }
   }
 
   // ── INIT ──────────────────────────────────────────────────────────
@@ -837,9 +1001,13 @@
     updateProgressBar('wo', LIVE_ALP.wo, WO_TIERS);
     updateProgressBar('wp', LIVE_ALP.wp, WP_TIERS);
     renderAgents(DEMO_AGENTS);
-    renderMatchups(DEMO_MATCHUPS);
-    setWeekLabel();
-    document.getElementById('last-updated').textContent = 'Competition starts Sept 28';
+
+    const curIdx = getCurrentWeekIdx();
+    document.querySelectorAll('.week-nav-tab').forEach((el, i) => {
+      if (i === curIdx) el.classList.add('current-week');
+    });
+    switchWeek(curIdx);
+    document.getElementById('last-updated').textContent = 'Updated every Monday after ALP upload';
   }
 
   init();
