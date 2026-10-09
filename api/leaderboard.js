@@ -3,8 +3,14 @@
 // ALP source: same as bars — sums all October Mon UPL + HT entries from HQ
 const SUPABASE_URL = 'https://vjcfbccsybkriefnyvhf.supabase.co';
 
-// October week_of fetch dates
-const OCT_WEEKS = ['2026-10-05','2026-10-12','2026-10-19','2026-10-26'];
+// Mon UPL is uploaded the following Monday and stored under that Monday's week_of.
+// HT is entered Thursday of the competition week and stored under that week's Monday week_of.
+// So monday_alp and ht_alp live in DIFFERENT week_of rows for the same competition week.
+//
+// Mon UPL week_of values (the Monday each upload lands in HQ):
+const MON_UPL_WEEKS = ['2026-10-05','2026-10-12','2026-10-19','2026-10-26','2026-11-02'];
+// HT week_of values (the competition week start — Thursday of that week is when HT is entered):
+const HT_WEEKS     = ['2026-09-28','2026-10-05','2026-10-12','2026-10-19','2026-10-26'];
 
 // HQ full name → leaderboard display name (for manual stats lookup)
 // Manual stats are saved using the leaderboard display name
@@ -28,20 +34,40 @@ export default async function handler(req, res) {
   const hdrs = { apikey: KEY, Authorization: `Bearer ${KEY}` };
 
   try {
-    // 1. Fetch all agent_stats for October (gross ALP = monday_alp + ht_alp per agent per week)
-    const weekFilter = OCT_WEEKS.map(w => `week_of.eq.${w}`).join(',');
-    const statsRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/agent_stats?or=(${weekFilter})&select=agent_id,agency,monday_alp,ht_alp&limit=2000`,
+    // 1. Fetch gross ALP across all competition weeks.
+    //    monday_alp and ht_alp live in DIFFERENT week_of rows, so fetch separately.
+
+    // Mon UPL: sum across all Mon UPL upload weeks
+    const monFilter = MON_UPL_WEEKS.map(w => `week_of.eq.${w}`).join(',');
+    const monRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/agent_stats?or=(${monFilter})&select=agent_id,agency,monday_alp&limit=2000`,
       { headers: hdrs }
     );
-    const statsRows = statsRes.ok ? await statsRes.json() : [];
+    const monRows = monRes.ok ? await monRes.json() : [];
 
-    // Sum gross ALP per agent_id
+    // HT: sum across all competition-week HT weeks
+    const htFilter = HT_WEEKS.map(w => `week_of.eq.${w}`).join(',');
+    const htRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/agent_stats?or=(${htFilter})&select=agent_id,agency,ht_alp&limit=2000`,
+      { headers: hdrs }
+    );
+    const htRows = htRes.ok ? await htRes.json() : [];
+
+    // Sum gross ALP per agent_id (monday_alp + ht_alp, fetched from their correct weeks)
     const agentAlp = {};   // agent_id → { alp, org }
-    if (Array.isArray(statsRows)) {
-      statsRows.forEach(r => {
+    if (Array.isArray(monRows)) {
+      monRows.forEach(r => {
         if (!r.agent_id) return;
-        const contrib = (Number(r.monday_alp) || 0) + (Number(r.ht_alp) || 0);
+        const contrib = Number(r.monday_alp) || 0;
+        if (!agentAlp[r.agent_id]) agentAlp[r.agent_id] = { alp: 0, org: r.agency };
+        agentAlp[r.agent_id].alp += contrib;
+      });
+    }
+    if (Array.isArray(htRows)) {
+      htRows.forEach(r => {
+        if (!r.agent_id) return;
+        const contrib = Number(r.ht_alp) || 0;
+        if (!agentAlp[r.agent_id]) agentAlp[r.agent_id] = { alp: 0, org: r.agency || (agentAlp[r.agent_id] && agentAlp[r.agent_id].org) };
         if (!agentAlp[r.agent_id]) agentAlp[r.agent_id] = { alp: 0, org: r.agency };
         agentAlp[r.agent_id].alp += contrib;
       });

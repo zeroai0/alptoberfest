@@ -1001,9 +1001,11 @@
     document.querySelectorAll('.week-nav-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
     document.getElementById('week-label').textContent = WEEKS[idx].label;
 
-    const matchups  = ALL_WEEK_MATCHUPS[idx];
-    const weekOf    = WEEKS[idx].fetchDate; // Mon UPL uploads land the following Monday
-    const statusEl  = document.getElementById('matchup-status');
+    const matchups    = ALL_WEEK_MATCHUPS[idx];
+    const htWeekOf    = WEEKS[idx].date;       // ht_alp: entered Thursday of the competition week
+    const monWeekOf   = WEEKS[idx].fetchDate;  // monday_alp: uploaded following Monday (current HQ week)
+    const statsWeekOf = WEEKS[idx].fetchDate;  // alptoberfest_weekly_stats uses fetchDate (admin panel key)
+    const statusEl    = document.getElementById('matchup-status');
 
     if (!matchups || matchups.length === 0) {
       statusEl.textContent = 'Matchups for this week will be posted after Monday re-seeding.';
@@ -1016,8 +1018,8 @@
 
     try {
       const [hqRes, manRes] = await Promise.all([
-        fetch(`/api/weekly-data?week_of=${weekOf}`).catch(() => null),
-        fetch(`/api/weekly-stats?week_of=${weekOf}`).catch(() => null),
+        fetch(`/api/weekly-data?week_of=${htWeekOf}&mon_week_of=${monWeekOf}`).catch(() => null),
+        fetch(`/api/weekly-stats?week_of=${statsWeekOf}`).catch(() => null),
       ]);
       const hqArr  = (hqRes  && hqRes.ok)  ? await hqRes.json()  : [];
       const manArr = (manRes && manRes.ok) ? await manRes.json() : [];

@@ -8,8 +8,12 @@ export default async function handler(req, res) {
   const KEY = process.env.SUPABASE_SERVICE_KEY;
   if (!KEY) return res.status(500).json({ error: 'Missing service key' });
 
-  const { week_of } = req.query;
+  // week_of      = competition week start (used for ht_alp — entered mid-week)
+  // mon_week_of  = following Monday's HQ week (used for monday_alp — uploaded one week later)
+  //                If not provided, falls back to week_of (backward compat).
+  const { week_of, mon_week_of } = req.query;
   if (!week_of) return res.status(400).json({ error: 'week_of required (YYYY-MM-DD)' });
+  const monWeekOf = mon_week_of || week_of;
 
   const hdrs = { apikey: KEY, Authorization: `Bearer ${KEY}` };
 
@@ -25,26 +29,40 @@ export default async function handler(req, res) {
       agents.forEach(a => { if (a.id && a.name) idToName[a.id] = a.name; });
     }
 
-    // Fetch agent_stats for the given week (both WO and WP)
-    const statsRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/agent_stats?week_of=eq.${week_of}&select=agent_id,monday_alp,ht_alp&limit=1000`,
+    // Fetch ht_alp from the competition week (entered Thursday of that week)
+    const htRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/agent_stats?week_of=eq.${week_of}&select=agent_id,ht_alp&limit=1000`,
       { headers: hdrs }
     );
-    const stats = statsRes.ok ? await statsRes.json() : [];
+    const htRows = htRes.ok ? await htRes.json() : [];
+
+    // Fetch monday_alp from the FOLLOWING Monday's HQ week
+    // (Mon UPL is always for the PREVIOUS competition week, stored under the current HQ week)
+    const monRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/agent_stats?week_of=eq.${monWeekOf}&select=agent_id,monday_alp&limit=1000`,
+      { headers: hdrs }
+    );
+    const monRows = monRes.ok ? await monRes.json() : [];
+
+    // Build per-agent maps
+    const htMap  = {}; // agent_id → ht_alp
+    const monMap = {}; // agent_id → monday_alp
+    if (Array.isArray(htRows))  htRows.forEach(r  => { htMap[r.agent_id]  = Number(r.ht_alp)     || 0; });
+    if (Array.isArray(monRows)) monRows.forEach(r => { monMap[r.agent_id] = Number(r.monday_alp) || 0; });
+
+    // Union all agent_ids seen in either result
+    const allIds = new Set([...Object.keys(htMap), ...Object.keys(monMap)]);
 
     const result = [];
-    if (Array.isArray(stats)) {
-      stats.forEach(s => {
-        const name = idToName[s.agent_id];
-        if (name) {
-          result.push({
-            name,
-            monday_alp: Number(s.monday_alp) || 0,
-            ht_alp: Number(s.ht_alp) || 0,
-          });
-        }
+    allIds.forEach(agentId => {
+      const name = idToName[agentId];
+      if (!name) return;
+      result.push({
+        name,
+        monday_alp: monMap[agentId] || 0,
+        ht_alp:     htMap[agentId]  || 0,
       });
-    }
+    });
 
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
     return res.status(200).json(result);
