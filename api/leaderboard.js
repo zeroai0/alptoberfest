@@ -1,16 +1,28 @@
-// Returns all agents with contest Gross ALP (from agent_stats monday_alp + ht_alp)
+// Returns all agents with contest Gross ALP from agent_stats
 // + summed PR hires + ref sales from alptoberfest_weekly_stats
-// ALP source: same as bars — sums all October Mon UPL + HT entries from HQ
+// Per competition week: use Mon UPL (official) if > 0, else HT (mid-week). Never both.
 const SUPABASE_URL = 'https://vjcfbccsybkriefnyvhf.supabase.co';
 
 // Mon UPL is uploaded the following Monday and stored under that Monday's week_of.
 // HT is entered Thursday of the competition week and stored under that week's Monday week_of.
 // So monday_alp and ht_alp live in DIFFERENT week_of rows for the same competition week.
 //
-// Mon UPL week_of values (the Monday each upload lands in HQ):
-const MON_UPL_WEEKS = ['2026-10-05','2026-10-12','2026-10-19','2026-10-26','2026-11-02'];
-// HT week_of values (the competition week start — Thursday of that week is when HT is entered):
-const HT_WEEKS     = ['2026-09-28','2026-10-05','2026-10-12','2026-10-19','2026-10-26'];
+// Competition week pairings:
+// mon_upl_date = week_of where monday_alp lives (uploaded the following Monday)
+// ht_date      = week_of where ht_alp lives (the competition week's own Monday)
+// For MTD gross: use mon_upl (official) if > 0, else fall back to ht (mid-week preview).
+// NEVER sum both — they represent the same week's business.
+const COMPETITION_WEEKS = [
+  { mon_upl_date: '2026-10-05', ht_date: '2026-09-28' },  // Week 1
+  { mon_upl_date: '2026-10-12', ht_date: '2026-10-05' },  // Week 2
+  { mon_upl_date: '2026-10-19', ht_date: '2026-10-12' },  // Week 3
+  { mon_upl_date: '2026-10-26', ht_date: '2026-10-19' },  // Week 4
+  { mon_upl_date: '2026-11-02', ht_date: '2026-10-26' },  // Week 5
+];
+const ALL_DATES = [...new Set([
+  ...COMPETITION_WEEKS.map(w => w.mon_upl_date),
+  ...COMPETITION_WEEKS.map(w => w.ht_date),
+])];
 
 // HQ full name → leaderboard display name (for manual stats lookup)
 // Manual stats are saved using the leaderboard display name
@@ -34,44 +46,48 @@ export default async function handler(req, res) {
   const hdrs = { apikey: KEY, Authorization: `Bearer ${KEY}` };
 
   try {
-    // 1. Fetch gross ALP across all competition weeks.
-    //    monday_alp and ht_alp live in DIFFERENT week_of rows, so fetch separately.
-
-    // Mon UPL: sum across all Mon UPL upload weeks
-    const monFilter = MON_UPL_WEEKS.map(w => `week_of.eq.${w}`).join(',');
-    const monRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/agent_stats?or=(${monFilter})&select=agent_id,agency,monday_alp&limit=2000`,
+    // 1. Fetch all relevant rows in one query (monday_alp + ht_alp per row)
+    const dateFilter = ALL_DATES.map(w => `week_of.eq.${w}`).join(',');
+    const rawRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/agent_stats?or=(${dateFilter})&select=agent_id,agency,week_of,monday_alp,ht_alp&limit=5000`,
       { headers: hdrs }
     );
-    const monRows = monRes.ok ? await monRes.json() : [];
+    const rawRows = rawRes.ok ? await rawRes.json() : [];
 
-    // HT: sum across all competition-week HT weeks
-    const htFilter = HT_WEEKS.map(w => `week_of.eq.${w}`).join(',');
-    const htRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/agent_stats?or=(${htFilter})&select=agent_id,agency,ht_alp&limit=2000`,
-      { headers: hdrs }
-    );
-    const htRows = htRes.ok ? await htRes.json() : [];
-
-    // Sum gross ALP per agent_id (monday_alp + ht_alp, fetched from their correct weeks)
-    const agentAlp = {};   // agent_id → { alp, org }
-    if (Array.isArray(monRows)) {
-      monRows.forEach(r => {
-        if (!r.agent_id) return;
-        const contrib = Number(r.monday_alp) || 0;
-        if (!agentAlp[r.agent_id]) agentAlp[r.agent_id] = { alp: 0, org: r.agency };
-        agentAlp[r.agent_id].alp += contrib;
+    // Index rows by agent_id + week_of for fast lookup
+    // rowIndex[agent_id][week_of] = { monday_alp, ht_alp, agency }
+    const rowIndex = {};
+    if (Array.isArray(rawRows)) {
+      rawRows.forEach(r => {
+        if (!r.agent_id || !r.week_of) return;
+        if (!rowIndex[r.agent_id]) rowIndex[r.agent_id] = {};
+        rowIndex[r.agent_id][r.week_of] = {
+          monday_alp: Number(r.monday_alp) || 0,
+          ht_alp:     Number(r.ht_alp)     || 0,
+          agency:     r.agency,
+        };
       });
     }
-    if (Array.isArray(htRows)) {
-      htRows.forEach(r => {
-        if (!r.agent_id) return;
-        const contrib = Number(r.ht_alp) || 0;
-        if (!agentAlp[r.agent_id]) agentAlp[r.agent_id] = { alp: 0, org: r.agency || (agentAlp[r.agent_id] && agentAlp[r.agent_id].org) };
-        if (!agentAlp[r.agent_id]) agentAlp[r.agent_id] = { alp: 0, org: r.agency };
-        agentAlp[r.agent_id].alp += contrib;
+
+    // For each agent, sum MTD gross ALP:
+    // Per competition week: use mon_upl (official) if > 0, else ht (mid-week fallback).
+    // Never add both — they represent the same week's business.
+    const agentAlp = {};  // agent_id → { alp, org }
+    const allAgentIds = Object.keys(rowIndex);
+    allAgentIds.forEach(agentId => {
+      let total = 0;
+      let org = '';
+      COMPETITION_WEEKS.forEach(({ mon_upl_date, ht_date }) => {
+        const monRow = rowIndex[agentId][mon_upl_date];
+        const htRow  = rowIndex[agentId][ht_date];
+        const monAlp = monRow ? monRow.monday_alp : 0;
+        const htAlp  = htRow  ? htRow.ht_alp      : 0;
+        // Mon UPL is official — if present use it; otherwise fall back to HT
+        total += monAlp > 0 ? monAlp : htAlp;
+        if (!org) org = (monRow && monRow.agency) || (htRow && htRow.agency) || '';
       });
-    }
+      agentAlp[agentId] = { alp: total, org };
+    });
 
     // 2. Get agent names from agents table
     const agentIds = Object.keys(agentAlp);
